@@ -58,7 +58,6 @@ namespace AuthApi.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("img")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("name")

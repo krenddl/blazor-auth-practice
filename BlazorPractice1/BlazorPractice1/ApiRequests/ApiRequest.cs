@@ -167,9 +167,9 @@ namespace BlazorPractice1.ApiRequests
             
         }
 
-        public async Task<UpdateProfileResponse?> UpdateProfileAsync(UpdateProfileRequest user, string token)
+        public async Task<UpdateProfileResponse?> UpdateProfileAsyncResponse(UpdateProfileRequest user, string token)
         {
-            var url = "UpdateUser";
+            var url = "Profile";
 
             try
             {

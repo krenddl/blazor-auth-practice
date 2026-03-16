@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AuthApi.Migrations
 {
     [DbContext(typeof(ContextDb))]
-    [Migration("20260313222507_First")]
-    partial class First
+    [Migration("20260316054649_first")]
+    partial class first
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -61,7 +61,6 @@ namespace AuthApi.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("img")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("name")

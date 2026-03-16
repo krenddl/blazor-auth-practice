@@ -21,6 +21,8 @@
 
     private async Task LoginPage()
     {
+        errorMessage = null;
+
         var success = await AuthService.LoginAsync(loginRequest);
 
         if (success)
@@ -32,4 +34,5 @@
             errorMessage = "Неверный логин или пароль";
         }
     }
+
 }

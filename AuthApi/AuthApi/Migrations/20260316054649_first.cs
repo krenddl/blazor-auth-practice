@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AuthApi.Migrations
 {
     /// <inheritdoc />
-    public partial class First : Migration
+    public partial class first : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -49,7 +49,7 @@ namespace AuthApi.Migrations
                     id_Genre = table.Column<int>(type: "integer", nullable: false),
                     date = table.Column<DateOnly>(type: "date", nullable: false),
                     rating = table.Column<double>(type: "double precision", nullable: false),
-                    img = table.Column<string>(type: "text", nullable: false)
+                    img = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {

@@ -30,6 +30,16 @@ namespace BlazorPractice1.ApiRequests.Services
             return true;
         }
 
+        //public async Task UpdateProfile (UpdateProfileRequest request, string token)
+        //{
+        //    var result = await _api.UpdateProfileAsyncResponse(request, token);
+            
+        //    if(result == null || !result.status || string.IsNullOrWhiteSpace(token))
+        //    {
+        //        return false;
+        //    }
+        //}
+
         public void Logout()
         {
             Token = null;

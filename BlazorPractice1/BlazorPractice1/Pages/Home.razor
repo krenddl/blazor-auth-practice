@@ -1,7 +1,15 @@
-﻿@* @page "/"
+﻿@page "/"
+@using BlazorPractice1.ApiRequests.Services
+@using static BlazorPractice1.ApiRequests.Model.Auth
+@inject AuthService AuthService
+@inject NavigationManager Navigation
 
-<PageTitle>Home</PageTitle>
+<button @onclick="Logout"></button>
 
-<h1>Hello, world!</h1>
-
-Welcome to your new app. *@
+@code {
+	public void Logout()
+	{
+		AuthService.Logout();
+		Navigation.NavigateTo("/login");
+	}
+}

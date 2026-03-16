@@ -1,4 +1,158 @@
-﻿@* @page "/profile"
+﻿@page "/profile"
+@using BlazorPractice1.ApiRequests.Model
+@using BlazorPractice1.ApiRequests.Services
+@using static BlazorPractice1.ApiRequests.Model.Auth
+@inject AuthService AuthService
+@inject NavigationManager Navigation
+@inject BlazorPractice1.ApiRequests.ApiRequest ApiRequest
+
+<h1>Профиль</h1>
+<p>@errorMessage</p>
+
+<p>Email</p>
+<input @bind-value="profileRequest.Email"/>
+<p>Имя</p>
+<input @bind-value="profileRequest.Name"/>
+<p>Описание</p>
+<input @bind-value="profileRequest.Description"/>
+<p>Новый пароль</p>
+<input @bind-value="profileRequest.Password" type="password" />
+
+<button @onclick="SaveProfile">Сохранить</button>
+
+<p>@succesMessage</p>
+
+@code{
+
+    private UpdateProfileRequest profileRequest = new UpdateProfileRequest();
+
+    private string? errorMessage;
+
+    private string? succesMessage;
+
+    protected override void OnInitialized()
+    {
+        if (!AuthService.IsAuthenticated || AuthService.CurrentUser == null)
+        {
+            Navigation.NavigateTo("/login");
+            return;
+        }
+
+        profileRequest.Email = AuthService.CurrentUser.Email;
+        profileRequest.Name = AuthService.CurrentUser.Name;
+        profileRequest.Description = AuthService.CurrentUser.Description;
+    }
+
+    private async Task SaveProfile()
+    {
+        errorMessage = null;
+        succesMessage = null;
+
+        var result = await ApiRequest.UpdateProfileAsyncResponse(profileRequest, AuthService.Token);
+        if (result == null || !result.status)
+        {
+            errorMessage = "Не удалось обновить профиль";
+            return;
+        }
+        if(AuthService.CurrentUser != null && result.user != null)
+        {
+            AuthService.CurrentUser.Email = result.user.Email;
+            AuthService.CurrentUser.Name = result.user.Name;
+            AuthService.CurrentUser.Description = result.user.Description;
+            AuthService.CurrentUser.Role_Id = result.user.Role_Id;
+            AuthService.CurrentUser.Role = result.user.Role;
+        }
+
+        succesMessage = "Профиль обновлен";
+        profileRequest.Password = string.Empty;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* @page "/profile"
 @using BlazorPractice1.ApiRequests
 @using BlazorPractice1.ApiRequests.Model
 @using BlazorPractice1.ApiRequests.Services
