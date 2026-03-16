@@ -1,9 +1,12 @@
 using AuthApi.DatabaseContext;
 using AuthApi.Interfaces;
 using AuthApi.Services;
+using AuthApi.UniversalMethods;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
 
 // Add services to the container.
 
@@ -13,7 +16,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ContextDb>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("AuthDbString")));
 builder.Services.AddScoped<IUserServices, UserServices>();
-builder.Services.AddSingleton<JwtG>
+builder.Services.AddScoped<IMovieServices, MovieServices>();
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -21,6 +24,7 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader()
               .AllowAnyMethod());
 });
+builder.Services.AddSingleton<JwtGenerator>();
 
 
 var app = builder.Build();

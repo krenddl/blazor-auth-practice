@@ -1,26 +1,26 @@
-﻿using AuthApi.DatabaseContext;
+﻿using AuthApi.CustomAtributes;
+using AuthApi.DatabaseContext;
 using AuthApi.Interfaces;
 using AuthApi.Requests;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthApi.Controllers
 {
+    [ApiController]
     public class UserController : Controller
     {
         private readonly IUserServices _userServices;
-        private readonly ContextDb _context;
         
-        public UserController(IUserServices userServices, ContextDb context)
+        public UserController(IUserServices userServices)
         {
             _userServices = userServices;
-            _context = context;
         }
 
         [HttpPost]
         [Route("Registration")]
-        public async Task<IActionResult> Registraion([FromBody]CreateNewUser regUser)
+        public async Task<IActionResult> Registration([FromBody]Registration regUser)
         {
-            return await _userServices.Registraion(regUser);
+            return await _userServices.Registration(regUser);
         }
 
         [HttpPost]
@@ -31,24 +31,37 @@ namespace AuthApi.Controllers
         }
         [HttpPost]
         [Route("CreateNewUser")]
+        [RoleAuthorize([1])]
         public async Task<IActionResult> CreateNewUser([FromBody] CreateNewUser createNewUser)
         {
             return await _userServices.CreateNewUser(createNewUser);
         }
         [HttpPut]
         [Route("UpdateUser")]
+        [RoleAuthorize([1])]
         public async Task<IActionResult> UpdateUser([FromBody] UpdateUser updateUser)
         {
             return await _userServices.UpdateUser(updateUser);
         }
+        [HttpPut]
+        [Route("Profile")]
+        [RoleAuthorize([1, 2])]
+        public async Task<IActionResult> Profile([FromBody] Profile profile)
+        {
+            var token = Request.Headers["Authorization"].ToString();
+
+            return await _userServices.Profile(profile, token);
+        }
         [HttpGet]
         [Route("GetAllUsers")]
+        [RoleAuthorize([1])]
         public async Task<IActionResult> GetAllUsers()
         {
             return await _userServices.GetAllUsers();
         }
         [HttpDelete]
         [Route("DeleteUsers")]
+        [RoleAuthorize([1])]
         public async Task<IActionResult> DeleteUsers(int user_id)
         {
             return await _userServices.DeleteUser(user_id);

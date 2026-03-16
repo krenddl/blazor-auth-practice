@@ -1,6 +1,8 @@
 ﻿using BlazorPractice1.ApiRequests.Model;
 using System.Net.Http.Json;
 using System.Text.Json;
+using static BlazorPractice1.ApiRequests.Model.Auth;
+using static BlazorPractice1.ApiRequests.Model.Common;
 
 namespace BlazorPractice1.ApiRequests
 {
@@ -14,12 +16,65 @@ namespace BlazorPractice1.ApiRequests
             _logger = logger;
         }
 
-        
-        public async Task<UsersListResponse> GetAllUsersAsync()
+        private void SetAuthorizationHeader(string token)
+        {
+            _httpClient.DefaultRequestHeaders.Remove("Authorization");
+            _httpClient.DefaultRequestHeaders.Add("Authorization", token);
+        }
+
+        public async Task<AuthorizeResponse> AuthorizeResponse(LoginRequest request)
+        {
+            var url = "Authorize";
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync(url, request);
+                response.EnsureSuccessStatusCode();
+
+                var content = await response.Content.ReadAsStringAsync();
+
+                var userAdd = JsonSerializer.Deserialize<AuthorizeResponse>(content, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+                return userAdd ?? new AuthorizeResponse();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при запросе: {ex.Message}");
+                return new AuthorizeResponse();
+            }
+        }
+
+        public async Task<StatusResponse> RegistrationAsync(RegistrationRequest request)
+        {
+            var url = "Registration";
+
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync(url, request);
+                response.EnsureSuccessStatusCode();
+
+                var content = await response.Content.ReadAsStringAsync();
+
+                var userAdd = JsonSerializer.Deserialize<StatusResponse>(content);
+
+                return userAdd ?? new StatusResponse();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при запросе: {ex.Message}");
+                return new StatusResponse();
+            }
+        }
+
+
+        public async Task<UsersListResponse> GetAllUsersAsyncResponse(string token)
         {
             var url = "GetAllUsers";
             try
             {
+                SetAuthorizationHeader(token);
                 var response = await _httpClient.GetAsync(url).ConfigureAwait(false);
                 response.EnsureSuccessStatusCode();
 
@@ -45,89 +100,90 @@ namespace BlazorPractice1.ApiRequests
             }
         }
 
-        public async Task<StatusRegResponse> RegistrationAsync(AddNewUserRequest request)
+        public async Task<CreateUserResponse> CreateUserAsyncResponse(CreateUserRequest request, string token)
         {
-            var url = "Registration";
+            var url = "CreateNewUser";
 
             try
             {
+                SetAuthorizationHeader(token);
                 var response = await _httpClient.PostAsJsonAsync(url, request);
                 response.EnsureSuccessStatusCode();
 
                 var content = await response.Content.ReadAsStringAsync();
 
-                var userAdd =  JsonSerializer.Deserialize<StatusRegResponse>(content);
-                
-                return userAdd ?? new StatusRegResponse();
+                var userAdd = JsonSerializer.Deserialize<CreateUserResponse>(content);
+
+                return userAdd ?? new CreateUserResponse();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine($"Ошибка при запросе: {ex.Message}");
-                return new StatusRegResponse();
+                return new CreateUserResponse();
             }
         }
 
-        public async Task<AuthorizeResponse> AuthorizeResponse(LoginRequest request)
-        {
-            var url = "Authorize";
 
-            try
-            {
-                var response = await _httpClient.PostAsJsonAsync(url, request);
-                response.EnsureSuccessStatusCode();
 
-                var content = await response.Content.ReadAsStringAsync();
-
-                var userAdd = JsonSerializer.Deserialize<AuthorizeResponse>(content, new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                });
-                
-                return userAdd ?? new AuthorizeResponse();
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine($"Ошибка при запросе: {ex.Message}");
-                return new AuthorizeResponse();
-            }
-        }
-        
-        public async Task<AuthorizeResponse> UpdateUser(UpdateUserRequest request)
+        public async Task<UpdateUserResponse> UpdateUserAsyncResponse(UpdateUserRequest request, string token)
         {
             var url = "UpdateUser";
-            var response = await _httpClient.PutAsJsonAsync(url, request);
             try
             {
+                SetAuthorizationHeader(token);
+                var response = await _httpClient.PutAsJsonAsync(url, request);
                 var content = await response.Content.ReadAsStringAsync();
                 response.EnsureSuccessStatusCode();
-                var userUpdate = JsonSerializer.Deserialize<AuthorizeResponse>(content, new JsonSerializerOptions
+                var userUpdate = JsonSerializer.Deserialize<UpdateUserResponse>(content, new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 });
 
-                return userUpdate ?? new AuthorizeResponse();
+                return userUpdate ?? new UpdateUserResponse();
             }
             catch(Exception ex)
             {
                 Console.WriteLine($"Ошибка при запросе: {ex.Message}");
-                return new AuthorizeResponse();
+                return new UpdateUserResponse();
             }
         }
 
-        public async Task<StatusRegResponse?> DeleteUserAsync(int id)
+        public async Task<StatusResponse?> DeleteUserAsync(int id, string token)
         {
             var url = $"/DeleteUsers/?user_id={id}";
-            var resp = await _httpClient.DeleteAsync(url);
-            if (!resp.IsSuccessStatusCode) return null;
-            return await resp.Content.ReadFromJsonAsync<StatusRegResponse>();
+
+            try
+            {
+                SetAuthorizationHeader(token);
+                var resp = await _httpClient.DeleteAsync(url);
+                if (!resp.IsSuccessStatusCode) return null;
+                return await resp.Content.ReadFromJsonAsync<StatusResponse>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при запросе: {ex.Message}");
+                return new StatusResponse();
+            }
+            
         }
 
-        public async Task<StatusRegResponse?> UpdateUserAsync(User user)
+        public async Task<UpdateProfileResponse?> UpdateProfileAsync(UpdateProfileRequest user, string token)
         {
-            var url = "/UpdateUser";
-            var resp = await _httpClient.PutAsJsonAsync(url, user);
-            if (!resp.IsSuccessStatusCode) return null;
-            return await resp.Content.ReadFromJsonAsync<StatusRegResponse>();
+            var url = "UpdateUser";
+
+            try
+            {
+                SetAuthorizationHeader(token);
+                var resp = await _httpClient.PutAsJsonAsync(url, user);
+                if (!resp.IsSuccessStatusCode) return null;
+                return await resp.Content.ReadFromJsonAsync<UpdateProfileResponse>();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"Ошибка при запросе: {ex.Message}");
+                return new UpdateProfileResponse();
+            }
+            
         }
     }
 }

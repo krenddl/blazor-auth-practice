@@ -15,7 +15,7 @@ namespace AuthApi.Models
         public Genre Genre { get; set; }
         public DateOnly date { get; set; }
         public double rating { get; set; }
-        public string img { get; set; }
+        public string? img { get; set; }
 
     }
 }

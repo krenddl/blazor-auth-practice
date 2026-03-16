@@ -16,6 +16,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "AuthApi.Controllers.MovieController",
+    "Method": "CreateMovie",
+    "RelativePath": "CreateMovie",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "newMovie",
+        "Type": "AuthApi.Requests.CreateMovie",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "AuthApi.Controllers.UserController",
     "Method": "CreateNewUser",
     "RelativePath": "CreateNewUser",
@@ -27,6 +43,22 @@
         "Name": "createNewUser",
         "Type": "AuthApi.Requests.CreateNewUser",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AuthApi.Controllers.MovieController",
+    "Method": "DeleteMovie",
+    "RelativePath": "DeleteMovie",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
@@ -48,6 +80,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "AuthApi.Controllers.MovieController",
+    "Method": "GetAllMovies",
+    "RelativePath": "GetAllMovies",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "AuthApi.Controllers.UserController",
     "Method": "GetAllUsers",
     "RelativePath": "GetAllUsers",
@@ -58,8 +100,40 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "AuthApi.Controllers.MovieController",
+    "Method": "GetMovieById",
+    "RelativePath": "GetMovieById",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "AuthApi.Controllers.UserController",
-    "Method": "Registraion",
+    "Method": "Profile",
+    "RelativePath": "Profile",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "profile",
+        "Type": "AuthApi.Requests.Profile",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AuthApi.Controllers.UserController",
+    "Method": "Registration",
     "RelativePath": "Registration",
     "HttpMethod": "POST",
     "IsController": true,
@@ -67,7 +141,23 @@
     "Parameters": [
       {
         "Name": "regUser",
-        "Type": "AuthApi.Requests.CreateNewUser",
+        "Type": "AuthApi.Requests.Registration",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AuthApi.Controllers.MovieController",
+    "Method": "UpdateMovie",
+    "RelativePath": "UpdateMovie",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "updateMovie",
+        "Type": "AuthApi.Requests.UpdateMovie",
         "IsRequired": true
       }
     ],

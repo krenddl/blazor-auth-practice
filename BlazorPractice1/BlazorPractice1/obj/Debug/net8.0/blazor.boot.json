@@ -1,15 +1,15 @@
 {
   "mainAssemblyName": "BlazorPractice1",
   "resources": {
-    "hash": "sha256-KZ/5BfJ8B2gQY3H9mR6DFefwzS+XNPpuuWGMfBQUi4c=",
+    "hash": "sha256-gwSljHdXnO+G3hM4ni4zl/sPBd9Knbjs1/zFq7oJiW8=",
     "jsModuleNative": {
-      "dotnet.native.js": "sha256-xNQsYHtL1vcbrVTHDZAwJM4WovpoyjsrM2C6FQ8cW1w="
+      "dotnet.native.js": "sha256-A16ka545FHaB+QXjyJ4exXh7XpBAAIFnX8YkC4xAng8="
     },
     "jsModuleRuntime": {
-      "dotnet.runtime.js": "sha256-13vqU3hueOALvSTEM8xnJkJj2exVJYtNc1KZelMCDf0="
+      "dotnet.runtime.js": "sha256-sRdYoaUiZmrqOtPGSBpgxZxxSQsILEw5kzx7dL4zlfw="
     },
     "wasmNative": {
-      "dotnet.native.wasm": "sha256-XhsharnkthjahGEiBkFjCLc/87/Tecti9860TIEq0H0="
+      "dotnet.native.wasm": "sha256-s6EBTPv470xCV3v7vg6YPKgsWog8JDbzEWXbT6KucuQ="
     },
     "icu": {
       "icudt_CJK.dat": "sha256-SZLtQnRc0JkwqHab0VUVP7T3uBPSeYzxzDnpxPpUnHk=",
@@ -209,10 +209,10 @@
       "mscorlib.wasm": "sha256-oV7k+vcNqj7FS6Y/lMtdhVlq3myDH55/wVxmO4QPrw4=",
       "netstandard.wasm": "sha256-XMXMB0WW//vbNNgQiFAqYo7IJ2C4yQX590aoAbOtTB4=",
       "System.Private.CoreLib.wasm": "sha256-tuhzUgbFn7ji3yhMSxyBLHAps9h0RsFnq+8pUoizHiw=",
-      "BlazorPractice1.wasm": "sha256-O1ndNyhIj4Qk2nd3mX4ay2xaJicx59JPzc3xL56seBA="
+      "BlazorPractice1.wasm": "sha256-FHsojgw0znkNlrEnX4StrtGkq/BlUCnTPc14Sc2ms4M="
     },
     "pdb": {
-      "BlazorPractice1.pdb": "sha256-OTw5P638dQNLtHFTZL8yW2yfZOLdiQWPfeV5b27Adrw="
+      "BlazorPractice1.pdb": "sha256-o6GP/zgHeZxPjVMlXcp2c4L1bheAR+3z0IcnSq1OFd8="
     }
   },
   "cacheBootResources": true,
