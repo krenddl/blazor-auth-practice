@@ -1,4 +1,98 @@
-﻿@* @page "/admin"
+﻿@page "/admin/users"
+@using BlazorPractice1.ApiRequests
+@using BlazorPractice1.ApiRequests.Model
+@using BlazorPractice1.ApiRequests.Services
+
+@inject AuthService AuthService
+@inject NavigationManager Navigation
+@inject ApiRequest ApiRequest
+
+<h3>Users</h3>
+
+@if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+    <p>@errorMessage</p>
+}
+else if(users == null)
+{
+    <p>Пользователей нет</p>
+}
+else
+{
+    
+}
+
+
+@code{
+    private List<UserResponse> users = new List<UserResponse>();
+    private string? errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(!AuthService.IsAuthenticated || AuthService.CurrentUser == null)
+        {
+            Navigation.NavigateTo("/login");
+            return;
+        }
+        else if(AuthService.CurrentUser.Role_Id == 2)
+        {
+            Navigation.NavigateTo("/profile");
+            return;
+        }
+
+        var result = await ApiRequest.GetAllUsersAsyncResponse(AuthService.Token);
+        users = result.user;
+
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* @page "/admin"
 @using BlazorPractice1.ApiRequests
 @using BlazorPractice1.ApiRequests.Model
 @using BlazorPractice1.ApiRequests.Services

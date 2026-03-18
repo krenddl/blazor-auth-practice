@@ -7,6 +7,16 @@
 <button @onclick="Logout"></button>
 
 @code {
+	protected override async Task OnInitializedAsync()
+	{
+		await AuthService.LoadSessionAsync();
+
+		if (AuthService.IsAuthenticated)
+			Navigation.NavigateTo("/profile");
+		else
+			Navigation.NavigateTo("/login");
+	}
+
 	public void Logout()
 	{
 		AuthService.Logout();

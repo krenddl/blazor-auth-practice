@@ -2,6 +2,24 @@
   "version": 3,
   "targets": {
     "net8.0": {
+      "Blazor.LocalStorage/8.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection": "8.0.0",
+          "Microsoft.Extensions.Primitives": "8.0.0",
+          "Microsoft.JSInterop": "8.0.0"
+        },
+        "compile": {
+          "lib/net8.0/Blazor.LocalStorage.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/Blazor.LocalStorage.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.AspNetCore.Authorization/8.0.23": {
         "type": "package",
         "dependencies": {
@@ -427,7 +445,7 @@
           "build/Microsoft.NET.ILLink.Tasks.props": {}
         }
       },
-      "Microsoft.NET.Sdk.WebAssembly.Pack/9.0.14": {
+      "Microsoft.NET.Sdk.WebAssembly.Pack/10.0.4": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.Sdk.WebAssembly.Pack.props": {},
@@ -452,6 +470,24 @@
       }
     },
     "net8.0/browser-wasm": {
+      "Blazor.LocalStorage/8.0.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection": "8.0.0",
+          "Microsoft.Extensions.Primitives": "8.0.0",
+          "Microsoft.JSInterop": "8.0.0"
+        },
+        "compile": {
+          "lib/net8.0/Blazor.LocalStorage.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/Blazor.LocalStorage.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Microsoft.AspNetCore.Authorization/8.0.23": {
         "type": "package",
         "dependencies": {
@@ -877,7 +913,7 @@
           "build/Microsoft.NET.ILLink.Tasks.props": {}
         }
       },
-      "Microsoft.NET.Sdk.WebAssembly.Pack/9.0.14": {
+      "Microsoft.NET.Sdk.WebAssembly.Pack/10.0.4": {
         "type": "package",
         "build": {
           "build/Microsoft.NET.Sdk.WebAssembly.Pack.props": {},
@@ -903,6 +939,24 @@
     }
   },
   "libraries": {
+    "Blazor.LocalStorage/8.0.0": {
+      "sha512": "hTKMCpLioB+EoxkupysbdHTzPEC7eXbQu/LRSVGqyd40sXjxRL3qBJGninhJ5nnRZXlhDhZKgKGVIh98tswgLw==",
+      "type": "package",
+      "path": "blazor.localstorage/8.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "README.md",
+        "blazor.localstorage.8.0.0.nupkg.sha512",
+        "blazor.localstorage.nuspec",
+        "lib/net7.0/Blazor.LocalStorage.dll",
+        "lib/net7.0/Blazor.LocalStorage.xml",
+        "lib/net8.0/Blazor.LocalStorage.dll",
+        "lib/net8.0/Blazor.LocalStorage.xml",
+        "logo.png"
+      ]
+    },
     "Microsoft.AspNetCore.Authorization/8.0.23": {
       "sha512": "U01NoHXo3BqNwrHictnqkfntNAYCRsovNF6g4knJu0kDztTJLYY7N+p75uK69cvnUeysFlDY2A/LQ0p/HBrn5w==",
       "type": "package",
@@ -1764,16 +1818,15 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "Microsoft.NET.Sdk.WebAssembly.Pack/9.0.14": {
-      "sha512": "C69h2ZW0zQf5K389hwVP3oRccYvGaTueidbvsXXcjcLzpFG920Ut4DIF9OsE6AwxdxTGYumGF1kSjHT3VM6t/w==",
+    "Microsoft.NET.Sdk.WebAssembly.Pack/10.0.4": {
+      "sha512": "6PVJDzxzz2gvKLSWKHNrmmHfoDcTNJixKMHXDf2Ztv8bvpLiIsDe4QahFvnVcWtZ74nIlaOKU2sR+nYk+/K2bg==",
       "type": "package",
-      "path": "microsoft.net.sdk.webassembly.pack/9.0.14",
+      "path": "microsoft.net.sdk.webassembly.pack/10.0.4",
       "hasTools": true,
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
-        "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
         "WasmAppHost/BrowserDebugHost.deps.json",
         "WasmAppHost/BrowserDebugHost.dll",
@@ -1798,12 +1851,12 @@
         "build/Microsoft.NET.Sdk.WebAssembly.Pack.targets",
         "build/Wasm.web.config",
         "build/browser.runtimeconfig.template.json",
-        "microsoft.net.sdk.webassembly.pack.9.0.14.nupkg.sha512",
+        "microsoft.net.sdk.webassembly.pack.10.0.4.nupkg.sha512",
         "microsoft.net.sdk.webassembly.pack.nuspec",
+        "tools/net10.0/Microsoft.NET.Sdk.WebAssembly.Pack.Tasks.dll",
+        "tools/net10.0/Microsoft.NET.WebAssembly.Webcil.dll",
         "tools/net472/Microsoft.NET.Sdk.WebAssembly.Pack.Tasks.dll",
-        "tools/net472/Microsoft.NET.WebAssembly.Webcil.dll",
-        "tools/net9.0/Microsoft.NET.Sdk.WebAssembly.Pack.Tasks.dll",
-        "tools/net9.0/Microsoft.NET.WebAssembly.Webcil.dll"
+        "tools/net472/Microsoft.NET.WebAssembly.Webcil.dll"
       ]
     },
     "System.IO.Pipelines/8.0.0": {
@@ -1838,30 +1891,31 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "Blazor.LocalStorage >= 8.0.0",
       "Microsoft.AspNetCore.Components.WebAssembly >= 8.0.23",
       "Microsoft.AspNetCore.Components.WebAssembly.DevServer >= 8.0.23",
       "Microsoft.NET.ILLink.Tasks >= 8.0.25",
-      "Microsoft.NET.Sdk.WebAssembly.Pack >= 9.0.14"
+      "Microsoft.NET.Sdk.WebAssembly.Pack >= 10.0.4"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\python_pro\\.nuget\\packages\\": {},
+    "C:\\Users\\uryuqq\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\python_pro\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\BlazorPractice1.csproj",
+      "projectUniqueName": "C:\\Users\\uryuqq\\source\\repos\\Blazor\\Practice\\Practice1\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\BlazorPractice1.csproj",
       "projectName": "BlazorPractice1",
-      "projectPath": "C:\\Users\\python_pro\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\BlazorPractice1.csproj",
-      "packagesPath": "C:\\Users\\python_pro\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\python_pro\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\obj\\",
+      "projectPath": "C:\\Users\\uryuqq\\source\\repos\\Blazor\\Practice\\Practice1\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\BlazorPractice1.csproj",
+      "packagesPath": "C:\\Users\\uryuqq\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\uryuqq\\source\\repos\\Blazor\\Practice\\Practice1\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\python_pro\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\uryuqq\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -1870,11 +1924,11 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net8.0": {
+          "framework": "net8.0",
           "targetAlias": "net8.0",
           "projectReferences": {}
         }
@@ -1889,12 +1943,17 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.300"
+      "SdkAnalysisLevel": "10.0.200"
     },
     "frameworks": {
       "net8.0": {
+        "framework": "net8.0",
         "targetAlias": "net8.0",
         "dependencies": {
+          "Blazor.LocalStorage": {
+            "target": "Package",
+            "version": "[8.0.0, )"
+          },
           "Microsoft.AspNetCore.Components.WebAssembly": {
             "target": "Package",
             "version": "[8.0.23, )"
@@ -1913,7 +1972,7 @@
           "Microsoft.NET.Sdk.WebAssembly.Pack": {
             "suppressParent": "All",
             "target": "Package",
-            "version": "[9.0.14, )",
+            "version": "[10.0.4, )",
             "autoReferenced": true
           }
         },
@@ -1928,18 +1987,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.NETCore.App.Runtime.Mono.browser-wasm",
-            "version": "[8.0.25, 8.0.25]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.312/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.200/PortableRuntimeIdentifierGraph.json"
       }
     },
     "runtimes": {

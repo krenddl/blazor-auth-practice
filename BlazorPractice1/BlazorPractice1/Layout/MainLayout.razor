@@ -1,4 +1,6 @@
-﻿@inherits LayoutComponentBase
+﻿@using BlazorPractice1.ApiRequests.Services
+@inherits LayoutComponentBase
+@inject AuthService AuthService
 <div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -14,3 +16,14 @@
         </article>
     </main>
 </div>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await AuthService.LoadSessionAsync();
+            StateHasChanged();
+        }
+    }
+}

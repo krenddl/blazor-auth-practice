@@ -6,19 +6,20 @@
 @inject NavigationManager Navigation
 @inject BlazorPractice1.ApiRequests.ApiRequest ApiRequest
 
-<h1>Профиль</h1>
+<h1>Profile</h1>
 <p>@errorMessage</p>
 
 <p>Email</p>
 <input @bind-value="profileRequest.Email"/>
-<p>Имя</p>
+<p>Name</p>
 <input @bind-value="profileRequest.Name"/>
-<p>Описание</p>
+<p>Description</p>
 <input @bind-value="profileRequest.Description"/>
-<p>Новый пароль</p>
+<p>New password</p>
 <input @bind-value="profileRequest.Password" type="password" />
 
-<button @onclick="SaveProfile">Сохранить</button>
+<button @onclick="SaveProfile">Save</button>
+<button @onclick="Logout">Logout</button>
 
 <p>@succesMessage</p>
 
@@ -30,7 +31,7 @@
 
     private string? succesMessage;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         if (!AuthService.IsAuthenticated || AuthService.CurrentUser == null)
         {
@@ -51,7 +52,7 @@
         var result = await ApiRequest.UpdateProfileAsyncResponse(profileRequest, AuthService.Token);
         if (result == null || !result.status)
         {
-            errorMessage = "Не удалось обновить профиль";
+            errorMessage = "Не удалось сохранить изменения";
             return;
         }
         if(AuthService.CurrentUser != null && result.user != null)
@@ -63,8 +64,15 @@
             AuthService.CurrentUser.Role = result.user.Role;
         }
 
-        succesMessage = "Профиль обновлен";
-        profileRequest.Password = string.Empty;
+        succesMessage = "Изменения успешно сохранены";
+        if(string.IsNullOrWhiteSpace(profileRequest.Password))
+            profileRequest.Password = null;
+    }
+
+    private async Task Logout()
+    {
+        AuthService.Logout();
+        Navigation.NavigateTo("/login");
     }
 }
 

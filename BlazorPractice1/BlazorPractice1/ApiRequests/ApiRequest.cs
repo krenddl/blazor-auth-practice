@@ -1,4 +1,5 @@
 ﻿using BlazorPractice1.ApiRequests.Model;
+using Microsoft.JSInterop;
 using System.Net.Http.Json;
 using System.Text.Json;
 using static BlazorPractice1.ApiRequests.Model.Auth;
@@ -170,10 +171,9 @@ namespace BlazorPractice1.ApiRequests
         public async Task<UpdateProfileResponse?> UpdateProfileAsyncResponse(UpdateProfileRequest user, string token)
         {
             var url = "Profile";
-
+            SetAuthorizationHeader(token);
             try
             {
-                SetAuthorizationHeader(token);
                 var resp = await _httpClient.PutAsJsonAsync(url, user);
                 if (!resp.IsSuccessStatusCode) return null;
                 return await resp.Content.ReadFromJsonAsync<UpdateProfileResponse>();

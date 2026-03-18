@@ -4,11 +4,11 @@
 @inject AuthService AuthService
 @inject NavigationManager Navigation
 
-<h3>Вход</h3>
+<h3>Login</h3>
 
 <input @bind="loginRequest.Email" placeholder="Email" />
-<input @bind="loginRequest.Password" type="password" placeholder="Пароль" />
-<button @onclick="LoginPage">Войти</button>
+<input @bind="loginRequest.Password" type="password" placeholder="Password" />
+<button @onclick="LoginPage">Sign in</button>
 
 @if (!string.IsNullOrWhiteSpace(errorMessage))
 {
@@ -27,7 +27,7 @@
 
         if (success)
         {
-            Navigation.NavigateTo("/");
+            Navigation.NavigateTo("/profile");
         }
         else
         {

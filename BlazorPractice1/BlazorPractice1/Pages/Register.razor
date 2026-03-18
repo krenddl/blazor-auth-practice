@@ -1,4 +1,65 @@
-﻿@* @page "/register"
+﻿@page "/register"
+@using BlazorPractice1.ApiRequests.Services
+@using static BlazorPractice1.ApiRequests.Model.Auth
+@inject AuthService AuthService
+@inject NavigationManager Navigation
+<h3>Register</h3>
+
+<input @bind="registrationRequest.Email" placeholder="Email"/>
+<input @bind="registrationRequest.Password" placeholder="Password" type="password" />
+<input @bind="registrationRequest.Name" placeholder="Name" />
+<input @bind="registrationRequest.Description" placeholder="Description" />
+<button @onclick="RegisterMethod">Sign up</button>
+
+@if (!string.IsNullOrWhiteSpace(errorMessage))
+{
+    <p>@errorMessage</p>
+}
+
+@code{
+    private RegistrationRequest registrationRequest = new RegistrationRequest();
+    private string? errorMessage;
+
+    private async Task RegisterMethod()
+    {
+        errorMessage = null;
+
+        var succes = await AuthService.RegistrationAsync(registrationRequest);
+
+        if (succes)
+        {
+            Navigation.NavigateTo("/login");
+        }
+        else
+        {
+            errorMessage = "Не удалось зарегестрироваться";
+        }
+
+    }
+}   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* @page "/register"
 @using BlazorPractice1.ApiRequests
 @using BlazorPractice1.ApiRequests.Model
 @using BlazorPractice1.ApiRequests.Services

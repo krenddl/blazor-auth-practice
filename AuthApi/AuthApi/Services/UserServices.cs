@@ -104,7 +104,7 @@ namespace AuthApi.Services
 
         public async Task<IActionResult> UpdateUser(UpdateUser updateUser)
         {
-            var existingEmail = await _context.Users.FirstOrDefaultAsync(x => x.Email == updateUser.Email);
+            var existingEmail = await _context.Users.FirstOrDefaultAsync(x => x.Email == updateUser.Email  && x.id_User != updateUser.id_User);
 
             if(existingEmail != null)
             {
@@ -153,16 +153,7 @@ namespace AuthApi.Services
 
         public async Task<IActionResult> Profile(Profile profile, string token)
         {
-            var existingEmail = await _context.Users.FirstOrDefaultAsync(x => x.Email == profile.Email);
-
-            if(existingEmail != null)
-            {
-                return new BadRequestObjectResult(new
-                {
-                    status = false,
-                    message = "Этот email уже занят"
-                });
-            }
+            
 
             var session = await _context.Sessions.Include(x => x.User.Role).FirstOrDefaultAsync(x => x.Token == token);
 
@@ -175,6 +166,19 @@ namespace AuthApi.Services
                 });
             }
             var user = session.User;
+
+
+            var existingEmail = await _context.Users.FirstOrDefaultAsync(x => x.Email == profile.Email && x.id_User != user.id_User);
+
+            if (existingEmail != null)
+            {
+                return new BadRequestObjectResult(new
+                {
+                    status = false,
+                    message = "Этот email уже занят"
+                });
+            }
+
 
             user.Email = profile.Email;
             user.Description = profile.Description;

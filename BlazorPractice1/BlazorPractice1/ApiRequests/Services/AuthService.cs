@@ -1,18 +1,22 @@
 ﻿using BlazorPractice1.ApiRequests.Model;
+using Microsoft.JSInterop;
 using static BlazorPractice1.ApiRequests.Model.Auth;
+using System.Text.Json;
 
 namespace BlazorPractice1.ApiRequests.Services
 {
     public class AuthService
     {
+        private readonly ILocalStorageService _localStorageServcie;
         private readonly ApiRequest _api;
         public string? Token { get; private set; }
         public UserResponse? CurrentUser { get; private set; }
         public bool IsAuthenticated => !string.IsNullOrWhiteSpace(Token);
 
-        public AuthService(ApiRequest api)
+        public AuthService(ApiRequest api, ILocalStorageService localStorageService)
         {
             _api = api;
+            _localStorageServcie = localStorageService;
         }
 
         public async Task<bool> LoginAsync (LoginRequest request)
@@ -27,23 +31,45 @@ namespace BlazorPractice1.ApiRequests.Services
             Token = result.token;
             CurrentUser = result.user;
 
+            await _localStorageServcie.SetItemAsync("token", Token);
+            var userJosn = JsonSerializer.Serialize(CurrentUser);
+            await _localStorageServcie.SetItemAsync("user", userJosn);
+
             return true;
         }
 
-        //public async Task UpdateProfile (UpdateProfileRequest request, string token)
-        //{
-        //    var result = await _api.UpdateProfileAsyncResponse(request, token);
-            
-        //    if(result == null || !result.status || string.IsNullOrWhiteSpace(token))
-        //    {
-        //        return false;
-        //    }
-        //}
+        public async Task<bool> RegistrationAsync(RegistrationRequest request)
+        {
+            var result = await _api.RegistrationAsync(request);
 
-        public void Logout()
+            if(result == null || !result.status)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task LoadSessionAsync()
+        {
+            Token = await _localStorageServcie.GetItemAsync("token");
+             
+            var userJson = await _localStorageServcie.GetItemAsync("user");
+
+            if (!string.IsNullOrWhiteSpace(userJson))
+            {
+                CurrentUser = JsonSerializer.Deserialize<UserResponse>(userJson);
+            }
+        }
+\
+
+        public async Task Logout()
         {
             Token = null;
             CurrentUser = null;
+
+            await _localStorageServcie.RemoveItemAsync("token");
+            await _localStorageServcie.RemoveItemAsync("user");
         }
     }
 }
