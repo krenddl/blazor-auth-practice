@@ -6,34 +6,67 @@
 @inject NavigationManager Navigation
 @inject BlazorPractice1.ApiRequests.ApiRequest ApiRequest
 
-<h1>Profile</h1>
-<p>@errorMessage</p>
+<div class="profile-grid">
+    <div class="card profile-side">
+        <div class="profile-avatar">
+            @(AuthService.CurrentUser?.Name?.FirstOrDefault().ToString().ToUpper() ?? "U")
+        </div>
 
-<p>Email</p>
-<input @bind-value="profileRequest.Email"/>
-<p>Name</p>
-<input @bind-value="profileRequest.Name"/>
-<p>Description</p>
-<input @bind-value="profileRequest.Description"/>
-<p>New password</p>
-<input @bind-value="profileRequest.Password" type="password" />
+        <h3 class="profile-name">@AuthService.CurrentUser?.Name</h3>
+        <div class="profile-role">@AuthService.CurrentUser?.Role</div>
 
-<button @onclick="SaveProfile">Save</button>
-<button @onclick="Logout">Logout</button>
+        <button class="btn btn-danger w-100" @onclick="Logout">Выйти</button>
+    </div>
 
-<p>@succesMessage</p>
+    <div class="card">
+        <h2 class="page-title">Профиль</h2>
+        <p class="page-subtitle">Редактирование личных данных</p>
 
-@code{
+        @if (!string.IsNullOrWhiteSpace(errorMessage))
+        {
+            <div class="alert alert-error mt-20">@errorMessage</div>
+        }
 
-    private UpdateProfileRequest profileRequest = new UpdateProfileRequest();
+        @if (!string.IsNullOrWhiteSpace(succesMessage))
+        {
+            <div class="alert alert-success mt-20">@succesMessage</div>
+        }
 
+        <div class="form-group mt-20">
+            <label class="form-label">Email</label>
+            <input class="form-control" @bind="profileRequest.Email" />
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Имя</label>
+            <input class="form-control" @bind="profileRequest.Name" />
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Описание</label>
+            <textarea class="form-textarea" @bind="profileRequest.Description"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Новый пароль</label>
+            <input class="form-control" type="password" @bind="profileRequest.Password" placeholder="Оставь пустым, если не меняешь" />
+        </div>
+
+        <div class="form-actions">
+            <button class="btn btn-primary" @onclick="SaveProfile">Сохранить</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    private UpdateProfileRequest profileRequest = new();
     private string? errorMessage;
-
     private string? succesMessage;
 
     protected override async Task OnInitializedAsync()
     {
         await AuthService.LoadSessionAsync();
+
         if (!AuthService.IsAuthenticated || AuthService.CurrentUser == null)
         {
             Navigation.NavigateTo("/login");
@@ -51,12 +84,14 @@
         succesMessage = null;
 
         var result = await ApiRequest.UpdateProfileAsyncResponse(profileRequest, AuthService.Token);
+
         if (result == null || !result.status)
         {
             errorMessage = "Не удалось сохранить изменения";
             return;
         }
-        if(AuthService.CurrentUser != null && result.user != null)
+
+        if (AuthService.CurrentUser != null && result.user != null)
         {
             AuthService.CurrentUser.Email = result.user.Email;
             AuthService.CurrentUser.Name = result.user.Name;
@@ -66,150 +101,14 @@
         }
 
         succesMessage = "Изменения успешно сохранены";
-        if(string.IsNullOrWhiteSpace(profileRequest.Password))
+
+        if (string.IsNullOrWhiteSpace(profileRequest.Password))
             profileRequest.Password = null;
     }
 
     private async Task Logout()
     {
-        AuthService.Logout();
+        await AuthService.Logout();
         Navigation.NavigateTo("/login");
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@* @page "/profile"
-@using BlazorPractice1.ApiRequests
-@using BlazorPractice1.ApiRequests.Model
-@using BlazorPractice1.ApiRequests.Services
-
-@inject NavigationManager Nav
-
-<PageTitle>Profile</PageTitle>
-
-<h1>Профиль</h1>
-<p><b>Name:</b> @userService.CurrentUser.Name</p>
-<input @bind="userService.CurrentUser.Name" />
-<p><b>Email:</b> @userService.CurrentUser.Email</p>
-<input @bind="userService.CurrentUser.Email" />
-<p><b>Description:</b> @userService.CurrentUser.Description</p>
-<input @bind="userService.CurrentUser.Description" />
-<p><b>Password:</b> @userService.CurrentUser.Password</p>
-<input @bind="userService.CurrentUser.Password" />
-<button type="button" @onclick="Save">Сохранить</button>
-<button class="btn btn-danger" @onclick="Logout">Выйти</button>
-
-@code {
-    [Inject] private ApiRequest apiRequest { get; set; }
-    [Inject] private UserService userService { get; set; }
-    private UpdateUserRequest updateUser = new UpdateUserRequest();
-    protected override void OnInitialized()
-    {
-        if (userService.CurrentUser == null)
-            Nav.NavigateTo("/login");
-
-    }
-    private async Task Save()
-    {
-        updateUser.id_User = userService.CurrentUser.id_User;
-        updateUser.Name = userService.CurrentUser.Name;
-        updateUser.Email = userService.CurrentUser.Email;
-        updateUser.Description = userService.CurrentUser.Description;
-        updateUser.Password = userService.CurrentUser.Password;
-        var res = await apiRequest.UpdateUser(updateUser);
-
-        if (res != null && res.status)
-        {
-            userService.CurrentUser = res.user;
-        }
-    }
-    private void Logout()
-        {
-            userService.Logout();
-            Nav.NavigateTo("/login", forceLoad: true);
-        }
-    }
-} *@

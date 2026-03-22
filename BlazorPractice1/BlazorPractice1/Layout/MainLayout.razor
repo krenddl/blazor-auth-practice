@@ -1,20 +1,58 @@
 ﻿@using BlazorPractice1.ApiRequests.Services
 @inherits LayoutComponentBase
 @inject AuthService AuthService
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+@inject NavigationManager Navigation
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+<div class="layout">
+    <div class="navbar">
+        <div class="logo" @onclick='() => Navigation.NavigateTo("/")'>
+            🎬 MovieApp
         </div>
 
-        <article class="content px-4">
+        <div class="nav-links">
+            <button class="btn btn-outline btn-sm" @onclick='() => Navigation.NavigateTo("/movies")'>
+                Фильмы
+            </button>
+
+            @if (AuthService.IsAuthenticated)
+            {
+                <button class="btn btn-outline btn-sm" @onclick='() => Navigation.NavigateTo("/profile")'>
+                    Профиль
+                </button>
+
+                @if (AuthService.CurrentUser?.Role_Id == 1)
+                {
+                    <button class="btn btn-outline btn-sm" @onclick='() => Navigation.NavigateTo("/admin/users")'>
+                        Админка
+                    </button>
+
+                    <button class="btn btn-outline btn-sm" @onclick='() => Navigation.NavigateTo("/admin/movies/create")'>
+                        Добавить фильм
+                    </button>
+                }
+
+                <button class="btn btn-danger btn-sm" @onclick="LogoutAsync">
+                    Выйти
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-primary btn-sm" @onclick='() => Navigation.NavigateTo("/login")'>
+                    Войти
+                </button>
+
+                <button class="btn btn-outline btn-sm" @onclick='() => Navigation.NavigateTo("/register")'>
+                    Регистрация
+                </button>
+            }
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="container">
             @Body
-        </article>
-    </main>
+        </div>
+    </div>
 </div>
 
 @code {
@@ -25,5 +63,11 @@
             await AuthService.LoadSessionAsync();
             StateHasChanged();
         }
+    }
+
+    private async Task LogoutAsync()
+    {
+        await AuthService.Logout();
+        Navigation.NavigateTo("/login");
     }
 }

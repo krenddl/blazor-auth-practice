@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\uryuqq\\source\\repos\\Blazor\\Practice\\Practice1\\BlazorPractic1\\AuthApi\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{CC3C3F62-DD44-8AAA-D9A5-136649C4F0EB}|AuthApi\\AuthApi.csproj|c:\\users\\uryuqq\\source\\repos\\blazor\\practice\\practice1\\blazorpractic1\\authapi\\authapi\\services\\movieservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{CC3C3F62-DD44-8AAA-D9A5-136649C4F0EB}|AuthApi\\AuthApi.csproj|solutionrelative:authapi\\services\\movieservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{CC3C3F62-DD44-8AAA-D9A5-136649C4F0EB}|AuthApi\\AuthApi.csproj|c:\\users\\uryuqq\\source\\repos\\blazor\\practice\\practice1\\blazorpractic1\\authapi\\authapi\\services\\userservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{CC3C3F62-DD44-8AAA-D9A5-136649C4F0EB}|AuthApi\\AuthApi.csproj|solutionrelative:authapi\\services\\userservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{CC3C3F62-DD44-8AAA-D9A5-136649C4F0EB}|AuthApi\\AuthApi.csproj|c:\\users\\uryuqq\\source\\repos\\blazor\\practice\\practice1\\blazorpractic1\\authapi\\authapi\\services\\movieservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{CC3C3F62-DD44-8AAA-D9A5-136649C4F0EB}|AuthApi\\AuthApi.csproj|solutionrelative:authapi\\services\\movieservices.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{CC3C3F62-DD44-8AAA-D9A5-136649C4F0EB}|AuthApi\\AuthApi.csproj|c:\\users\\uryuqq\\source\\repos\\blazor\\practice\\practice1\\blazorpractic1\\authapi\\authapi\\requests\\updatemovie.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -114,12 +114,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 9,
+          "SelectedChildIndex": 1,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{c6f34f0d-7ae5-4f3a-be61-fe0c21ae9eb8}"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 6,
@@ -130,18 +126,17 @@
               "RelativeToolTip": "AuthApi\\Controllers\\MovieController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-14T10:09:32.973Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-14T10:09:32.973Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "UserServices.cs",
               "DocumentMoniker": "C:\\Users\\uryuqq\\source\\repos\\Blazor\\Practice\\Practice1\\BlazorPractic1\\AuthApi\\AuthApi\\Services\\UserServices.cs",
               "RelativeDocumentMoniker": "AuthApi\\Services\\UserServices.cs",
               "ToolTip": "C:\\Users\\uryuqq\\source\\repos\\Blazor\\Practice\\Practice1\\BlazorPractic1\\AuthApi\\AuthApi\\Services\\UserServices.cs",
               "RelativeToolTip": "AuthApi\\Services\\UserServices.cs",
-              "ViewState": "AgIAAOcAAAAAAAAAAAAAAEsBAAAVAAAAAAAAAA==",
+              "ViewState": "AgIAABgAAAAAAAAAAADwvyoAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-26T19:22:51.984Z",
               "EditorCaption": ""
@@ -168,8 +163,7 @@
               "RelativeToolTip": "AuthApi\\Requests\\CreateMovie.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwA8AAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-14T11:40:44.532Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-14T11:40:44.532Z"
             },
             {
               "$type": "Document",
@@ -193,8 +187,7 @@
               "RelativeToolTip": "AuthApi\\Interfaces\\IMovieServices.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAuwA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-14T10:09:02.498Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-14T10:09:02.498Z"
             },
             {
               "$type": "Document",
@@ -206,8 +199,7 @@
               "RelativeToolTip": "AuthApi\\Models\\Movies.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwBIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-13T22:26:35.278Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-13T22:26:35.278Z"
             },
             {
               "$type": "Document",
@@ -219,12 +211,11 @@
               "RelativeToolTip": "AuthApi\\Program.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAAACgAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-26T15:26:22.533Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-26T15:26:22.533Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "MovieServices.cs",
               "DocumentMoniker": "C:\\Users\\uryuqq\\source\\repos\\Blazor\\Practice\\Practice1\\BlazorPractic1\\AuthApi\\AuthApi\\Services\\MovieServices.cs",
               "RelativeDocumentMoniker": "AuthApi\\Services\\MovieServices.cs",
@@ -245,8 +236,7 @@
               "RelativeToolTip": "AuthApi\\Requests\\UpdateMovie.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-14T12:21:23.968Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-14T12:21:23.968Z"
             },
             {
               "$type": "Document",
@@ -258,8 +248,7 @@
               "RelativeToolTip": "AuthApi\\Controllers\\ImageController.cs",
               "ViewState": "AgIAAAEAAAAAAAAAAAArwBQAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-22T08:15:51.632Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-22T08:15:51.632Z"
             },
             {
               "$type": "Document",
@@ -283,8 +272,7 @@
               "RelativeToolTip": "AuthApi\\CustomAtributes\\RoleAuthorizeAttribute.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAowCoAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-13T22:20:52.562Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-13T22:20:52.562Z"
             },
             {
               "$type": "Document",
