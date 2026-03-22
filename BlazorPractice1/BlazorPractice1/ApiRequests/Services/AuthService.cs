@@ -61,7 +61,6 @@ namespace BlazorPractice1.ApiRequests.Services
                 CurrentUser = JsonSerializer.Deserialize<UserResponse>(userJson);
             }
         }
-\
 
         public async Task Logout()
         {

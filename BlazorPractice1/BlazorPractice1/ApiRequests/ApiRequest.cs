@@ -1,4 +1,5 @@
 ﻿using BlazorPractice1.ApiRequests.Model;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -157,8 +158,14 @@ namespace BlazorPractice1.ApiRequests
             {
                 SetAuthorizationHeader(token);
                 var resp = await _httpClient.DeleteAsync(url);
-                if (!resp.IsSuccessStatusCode) return null;
-                return await resp.Content.ReadFromJsonAsync<StatusResponse>();
+                var content = await resp.Content.ReadAsStringAsync();
+                resp.EnsureSuccessStatusCode();
+                var userDelete = JsonSerializer.Deserialize<StatusResponse>(content, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+                return userDelete ?? new StatusResponse();
             }
             catch (Exception ex)
             {
@@ -168,14 +175,15 @@ namespace BlazorPractice1.ApiRequests
             
         }
 
-        public async Task<UpdateProfileResponse?> UpdateProfileAsyncResponse(UpdateProfileRequest user, string token)
+        public async Task<UpdateProfileResponse?> UpdateProfileAsyncResponse(UpdateProfileRequest request, string token)
         {
             var url = "Profile";
             SetAuthorizationHeader(token);
             try
             {
-                var resp = await _httpClient.PutAsJsonAsync(url, user);
-                if (!resp.IsSuccessStatusCode) return null;
+                var resp = await _httpClient.PutAsJsonAsync(url, request);
+                resp.EnsureSuccessStatusCode();
+                var content = await resp.Content.ReadAsStringAsync();
                 return await resp.Content.ReadFromJsonAsync<UpdateProfileResponse>();
             }
             catch(Exception ex)
@@ -184,6 +192,134 @@ namespace BlazorPractice1.ApiRequests
                 return new UpdateProfileResponse();
             }
             
+        }
+
+        public async Task<CreateMovieResponse> CreateMovieAsyncResponse(CreateMovieRequest request, string token)
+        {
+            var url = "CreateMovie";
+            SetAuthorizationHeader(token);
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync(url, request);
+                response.EnsureSuccessStatusCode();
+                var content = await response.Content.ReadAsStringAsync();
+                return await response.Content.ReadFromJsonAsync<CreateMovieResponse>();
+            }
+            catch(Exception ex)
+            {
+                Console.Write($"Ошибка при запросе: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<UpdateMovieResponse> UpdateMovieAsyncResponse(UpdateMovieRequest request, string token)
+        {
+            var url = "UpdateMovie";
+            SetAuthorizationHeader(token);
+            try
+            {
+                var response = await _httpClient.PutAsJsonAsync(url, request);
+                response.EnsureSuccessStatusCode();
+                var content = await response.Content.ReadAsStringAsync();
+                return await response.Content.ReadFromJsonAsync<UpdateMovieResponse>();
+            }
+            catch(Exception ex)
+            {
+                Console.Write($"Ошибка при запросе: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<StatusResponse> DeleteMovieAsyncResponse(int id, string token)
+        {
+            var url = $"/DeleteMovie/?id={id}";
+            SetAuthorizationHeader(token);
+            try
+            {
+                var response = await _httpClient.DeleteAsync(url);
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<StatusResponse>();
+            }
+            catch(Exception ex)
+            {
+                Console.Write($"Ошибка при запросе: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<MoviesListResponse> GetAllMovies(string token)
+        {
+            var url = "GetAllMovies";
+            SetAuthorizationHeader(token);
+            try
+            {
+                var response = await _httpClient.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<MoviesListResponse>();
+            }
+            catch(Exception ex)
+            {
+                Console.Write($"Ошибка при запросе: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<GenresListResponse> GetAllGenres(string token)
+        {
+            var url = "GetAllGenres";
+            SetAuthorizationHeader(token);
+            try
+            {
+                var response = await _httpClient.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<GenresListResponse>();
+            }
+            catch(Exception ex)
+            {
+                Console.Write($"Ошибка при запросе: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<GetMovieByIdResponse> GetMovieByIdResponse(int id, string token)
+        {
+            var url = $"/GetMovieById/?id={id}";
+            SetAuthorizationHeader(token);
+            try
+            {
+                var response = await _httpClient.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+                return await response.Content.ReadFromJsonAsync<GetMovieByIdResponse>();
+            }
+            catch(Exception ex)
+            {
+                Console.Write($"Ошибка при запросе: {ex.Message}");
+                return null;
+            }
+        }
+
+        public async Task<UploadImageResponse> UploadMovieImageAsync(IBrowserFile file, string token)
+        {
+            var url = "/Image/MovieImage";
+            SetAuthorizationHeader(token);
+            try
+            {
+                using var content = new MultipartFormDataContent();
+                var streamContent = new StreamContent(file.OpenReadStream(10 * 1024 * 1024));
+                streamContent.Headers.ContentType =
+                    new System.Net.Http.Headers.MediaTypeHeaderValue(file.ContentType);
+
+                content.Add(streamContent, "file", file.Name);
+                var response = await _httpClient.PostAsync(url, content);
+                response.EnsureSuccessStatusCode();
+
+                return await response.Content.ReadFromJsonAsync<UploadImageResponse>();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"Ошибка прии запросе: {ex.Message}");
+                return null;
+            }
         }
     }
 }

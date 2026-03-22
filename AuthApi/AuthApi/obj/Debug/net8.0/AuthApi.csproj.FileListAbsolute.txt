@@ -658,3 +658,4 @@ C:\Users\python_pro\Desktop\blazor\BlazorPractic1\AuthApi\AuthApi\obj\Debug\net8
 C:\Users\python_pro\Desktop\blazor\BlazorPractic1\AuthApi\AuthApi\obj\Debug\net8.0\AuthApi.pdb
 C:\Users\python_pro\Desktop\blazor\BlazorPractic1\AuthApi\AuthApi\obj\Debug\net8.0\AuthApi.genruntimeconfig.cache
 C:\Users\python_pro\Desktop\blazor\BlazorPractic1\AuthApi\AuthApi\obj\Debug\net8.0\ref\AuthApi.dll
+C:\Users\uryuqq\source\repos\Blazor\Practice\Practice1\BlazorPractic1\AuthApi\AuthApi\bin\Debug\net8.0\AuthApi.staticwebassets.runtime.json

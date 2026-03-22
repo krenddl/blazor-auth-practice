@@ -40,7 +40,7 @@ namespace AuthApi.Services
                 Password = hashedPassword,
                 Name = regUser.Name,
                 Description = regUser.Description,
-                Role_Id = 2
+                Role_Id = 1
             };
 
             await _context.AddAsync(user);
@@ -102,9 +102,12 @@ namespace AuthApi.Services
             });
         }
 
-        public async Task<IActionResult> UpdateUser(UpdateUser updateUser)
+        public async Task<IActionResult> UpdateUser(UpdateUser updateUser, string token)
         {
-            var existingEmail = await _context.Users.FirstOrDefaultAsync(x => x.Email == updateUser.Email  && x.id_User != updateUser.id_User);
+            var session = await _context.Sessions.Include(x => x.User).FirstOrDefaultAsync(x => x.Token == token);
+
+            var existingEmail = await _context.Users.Include(x => x.Role).FirstOrDefaultAsync(x => x.Email == updateUser.Email  && x.id_User != updateUser.id_User);
+
 
             if(existingEmail != null)
             {
@@ -125,6 +128,16 @@ namespace AuthApi.Services
                 });
             }
 
+            var currentUser = await _context.Users.Include(x => x.Role).FirstOrDefaultAsync(x => x.id_User == session.User_id);
+            if (user.id_User == currentUser.id_User && currentUser.Role_Id != 1)
+            {
+                return new BadRequestObjectResult(new
+                {
+                    status = false,
+                    message = "Нельзя изменить свою роль на пользователя"
+                });
+            }
+
             user.Email = updateUser.Email;
             user.Description = updateUser.Description;
             user.Name = updateUser.Name;
@@ -133,7 +146,9 @@ namespace AuthApi.Services
             {
                 user.Password = BCrypt.Net.BCrypt.HashPassword(updateUser.Password);
             }
+            user.Role_Id = updateUser.Role_id;
 
+            
             await _context.SaveChangesAsync();
 
             return new OkObjectResult(new
@@ -249,8 +264,19 @@ namespace AuthApi.Services
             });
         }
 
-        public async Task<IActionResult> DeleteUser(int user_id)
+        public async Task<IActionResult> DeleteUser(int user_id, string token)
         {
+            var session = await _context.Sessions.Include(x => x.User).FirstOrDefaultAsync(x => x.Token == token);
+            if(session == null || session.User == null)
+            {
+                return new UnauthorizedObjectResult(new
+                {
+                    status = false,
+                    messsage = "Сессия не найдена"
+                });
+            }
+
+            var currentUser = await _context.Users.Include(x => x.Role).FirstOrDefaultAsync(x => x.id_User == session.User.id_User);
             var user = await _context.Users.Include(x => x.Role).FirstOrDefaultAsync(x => x.id_User == user_id);
             if (user == null)
             {
@@ -258,6 +284,24 @@ namespace AuthApi.Services
                 {
                     status = false,
                     message = "Пользователь не найден"
+                });
+            }
+
+            if(user.id_User == currentUser.id_User)
+            {
+                return new BadRequestObjectResult(new
+                {
+                    status = false,
+                    message = "Нельзя удалить самого себя"
+                });
+            }
+
+            if(user.Role_Id == 1)
+            {
+                return new BadRequestObjectResult(new 
+                {
+                    status = false,
+                    message = "Нельзя удалить администратора"
                 });
             }
 

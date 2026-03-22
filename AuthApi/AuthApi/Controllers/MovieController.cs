@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace AuthApi.Controllers
 {
     [ApiController]
+    
     public class MovieController : Controller
     {
         private readonly IMovieServices _movieServices;
@@ -54,6 +55,13 @@ namespace AuthApi.Controllers
         public async Task<IActionResult> DeleteMovie(int id)
         {
             return await _movieServices.DeleteMovie(id);
+        }
+        [HttpGet]
+        [Route("GetAllGenres")]
+        [RoleAuthorize([1])]
+        public async Task<IActionResult> GetAllGenres()
+        {
+            return await _movieServices.GetAllGenre();
         }
 
     }

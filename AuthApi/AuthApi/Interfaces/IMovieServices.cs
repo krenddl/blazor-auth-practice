@@ -10,5 +10,6 @@ namespace AuthApi.Interfaces
         Task<IActionResult> CreateMovie(CreateMovie newMovie);
         Task<IActionResult> UpdateMovie(UpdateMovie updateMovie);
         Task<IActionResult> DeleteMovie(int id);
+        Task<IActionResult> GetAllGenre();
     }
 }

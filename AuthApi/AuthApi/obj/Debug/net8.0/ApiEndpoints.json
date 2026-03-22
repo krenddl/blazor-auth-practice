@@ -81,6 +81,16 @@
   },
   {
     "ContainingType": "AuthApi.Controllers.MovieController",
+    "Method": "GetAllGenres",
+    "RelativePath": "GetAllGenres",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AuthApi.Controllers.MovieController",
     "Method": "GetAllMovies",
     "RelativePath": "GetAllMovies",
     "HttpMethod": "GET",
@@ -110,6 +120,22 @@
       {
         "Name": "id",
         "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "AuthApi.Controllers.ImageController",
+    "Method": "UploadMovieImage",
+    "RelativePath": "Image/MovieImage",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "file",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
         "IsRequired": false
       }
     ],

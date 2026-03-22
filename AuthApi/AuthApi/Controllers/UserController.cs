@@ -41,7 +41,8 @@ namespace AuthApi.Controllers
         [RoleAuthorize([1])]
         public async Task<IActionResult> UpdateUser([FromBody] UpdateUser updateUser)
         {
-            return await _userServices.UpdateUser(updateUser);
+            var token = Request.Headers["Authorization"].ToString();
+            return await _userServices.UpdateUser(updateUser, token);
         }
         [HttpPut]
         [Route("Profile")]
@@ -64,7 +65,8 @@ namespace AuthApi.Controllers
         [RoleAuthorize([1])]
         public async Task<IActionResult> DeleteUsers(int user_id)
         {
-            return await _userServices.DeleteUser(user_id);
+            var token = Request.Headers["Authorization"].ToString();
+            return await _userServices.DeleteUser(user_id, token);
         }
 
 

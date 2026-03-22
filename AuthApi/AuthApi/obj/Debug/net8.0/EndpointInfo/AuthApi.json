@@ -5,6 +5,38 @@
     "version": "1.0"
   },
   "paths": {
+    "/Image/MovieImage": {
+      "post": {
+        "tags": [
+          "Image"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "file": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/GetAllMovies": {
       "get": {
         "tags": [
@@ -115,6 +147,18 @@
               "format": "int32"
             }
           }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/GetAllGenres": {
+      "get": {
+        "tags": [
+          "Movie"
         ],
         "responses": {
           "200": {
@@ -362,6 +406,10 @@
           "rating": {
             "type": "number",
             "format": "double"
+          },
+          "img": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -487,6 +535,10 @@
           "rating": {
             "type": "number",
             "format": "double"
+          },
+          "img": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -508,11 +560,6 @@
             "type": "string",
             "format": "email"
           },
-          "password": {
-            "minLength": 6,
-            "type": "string",
-            "nullable": true
-          },
           "name": {
             "minLength": 2,
             "type": "string"
@@ -520,6 +567,15 @@
           "description": {
             "type": "string",
             "nullable": true
+          },
+          "password": {
+            "minLength": 6,
+            "type": "string",
+            "nullable": true
+          },
+          "role_id": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false

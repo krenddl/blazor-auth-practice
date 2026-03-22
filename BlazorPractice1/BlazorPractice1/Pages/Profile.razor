@@ -33,6 +33,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        await AuthService.LoadSessionAsync();
         if (!AuthService.IsAuthenticated || AuthService.CurrentUser == null)
         {
             Navigation.NavigateTo("/login");

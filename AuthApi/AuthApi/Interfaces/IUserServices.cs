@@ -7,9 +7,9 @@ namespace AuthApi.Interfaces
     {
         Task<IActionResult> Registration(Registration regUser);
         Task<IActionResult> Authorize(Auth authUser);
-        Task<IActionResult> UpdateUser(UpdateUser updateUser);
+        Task<IActionResult> UpdateUser(UpdateUser updateUser, string token);
         Task<IActionResult> CreateNewUser(CreateNewUser regUser);
-        Task<IActionResult> DeleteUser(int user_id);
+        Task<IActionResult> DeleteUser(int user_id, string token);
         Task<IActionResult> GetAllUsers();
         Task<IActionResult> Profile(Profile profile, string token);
     }

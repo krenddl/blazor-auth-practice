@@ -19,16 +19,139 @@ else if(users == null)
 }
 else
 {
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in users)
+            {
+                <tr>
+                    <td>@user.id_User</td>
+                    <td>@if (editingUserId == user.id_User)
+                        {
+                            <input @bind="updateUser.Email"/>
+                        }
+                        else
+                        {
+                            @user.Email;
+                        }
+                    </td>
+                    <td>
+                        @if (editingUserId == user.id_User)
+                        {
+                            <input @bind="updateUser.Name" />
+                        }
+                        else
+                        {
+                            @user.Name;
+                        }
+                    </td>
+                    <td>
+                        @if (editingUserId == user.id_User)
+                        {
+                            <input @bind="updateUser.Description" />
+                        }
+                        else
+                        {
+                            @user.Description
+                            ;
+                        }
+                    </td>
+                    <td>
+                        @if (editingUserId == user.id_User)
+                        {
+                            @if(updateUser.id_User == AuthService.CurrentUser.id_User)
+                            {
+                                <select @bind="updateUser.Role_id">
+                                    <option value="1">Admin</option>
+                                </select>
+                            }
+                            else
+                            {
+                                <select @bind="updateUser.Role_id">
+                                    <option value="1">Admin</option>
+                                    <option value="2">User</option>
+                                </select>
+                            }
+                            
+                        }
+                        else
+                        {
+                            @user.Role;
+                        }
+                    </td>
+                    <td>
+                        @if(editingUserId == user.id_User)
+                        {
+                            <input type="password" placeholder="New password"
+                                @bind="updateUser.Password"/>
+                        }
+                    </td>
+                    <td>
+                        @if(editingUserId == user.id_User)
+                        {
+                            <button @onclick="SaveEdit">Save</button>
+                            <button @onclick="CancelEdit">Cancel</button>
+                        }
+                        else
+                        {
+                            <button @onclick="() => Edit(user)">Update</button>
+                            <button disabled="@(user.id_User == AuthService.CurrentUser?.id_User || user.Role_Id == 1)"
+                                    @onclick="() => DeleteUser(user.id_User)">
+                                Delete
+                            </button>
+                        }
+                    </td>
+                </tr>
+                
+            }
+        </tbody>
+    </table>
+
+    <h4>Create new User</h4>
+
     
+
+    <div>
+        <input @bind="newUser.Email" placeholder="Email"/>
+        <input @bind="newUser.Password" placeholder="Password" type="password" />
+        <input @bind="newUser.Name" placeholder="Name" />
+        <input @bind="newUser.Description" placeholder="Description" />
+        <select @bind="newUser.Role_Id">
+            <option value="1">Admin</option>
+            <option value="2">User</option>
+        </select>
+    </div>
+    <div>
+        <button @onclick="CreateUser">Create</button>
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(succesMessage))
+    {
+        @succesMessage;
+    }
 }
 
 
 @code{
     private List<UserResponse> users = new List<UserResponse>();
+    private CreateUserRequest newUser = new CreateUserRequest();
+    private UpdateUserRequest updateUser = new UpdateUserRequest();
     private string? errorMessage;
+    private string? succesMessage;
+    private int? editingUserId = null;
 
     protected override async Task OnInitializedAsync()
     {
+        await AuthService.LoadSessionAsync();
         if(!AuthService.IsAuthenticated || AuthService.CurrentUser == null)
         {
             Navigation.NavigateTo("/login");
@@ -40,9 +163,118 @@ else
             return;
         }
 
-        var result = await ApiRequest.GetAllUsersAsyncResponse(AuthService.Token);
-        users = result.user;
+        await LoadUsers();
 
+
+    }
+
+    private async Task DeleteUser(int id)
+    {
+        if (string.IsNullOrWhiteSpace(AuthService.Token))
+        {
+            errorMessage = "Токен не найден";
+            return;
+        }
+
+        var result = await ApiRequest.DeleteUserAsync(id, AuthService.Token);
+
+        if (result == null || !result.status)
+        {
+            errorMessage = "Не удалось удалить пользователя";
+            return;
+        }
+
+        await LoadUsers();
+    }
+
+    private async Task CreateUser()
+    {
+        errorMessage = null;
+        succesMessage = null;
+        if(string.IsNullOrWhiteSpace(AuthService.Token))
+        {
+            errorMessage = "Токен не найден";
+            return;
+        }
+        var result = await ApiRequest.CreateUserAsyncResponse(newUser, AuthService.Token);
+
+        if(result == null || !result.status || result.user == null)
+        {
+            errorMessage = "Не удалось создать пользователя";
+        }
+
+        succesMessage = "Пользователь создан";
+
+        newUser = new CreateUserRequest();
+
+        await LoadUsers();
+    }
+
+    private async Task LoadUsers()
+    {
+        var result = await ApiRequest.GetAllUsersAsyncResponse(AuthService.Token);
+        if (result == null || !result.status || result.users == null)
+        {
+            errorMessage = "Не удалось загрузить пользователей";
+            return;
+        }
+
+        users = result.users;
+    }
+
+    private void Edit(UserResponse user)
+    {
+        editingUserId = user.id_User;
+        updateUser = new UpdateUserRequest
+            {
+                id_User = user.id_User,
+                Email = user.Email,
+                Name = user.Name,
+                Description = user.Description,
+                Password = null,
+                Role_id = user.Role_Id
+            };
+
+        errorMessage = null;
+        succesMessage = null;
+    }
+
+    private void CancelEdit()
+    {
+        editingUserId = null;
+        updateUser = new UpdateUserRequest();
+    }
+
+    private async Task SaveEdit()
+    {
+        errorMessage = null;
+        succesMessage = null;
+
+
+        if (string.IsNullOrWhiteSpace(AuthService.Token))
+        {
+            errorMessage = "Токен не найден";
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(updateUser.Password))
+        {
+            updateUser.Password = null;
+        }
+
+        var result = await ApiRequest.UpdateUserAsyncResponse(updateUser, AuthService.Token);
+
+        if(result == null || !result.status || result.user == null)
+        {
+            errorMessage = "Не удалось обновить пользователя";
+            return;
+        }
+
+        succesMessage = "Пользователь обновлен";
+        editingUserId = null;
+        updateUser = new UpdateUserRequest();
+
+        await LoadUsers();
     }
 
 }

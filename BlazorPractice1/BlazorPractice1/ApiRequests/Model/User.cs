@@ -18,7 +18,7 @@
     public class UsersListResponse
     {
         public bool status { get; set; }
-        public List<UserResponse> user { get; set; }
+        public List<UserResponse> users { get; set; }
         public string? message { get; set; }
     }
     

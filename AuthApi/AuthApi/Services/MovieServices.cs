@@ -62,7 +62,8 @@ namespace AuthApi.Services
                 description = newMovie.Description,
                 id_Genre = newMovie.id_Genre,
                 date = newMovie.Date,
-                rating = newMovie.Rating
+                rating = newMovie.Rating,
+                img = newMovie.img
             };
 
             
@@ -86,6 +87,7 @@ namespace AuthApi.Services
             movie.date = updateMovie.Date;
             movie.rating = updateMovie.Rating;
             movie.id_Genre = updateMovie.id_Genre;
+            movie.img = updateMovie.img;
             if (movie == null)
             {
                 return new NotFoundObjectResult(new
@@ -122,6 +124,26 @@ namespace AuthApi.Services
             {
                 status = true,
                 movie
+            });
+        }
+
+        public async Task<IActionResult> GetAllGenre()
+        {
+            var genres = await _contextDb.Genres.ToListAsync();
+
+            if(genres == null)
+            {
+                return new NotFoundObjectResult(new
+                {
+                    status = false,
+                    message = "Жанры не найдены"
+                });
+            }
+
+            return new OkObjectResult(new
+            {
+                status = true,
+                genres
             });
         }
     }

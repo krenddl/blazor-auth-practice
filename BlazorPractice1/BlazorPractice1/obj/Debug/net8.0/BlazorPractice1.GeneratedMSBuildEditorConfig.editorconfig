@@ -38,12 +38,24 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/uryuqq/source/repos/Blazor/Practice/Practice1/BlazorPractic1/BlazorPractice1/BlazorPractice1/Pages/CreateMovie.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ3JlYXRlTW92aWUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/uryuqq/source/repos/Blazor/Practice/Practice1/BlazorPractic1/BlazorPractice1/BlazorPractice1/Pages/Home.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9tZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/uryuqq/source/repos/Blazor/Practice/Practice1/BlazorPractic1/BlazorPractice1/BlazorPractice1/Pages/Login.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW4ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uryuqq/source/repos/Blazor/Practice/Practice1/BlazorPractic1/BlazorPractice1/BlazorPractice1/Pages/Movies.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTW92aWVzLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uryuqq/source/repos/Blazor/Practice/Practice1/BlazorPractic1/BlazorPractice1/BlazorPractice1/Pages/MoviesPage.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTW92aWVzUGFnZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/uryuqq/source/repos/Blazor/Practice/Practice1/BlazorPractic1/BlazorPractice1/BlazorPractice1/Pages/Profile.razor]

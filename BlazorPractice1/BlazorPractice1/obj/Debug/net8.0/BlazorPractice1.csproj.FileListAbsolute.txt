@@ -6234,6 +6234,6 @@ C:\Users\uryuqq\source\repos\Blazor\Practice\Practice1\BlazorPractic1\BlazorPrac
 C:\Users\uryuqq\source\repos\Blazor\Practice\Practice1\BlazorPractic1\BlazorPractice1\BlazorPractice1\bin\Debug\net8.0\Blazor.LocalStorage.dll
 C:\Users\uryuqq\source\repos\Blazor\Practice\Practice1\BlazorPractic1\BlazorPractice1\BlazorPractice1\obj\Debug\net8.0\webcil\Blazor.LocalStorage.wasm
 C:\Users\uryuqq\source\repos\Blazor\Practice\Practice1\BlazorPractic1\BlazorPractice1\BlazorPractice1\obj\Debug\net8.0\compressed\aiogn47cxn-{0}-4w18lcw77z-4w18lcw77z.gz
-C:\Users\uryuqq\source\repos\Blazor\Practice\Practice1\BlazorPractic1\BlazorPractice1\BlazorPractice1\obj\Debug\net8.0\compressed\xhzc3lseyp-{0}-ffal4l3xha-ffal4l3xha.gz
-C:\Users\uryuqq\source\repos\Blazor\Practice\Practice1\BlazorPractic1\BlazorPractice1\BlazorPractice1\obj\Debug\net8.0\compressed\28yvct433m-{0}-u1d9xqmo22-u1d9xqmo22.gz
-C:\Users\uryuqq\source\repos\Blazor\Practice\Practice1\BlazorPractic1\BlazorPractice1\BlazorPractice1\obj\Debug\net8.0\compressed\j6xfgdgf3v-{0}-20d7jqntm1-20d7jqntm1.gz
+C:\Users\uryuqq\source\repos\Blazor\Practice\Practice1\BlazorPractic1\BlazorPractice1\BlazorPractice1\obj\Debug\net8.0\compressed\xhzc3lseyp-{0}-mhad50dkn9-mhad50dkn9.gz
+C:\Users\uryuqq\source\repos\Blazor\Practice\Practice1\BlazorPractic1\BlazorPractice1\BlazorPractice1\obj\Debug\net8.0\compressed\28yvct433m-{0}-yaclfnuty1-yaclfnuty1.gz
+C:\Users\uryuqq\source\repos\Blazor\Practice\Practice1\BlazorPractic1\BlazorPractice1\BlazorPractice1\obj\Debug\net8.0\compressed\j6xfgdgf3v-{0}-qtxtcmuz4f-qtxtcmuz4f.gz

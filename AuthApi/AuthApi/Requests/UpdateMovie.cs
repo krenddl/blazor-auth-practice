@@ -15,5 +15,6 @@ namespace AuthApi.Requests
         [Required(ErrorMessage = "Дата создания фильма обязательна")]
         public DateOnly Date { get; set; }
         public double Rating { get; set; }
+        public string? img { get; set; }
     }
 }

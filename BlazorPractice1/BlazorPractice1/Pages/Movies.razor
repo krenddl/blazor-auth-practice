@@ -1,0 +1,149 @@
+﻿@page "/movies"
+@using BlazorPractice1.ApiRequests
+@using BlazorPractice1.ApiRequests.Model
+@using BlazorPractice1.ApiRequests.Services
+@inject AuthService AuthService
+@inject ApiRequest ApiRequest
+@inject NavigationManager Navigation
+
+<div class="movies-page">
+    <div class="movies-topbar">
+        <div>
+            <h2 class="movies-title">Films</h2>
+            <p class="movies-subtitle">Catalog</p>
+        </div>
+
+        @if (AuthService.CurrentUser?.Role_Id == 1)
+        {
+            <button class="movie-btn movite-btn-primary" @onclick="CreateMovie">+ Add Film</button>
+        }
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(errorMessage))
+    {
+        <div class="movies-message movies-error">@errorMessage</div>
+    }
+    else if (movies.Count == 0)
+    {
+        <div class="movies-message">Фильмы не найдены</div>
+    }
+    else
+    {
+        <div class="movies-grid">
+            @foreach(var movie in movies)
+            {
+                <p>@movie.name - @movie.img</p>
+                <div class="movie-card">
+                    @if (!string.IsNullOrWhiteSpace(movie.img))
+                    {
+                        <img src="@($"http://localhost:5126{movie.img}")" alt="@movie.name" class="movie-card-image" />
+                    }
+                    else
+                    {
+                        <div class="movie-card-poster">
+                            <span>No image</span>
+                        </div>
+                    }
+
+                    <div class="movie-card-body">
+                        <div class="movie-card-header">
+                            <h3 class="movie-card-title">@movie.name</h3>
+                            <span class="movie-card-rating"> @movie.rating</span>
+                        </div>
+                    </div>
+
+                    <p class="movie-card-description">@movie.description</p>
+
+                    <div class="movie-card-meta">
+                        <span class="movie-card-genre">@movie.Genre?.name</span>
+                        <span class="movie-card-date">@movie.date.ToString("dd.MM.yyyy")</span>
+                    </div>
+
+                    <div class="movie-card-actions">
+                        <button class="movie-btn movie-btn-secondary"
+                                @onclick="() => OpenMovie(movie.id_Movie)">Подробнее</button>
+                    </div>
+
+                    @if(AuthService.CurrentUser?.Role_Id == 1)
+                    {
+                        <button class="movie-btn movie-btn-edit" @onclick="() => EditMovie(movie.id_Movie)">Update</button>
+                        <button class="movie-btn movite-btn-danger" @onclick="() => DeleteMovie(movie.id_Movie)">Delete</button>
+                    }
+                </div>
+            }
+        </div>
+    }
+</div>
+
+    @code {
+
+        private List<MovieResponse> movies = new List<MovieResponse>();
+        private string? errorMessage;
+
+        protected override async Task OnInitializedAsync()
+        {
+            await AuthService.LoadSessionAsync();
+            await LoadMovies();
+        }
+
+        private Task CreateMovies(MouseEventArgs args)
+        {
+            throw new NotImplementedException();
+        }
+
+        private async Task LoadMovies()
+        {
+            errorMessage = null;
+
+            if (string.IsNullOrWhiteSpace(AuthService.Token))
+            {
+                errorMessage = "Токен не найден";
+                return;
+            }
+
+            var result = await ApiRequest.GetAllMovies(AuthService.Token);
+
+            if(result == null || !result.status || result.movies == null)
+            {
+                errorMessage = "Не удалось загрузить фильмы";
+                return;
+            }
+            movies = result.movies;
+        }
+
+        private void OpenMovie(int id)
+        {
+            Navigation.NavigateTo($"/movies/{id}");
+        }
+
+        private void EditMovie(int id)
+        {
+            Navigation.NavigateTo($"/admin/movies/edit/{id}");
+        }
+
+        private void CreateMovie()
+        {
+            Navigation.NavigateTo($"/admin/movies/create");
+        }
+
+        private async Task DeleteMovie(int id)
+        {
+            errorMessage = null;
+
+            if (string.IsNullOrWhiteSpace(AuthService.Token))
+            {
+                errorMessage = "Токен не найден";
+                return;
+            }
+
+            var result = await ApiRequest.DeleteMovieAsyncResponse(id, AuthService.Token);
+
+            if(result == null || !result.status)
+            {
+                errorMessage = "Не удалось удалить фильм";
+                return;
+            }
+
+            await LoadMovies();
+        }
+}
