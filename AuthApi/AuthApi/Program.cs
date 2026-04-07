@@ -2,7 +2,9 @@ using AuthApi.DatabaseContext;
 using AuthApi.Interfaces;
 using AuthApi.Services;
 using AuthApi.UniversalMethods;
+using AuthApi.Hubs;
 using Microsoft.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ContextDb>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("AuthDbString")));
 builder.Services.AddScoped<IUserServices, UserServices>();
 builder.Services.AddScoped<IMovieServices, MovieServices>();
+builder.Services.AddScoped<IChatServices, ChatService>();
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
@@ -25,7 +28,7 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod());
 });
 builder.Services.AddSingleton<JwtGenerator>();
-
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -43,5 +46,5 @@ app.UseStaticFiles();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.MapHub<ChatHub>("/chathub");
 app.Run();

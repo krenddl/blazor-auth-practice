@@ -26,6 +26,25 @@ namespace AuthApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PrivateMessages",
+                columns: table => new
+                {
+                    id_PrivateMessage = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    senderId = table.Column<int>(type: "integer", nullable: false),
+                    receiverId = table.Column<int>(type: "integer", nullable: false),
+                    text = table.Column<string>(type: "text", nullable: true),
+                    imageUrl = table.Column<string>(type: "text", nullable: true),
+                    createdAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    isEdited = table.Column<bool>(type: "boolean", nullable: false),
+                    isDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PrivateMessages", x => x.id_PrivateMessage);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Roles",
                 columns: table => new
                 {
@@ -86,6 +105,31 @@ namespace AuthApi.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Messages",
+                columns: table => new
+                {
+                    id_Message = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    movieId = table.Column<int>(type: "integer", nullable: false),
+                    userId = table.Column<int>(type: "integer", nullable: false),
+                    text = table.Column<string>(type: "text", nullable: true),
+                    imageUrl = table.Column<string>(type: "text", nullable: true),
+                    createdAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    isEdited = table.Column<bool>(type: "boolean", nullable: false),
+                    isDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Messages", x => x.id_Message);
+                    table.ForeignKey(
+                        name: "FK_Messages_Users_userId",
+                        column: x => x.userId,
+                        principalTable: "Users",
+                        principalColumn: "id_User",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Sessions",
                 columns: table => new
                 {
@@ -104,6 +148,11 @@ namespace AuthApi.Migrations
                         principalColumn: "id_User",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_userId",
+                table: "Messages",
+                column: "userId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Movies_id_Genre",
@@ -125,7 +174,13 @@ namespace AuthApi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Messages");
+
+            migrationBuilder.DropTable(
                 name: "Movies");
+
+            migrationBuilder.DropTable(
+                name: "PrivateMessages");
 
             migrationBuilder.DropTable(
                 name: "Sessions");

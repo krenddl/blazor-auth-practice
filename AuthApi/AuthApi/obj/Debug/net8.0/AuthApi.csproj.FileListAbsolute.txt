@@ -659,3 +659,11 @@ C:\Users\python_pro\Desktop\blazor\BlazorPractic1\AuthApi\AuthApi\obj\Debug\net8
 C:\Users\python_pro\Desktop\blazor\BlazorPractic1\AuthApi\AuthApi\obj\Debug\net8.0\AuthApi.genruntimeconfig.cache
 C:\Users\python_pro\Desktop\blazor\BlazorPractic1\AuthApi\AuthApi\obj\Debug\net8.0\ref\AuthApi.dll
 C:\Users\uryuqq\source\repos\Blazor\Practice\Practice1\BlazorPractic1\AuthApi\AuthApi\bin\Debug\net8.0\AuthApi.staticwebassets.runtime.json
+C:\Users\uryuqq\source\repos\Blazor\Practice\Practice1\BlazorPractic1\AuthApi\AuthApi\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\uryuqq\source\repos\Blazor\Practice\Practice1\BlazorPractic1\AuthApi\AuthApi\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.Abstractions.dll
+C:\Users\uryuqq\source\repos\Blazor\Practice\Practice1\BlazorPractic1\AuthApi\AuthApi\bin\Debug\net8.0\Microsoft.Extensions.Hosting.Abstractions.dll
+C:\Users\uryuqq\source\repos\Blazor\Practice\Practice1\BlazorPractic1\AuthApi\AuthApi\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\uryuqq\source\repos\Blazor\Practice\Practice1\BlazorPractic1\AuthApi\AuthApi\bin\Debug\net8.0\Microsoft.Extensions.ObjectPool.dll
+C:\Users\uryuqq\source\repos\Blazor\Practice\Practice1\BlazorPractic1\AuthApi\AuthApi\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+C:\Users\uryuqq\source\repos\Blazor\Practice\Practice1\BlazorPractic1\AuthApi\AuthApi\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\uryuqq\source\repos\Blazor\Practice\Practice1\BlazorPractic1\AuthApi\AuthApi\bin\Debug\net8.0\System.Net.WebSockets.WebSocketProtocol.dll

@@ -15,9 +15,8 @@ namespace AuthApi.DatabaseContext
         public DbSet<Movies> Movies { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Session> Sessions { get; set; }
-        public DbSet<Chat> Chats { get; set; }
-        public DbSet<ChatMembers> ChatMembers { get; set; }
-        public DbSet<ChatType> ChatTypes { get; set; }
+
         public DbSet<Message> Messages { get; set; }
+        public DbSet<PrivateMessage> PrivateMessages { get; set; }
     }
 }

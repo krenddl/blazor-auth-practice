@@ -1,3 +1,6 @@
+wwwroot\images\movies\13a6f4ae-03df-48ac-ac4a-c567179d1400.png
 wwwroot\images\movies\26d91644-5dd7-42fd-9f9e-a666144b2f04.png
 wwwroot\images\movies\37b8f2db-43b8-4b10-8feb-a2fd30708732.png
-wwwroot\images\movies\13a6f4ae-03df-48ac-ac4a-c567179d1400.png
+wwwroot\images\movies\a8316296-8858-42f6-b069-c67d3e739bdc.jpg
+wwwroot\images\movies\baf53856-2d25-448a-be34-01de1e5378e6.jpg
+wwwroot\images\movies\f53d5172-8e79-432f-ad0f-25a08f2eedfe.png

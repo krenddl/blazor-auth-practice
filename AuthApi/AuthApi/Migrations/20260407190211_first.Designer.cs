@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AuthApi.Migrations
 {
     [DbContext(typeof(ContextDb))]
-    [Migration("20260316054649_first")]
+    [Migration("20260407190211_first")]
     partial class first
     {
         /// <inheritdoc />
@@ -40,6 +40,42 @@ namespace AuthApi.Migrations
                     b.HasKey("id_Genre");
 
                     b.ToTable("Genres");
+                });
+
+            modelBuilder.Entity("AuthApi.Models.Message", b =>
+                {
+                    b.Property<int>("id_Message")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id_Message"));
+
+                    b.Property<DateTime>("createdAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("imageUrl")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("isEdited")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("movieId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("text")
+                        .HasColumnType("text");
+
+                    b.Property<int>("userId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("id_Message");
+
+                    b.HasIndex("userId");
+
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("AuthApi.Models.Movies", b =>
@@ -75,6 +111,40 @@ namespace AuthApi.Migrations
                     b.HasIndex("id_Genre");
 
                     b.ToTable("Movies");
+                });
+
+            modelBuilder.Entity("AuthApi.Models.PrivateMessage", b =>
+                {
+                    b.Property<int>("id_PrivateMessage")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id_PrivateMessage"));
+
+                    b.Property<DateTime>("createdAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("imageUrl")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("isEdited")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("receiverId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("senderId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("text")
+                        .HasColumnType("text");
+
+                    b.HasKey("id_PrivateMessage");
+
+                    b.ToTable("PrivateMessages");
                 });
 
             modelBuilder.Entity("AuthApi.Models.Role", b =>
@@ -150,6 +220,15 @@ namespace AuthApi.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("AuthApi.Models.Message", b =>
+                {
+                    b.HasOne("AuthApi.Models.User", null)
+                        .WithMany("Messages")
+                        .HasForeignKey("userId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("AuthApi.Models.Movies", b =>
                 {
                     b.HasOne("AuthApi.Models.Genre", "Genre")
@@ -164,7 +243,7 @@ namespace AuthApi.Migrations
             modelBuilder.Entity("AuthApi.Models.Session", b =>
                 {
                     b.HasOne("AuthApi.Models.User", "User")
-                        .WithMany("sessions")
+                        .WithMany("Sessions")
                         .HasForeignKey("User_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -195,7 +274,9 @@ namespace AuthApi.Migrations
 
             modelBuilder.Entity("AuthApi.Models.User", b =>
                 {
-                    b.Navigation("sessions");
+                    b.Navigation("Messages");
+
+                    b.Navigation("Sessions");
                 });
 #pragma warning restore 612, 618
         }

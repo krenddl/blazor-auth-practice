@@ -18,8 +18,6 @@ namespace AuthApi.Models
         [JsonIgnore]
         public ICollection<Session> Sessions { get; set; }
         [JsonIgnore]
-        public ICollection<ChatMembers> ChatMembers { get; set; }
-        [JsonIgnore]
         public ICollection<Message> Messages { get; set; }
 
     }
