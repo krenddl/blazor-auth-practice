@@ -16,7 +16,11 @@ namespace AuthApi.Models
         public int Role_Id { get; set; }
         public Role Role { get; set; }
         [JsonIgnore]
-        public ICollection<Session> sessions { get; set; }
+        public ICollection<Session> Sessions { get; set; }
+        [JsonIgnore]
+        public ICollection<ChatMembers> ChatMembers { get; set; }
+        [JsonIgnore]
+        public ICollection<Message> Messages { get; set; }
 
     }
 }

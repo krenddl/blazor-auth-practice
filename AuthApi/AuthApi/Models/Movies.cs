@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace AuthApi.Models
 {
@@ -16,6 +17,8 @@ namespace AuthApi.Models
         public DateOnly date { get; set; }
         public double rating { get; set; }
         public string? img { get; set; }
+        [JsonIgnore]
+        public ICollection<Chat> Chats { get; set; }
 
     }
 }
