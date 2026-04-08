@@ -52,14 +52,30 @@ namespace BlazorPractice1.ApiRequests.Services
 
         public async Task LoadSessionAsync()
         {
-            Token = await _localStorageServcie.GetItemAsync("token");
-             
-            var userJson = await _localStorageServcie.GetItemAsync("user");
-
-            if (!string.IsNullOrWhiteSpace(userJson))
+            try 
             {
-                CurrentUser = JsonSerializer.Deserialize<UserResponse>(userJson);
+                Token = await _localStorageServcie.GetItemAsync("token");
+                var userJson = await _localStorageServcie.GetItemAsync("user");
+
+                if(!string.IsNullOrWhiteSpace(userJson))
+                {
+                    CurrentUser = JsonSerializer.Deserialize<UserResponse>(userJson);
+                }
+                else
+                {
+                    CurrentUser = null;
+                }
+
             }
+            catch
+            {
+                Token = null;
+                CurrentUser = null;
+
+                await _localStorageServcie.RemoveItemAsync("token");
+                await _localStorageServcie.RemoveItemAsync("user");
+            }
+
         }
 
         public async Task Logout()

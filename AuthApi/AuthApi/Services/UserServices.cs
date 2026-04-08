@@ -40,7 +40,7 @@ namespace AuthApi.Services
                 Password = hashedPassword,
                 Name = regUser.Name,
                 Description = regUser.Description,
-                Role_Id = 2
+                Role_Id = 1
             };
 
             await _context.AddAsync(user);

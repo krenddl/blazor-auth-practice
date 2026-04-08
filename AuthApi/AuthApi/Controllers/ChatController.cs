@@ -30,7 +30,7 @@ namespace AuthApi.Controllers
         [HttpPost]
         [Route("SendMovieMessage")]
         [RoleAuthorize([1, 2])]
-        public async Task<IActionResult> SendMovieMessage([FromForm] MessageRequest request)
+        public async Task<IActionResult> SendMessageAsync([FromForm] MessageReq request)
         {
             return await _chatServices.SendMessageAsync(request);
         }
@@ -38,15 +38,15 @@ namespace AuthApi.Controllers
         [HttpGet]
         [Route("GetPrivateMessages")]
         [RoleAuthorize([1, 2])]
-        public async Task<IActionResult> GetPrivateMessages(int userId1, int userId2)
+        public async Task<IActionResult> GetPrivateMessagesAsync(int userId1, int userId2)
         {
             return await _chatServices.GetPrivateMessagesAsync(userId1, userId2);
         }
 
         [HttpPost]
         [Route("SendPrivateMessage")]
-        [RoleAuthorize([1,2,])]
-        public async Task<IActionResult> SendPrivateMessage([FromForm] SendPrivateMessage request)
+        [RoleAuthorize([1,2])]
+        public async Task<IActionResult> SendPrivateMessageAsync([FromForm] PrivateMessageRequest request)
         {
             return await _chatServices.SendPrivateMessageAsync(request);
         }

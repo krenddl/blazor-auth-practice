@@ -1,4 +1,5 @@
-﻿using AuthApi.Requests;
+﻿using AuthApi.Models;
+using AuthApi.Requests;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthApi.Interfaces
@@ -6,10 +7,10 @@ namespace AuthApi.Interfaces
     public interface IChatServices
     {
         Task<IActionResult> GetMessagesAsync(int movieId);
-        Task<IActionResult> SendMessageAsync(SendMessage request);
+        Task<IActionResult> SendMessageAsync(MessageReq request);
 
         Task<IActionResult> GetPrivateMessagesAsync(int user1Id, int user2Id);
-        Task<IActionResult> SendPrivateMessageAsync(SendPrivateMessage request);
+        Task<IActionResult> SendPrivateMessageAsync(PrivateMessageRequest request);
 
     }
 }

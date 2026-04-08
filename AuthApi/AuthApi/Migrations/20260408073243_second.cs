@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AuthApi.Migrations
 {
     /// <inheritdoc />
-    public partial class first : Migration
+    public partial class second : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -36,8 +36,7 @@ namespace AuthApi.Migrations
                     text = table.Column<string>(type: "text", nullable: true),
                     imageUrl = table.Column<string>(type: "text", nullable: true),
                     createdAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    isEdited = table.Column<bool>(type: "boolean", nullable: false),
-                    isDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    isEdited = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -115,8 +114,7 @@ namespace AuthApi.Migrations
                     text = table.Column<string>(type: "text", nullable: true),
                     imageUrl = table.Column<string>(type: "text", nullable: true),
                     createdAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    isEdited = table.Column<bool>(type: "boolean", nullable: false),
-                    isDeleted = table.Column<bool>(type: "boolean", nullable: false)
+                    isEdited = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {

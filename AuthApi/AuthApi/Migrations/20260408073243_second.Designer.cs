@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AuthApi.Migrations
 {
     [DbContext(typeof(ContextDb))]
-    [Migration("20260407190211_first")]
-    partial class first
+    [Migration("20260408073243_second")]
+    partial class second
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,9 +55,6 @@ namespace AuthApi.Migrations
 
                     b.Property<string>("imageUrl")
                         .HasColumnType("text");
-
-                    b.Property<bool>("isDeleted")
-                        .HasColumnType("boolean");
 
                     b.Property<bool>("isEdited")
                         .HasColumnType("boolean");
@@ -126,9 +123,6 @@ namespace AuthApi.Migrations
 
                     b.Property<string>("imageUrl")
                         .HasColumnType("text");
-
-                    b.Property<bool>("isDeleted")
-                        .HasColumnType("boolean");
 
                     b.Property<bool>("isEdited")
                         .HasColumnType("boolean");

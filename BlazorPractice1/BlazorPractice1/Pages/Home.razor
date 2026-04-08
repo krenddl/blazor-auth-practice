@@ -4,17 +4,34 @@
 @inject AuthService AuthService
 @inject NavigationManager Navigation
 
+@if (isLoading)
+{
+	<p>Загрузка...</p>
+}
 <button @onclick="Logout"></button>
 
+
+
 @code {
+
+	private bool isLoading = true;
 	protected override async Task OnInitializedAsync()
 	{
-		await AuthService.LoadSessionAsync();
+		try
+		{
+			await AuthService.LoadSessionAsync();
 
-		if (AuthService.IsAuthenticated)
-			Navigation.NavigateTo("/profile");
-		else
-			Navigation.NavigateTo("/login");
+			if (AuthService.IsAuthenticated)
+				Navigation.NavigateTo("/profile");
+			else
+				Navigation.NavigateTo("/login");
+		}
+		finally
+		{
+			isLoading = false;	
+		}
+
+		
 	}
 
 	public void Logout()

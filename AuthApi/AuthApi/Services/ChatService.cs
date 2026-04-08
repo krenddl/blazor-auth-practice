@@ -54,15 +54,38 @@ namespace AuthApi.Services
             });
         }
 
-        public async Task<IActionResult> SendMessageAsync(MessageRequest request)
+        public async Task<IActionResult> SendMessageAsync(MessageReq request)
         {
-            if(string.IsNullOrWhiteSpace(request.text) && string.IsNullOrWhiteSpace(request.imageUrl))
+            if(string.IsNullOrWhiteSpace(request.text) && request.file == null)
             {
                 return new BadRequestObjectResult(new
                 {
                     status = false,
                     message = "Сообщение пустое"
                 });
+            }
+
+            string? relativePath = null;
+
+            if(request.file != null && request.file.Length > 0)
+            {
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwrot", "images", "chat");
+
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                var fileExtension = Path.GetExtension(request.file.FileName);
+                var fileName = $"{Guid.NewGuid()}{fileExtension}";
+                var filePath = Path.Combine(uploadsFolder, fileName);
+
+                using(var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await request.file.CopyToAsync(stream);
+                }
+
+                relativePath = $"/images/chat/{fileName}";
             }
 
             request.createdAt = DateTime.UtcNow;
@@ -72,7 +95,7 @@ namespace AuthApi.Services
                 movieId = request.movieId,
                 userId = request.userId,
                 text = request.text,
-                imageUrl = request.imageUrl,
+                imageUrl = relativePath,
                 createdAt = request.createdAt
             };
 
@@ -89,7 +112,7 @@ namespace AuthApi.Services
             });
         }
 
-        public async Task<IActionResult> GetPrivateMessages(int userId1, int userId2)
+        public async Task<IActionResult> GetPrivateMessagesAsync(int userId1, int userId2)
         {
             var result = await _context.PrivateMessages.Where(x =>
             (x.senderId == userId1 && x.receiverId == userId2) ||
@@ -102,9 +125,9 @@ namespace AuthApi.Services
             });
         }
 
-        public async Task<IActionResult> SendPrivateMessage(PrivateMessage request)
+        public async Task<IActionResult> SendPrivateMessageAsync(PrivateMessageRequest request)
         {
-            if(string.IsNullOrWhiteSpace(request.text) && string.IsNullOrWhiteSpace(request.imageUrl))
+            if(string.IsNullOrWhiteSpace(request.text) && request.file == null)
             {
                 return new BadRequestObjectResult(new
                 {
@@ -112,12 +135,35 @@ namespace AuthApi.Services
                 });
             }
 
+            string? relativePath = null;
+
+            if (request.file != null && request.file.Length > 0)
+            {
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwrot", "images", "privatechats");
+
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                var fileExtension = Path.GetExtension(request.file.FileName);
+                var fileName = $"{Guid.NewGuid()}{fileExtension}";
+                var filePath = Path.Combine(uploadsFolder, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await request.file.CopyToAsync(stream);
+                }
+
+                relativePath = $"/images/privatechats/{fileName}";
+            }
+
             PrivateMessage privateMessage = new PrivateMessage()
             {
                 senderId = request.senderId,
                 receiverId = request.receiverId,
                 text = request.text,
-                imageUrl = request.imageUrl,
+                imageUrl = relativePath,
                 createdAt = DateTime.UtcNow
             };
 

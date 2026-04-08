@@ -53,9 +53,6 @@ namespace AuthApi.Migrations
                     b.Property<string>("imageUrl")
                         .HasColumnType("text");
 
-                    b.Property<bool>("isDeleted")
-                        .HasColumnType("boolean");
-
                     b.Property<bool>("isEdited")
                         .HasColumnType("boolean");
 
@@ -123,9 +120,6 @@ namespace AuthApi.Migrations
 
                     b.Property<string>("imageUrl")
                         .HasColumnType("text");
-
-                    b.Property<bool>("isDeleted")
-                        .HasColumnType("boolean");
 
                     b.Property<bool>("isEdited")
                         .HasColumnType("boolean");
