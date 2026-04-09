@@ -1,5 +1,236 @@
-﻿<h3>MovieChat</h3>
+﻿@page "/moviechat/{movieId:int}"
+
+@using BlazorPractice1.ApiRequests.Services
+@using Microsoft.AspNetCore.SignalR.Client
+
+<h3>Чат фильма</h3>
+
+<div>
+    @foreach (var m in messages)
+    {
+        <div style="border:1px solid gray; margin:5px; padding:5px;">
+
+            <div><b>@m.userId</b></div>
+
+            @if (!string.IsNullOrWhiteSpace(m.text))
+            {
+                <div>@m.text</div>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(m.imageUrl))
+            {
+                <img src="@($"http://localhost:5126{m.imageUrl}")" width="150" />
+            }
+
+            @if (m.isEdited)
+            {
+                <div>(изменено)</div>
+            }
+
+            <button @onclick="() => StartEdit(m)">Редактировать</button>
+            <button @onclick="() => DeleteMessage(m.id_Message)">Удалить</button>
+
+        </div>
+    }
+</div>
+
+<hr />
+
+<input @bind="text" />
+<InputFile OnChange="OnFileChange" />
+
+<button @onclick="SendMessage">Отправить</button>
+
+@if (editingMessage != null)
+{
+    <hr />
+
+    <h4>Редактирование</h4>
+
+    <input @bind="editText" />
+
+    <InputFile OnChange="OnEditFileChange" />
+
+    <label>
+        <input type="checkbox" @bind="removeImage" />
+        удалить фото
+    </label>
+
+    <br />
+
+    <button @onclick="SaveEdit">Сохранить</button>
+    <button @onclick="CancelEdit">Отмена</button>
+}
 
 @code {
 
+    [Parameter] public int movieId { get; set; }
+
+    [Inject] private NavigationManager nav { get; set; }
+    [Inject] private HttpClient Http { get; set; }
+    [Inject] private AuthService AuthService { get; set; }
+
+    private HubConnection hub;
+
+    private List<MessageModel> messages = new();
+
+    private string text;
+    private IBrowserFile file;
+
+    private MessageModel editingMessage;
+    private string editText;
+    private IBrowserFile editFile;
+    private bool removeImage;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        var token = AuthService.Token;
+
+
+        if (!string.IsNullOrWhiteSpace(token))
+        {
+            Http.DefaultRequestHeaders.Remove("Authorization");
+            Http.DefaultRequestHeaders.Add("Authorization", token);
+        }
+        
+        hub = new HubConnectionBuilder().WithUrl("http://localhost:5126/chathub").WithAutomaticReconnect().Build();
+
+        hub.On<MessageModel>("ReceiveMovieMessage", (msg) =>
+        {
+            messages.Add(msg);
+            StateHasChanged();
+        });
+
+        hub.On<MessageModel>("UpdateMovieMessage", (msg) =>
+        {
+            var m = messages.FirstOrDefault(x => x.id_Message == msg.id_Message);
+            if (m != null)
+            {
+                m.text = msg.text;
+                m.imageUrl = msg.imageUrl;
+                m.isEdited = msg.isEdited;
+                StateHasChanged();
+            }
+        });
+
+        hub.On<int>("DeleteMovieMessage", (id) =>
+        {
+            var m = messages.FirstOrDefault(x => x.id_Message == id);
+            if (m != null)
+            {
+                messages.Remove(m);
+                StateHasChanged();
+            }
+        });
+
+        await hub.StartAsync();
+
+        await hub.InvokeAsync("Join", $"movie_{movieId}");
+
+        await LoadMessages();
+
+    }
+
+    private async Task LoadMessages()
+    {
+        var response = await Http.GetAsync($"GetMovieMessages?movieId={movieId}");
+
+        if (!response.IsSuccessStatusCode)
+            return;
+
+        var res = await response.Content.ReadFromJsonAsync<ApiResponse<List<MessageModel>>>();
+
+        if (res != null)
+            messages = res.result;
+
+        messages = res.result;
+    }
+
+    private async Task SendMessage()
+    {
+        var content = new MultipartFormDataContent();
+
+        content.Add(new StringContent(movieId.ToString()), "movieId");
+        content.Add(new StringContent(AuthService.CurrentUser.id_User.ToString()), "userId");
+
+        if (!string.IsNullOrWhiteSpace(text))
+            content.Add(new StringContent(text), "text");
+
+        if (file != null)
+        {
+            var stream = file.OpenReadStream();
+            content.Add(new StreamContent(stream), "file", file.Name);
+        }
+
+        await Http.PostAsync("SendMovieMessage", content);
+
+        text = "";
+        file = null;
+    }
+
+    private async Task DeleteMessage(int id)
+    {
+        await Http.DeleteAsync($"DeleteMovieMessage?messageId={id}");
+    }
+
+    private void StartEdit(MessageModel m)
+    {
+        editingMessage = m;
+        editText = m.text;
+    }
+
+    private async Task SaveEdit()
+    {
+        var content = new MultipartFormDataContent();
+
+        content.Add(new StringContent(editingMessage.id_Message.ToString()), "id_Message");
+
+        if (editText != null)
+            content.Add(new StringContent(editText), "text");
+
+        content.Add(new StringContent(removeImage.ToString()), "removeCurrentImage");
+
+        if (editFile != null)
+        {
+            var stream = editFile.OpenReadStream();
+            content.Add(new StreamContent(stream), "newFile", editFile.Name);
+        }
+
+        await Http.PutAsync("UpdateMovieMessage", content);
+
+        editingMessage = null;
+        removeImage = false;
+    }
+
+    private void CancelEdit()
+    {
+        editingMessage = null;
+        removeImage = false;
+    }
+
+    private void OnFileChange(InputFileChangeEventArgs e)
+    {
+        file = e.File;
+    }
+
+    private void OnEditFileChange(InputFileChangeEventArgs e)
+    {
+        editFile = e.File;
+    }
+
+    public class MessageModel
+    {
+        public int id_Message { get; set; }
+        public int userId { get; set; }
+        public string text { get; set; }
+        public string imageUrl { get; set; }
+        public bool isEdited { get; set; }
+    }
+
+    public class ApiResponse<T>
+    {
+        public bool status { get; set; }
+        public T result { get; set; }
+    }
 }

@@ -29,6 +29,7 @@ builder.Services.AddCors(options =>
 });
 builder.Services.AddSingleton<JwtGenerator>();
 builder.Services.AddSignalR();
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 

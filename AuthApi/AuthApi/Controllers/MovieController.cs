@@ -58,7 +58,7 @@ namespace AuthApi.Controllers
         }
         [HttpGet]
         [Route("GetAllGenres")]
-        [RoleAuthorize([1])]
+        [RoleAuthorize([1,2])]
         public async Task<IActionResult> GetAllGenres()
         {
             return await _movieServices.GetAllGenre();

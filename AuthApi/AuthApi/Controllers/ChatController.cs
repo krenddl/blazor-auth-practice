@@ -1,22 +1,18 @@
 ﻿using AuthApi.CustomAtributes;
-using AuthApi.DatabaseContext;
-using AuthApi.Hubs;
 using AuthApi.Interfaces;
 using AuthApi.Requests;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 
 namespace AuthApi.Controllers
 {
     [ApiController]
-
     public class ChatController : Controller
     {
         private readonly IChatServices _chatServices;
 
         public ChatController(IChatServices chatServices)
         {
-            _chatServices = chatServices;   
+            _chatServices = chatServices;
         }
 
         [HttpGet]
@@ -35,6 +31,23 @@ namespace AuthApi.Controllers
             return await _chatServices.SendMessageAsync(request);
         }
 
+        [HttpPut]
+        [Route("UpdateMovieMessage")]
+        [RoleAuthorize([1, 2])]
+        public async Task<IActionResult> UpdateMessageAsync([FromForm] UpdateMovieMessageRequest request)
+        {
+            return await _chatServices.UpdateMessageAsync(request);
+        }
+
+        [HttpDelete]
+        [Route("DeleteMovieMessage")]
+        [RoleAuthorize([1, 2])]
+        public async Task<IActionResult> DeleteMessageAsync(int messageId)
+        {
+            return await _chatServices.DeleteMessageAsync(messageId);
+        }
+
+
         [HttpGet]
         [Route("GetPrivateMessages")]
         [RoleAuthorize([1, 2])]
@@ -45,10 +58,26 @@ namespace AuthApi.Controllers
 
         [HttpPost]
         [Route("SendPrivateMessage")]
-        [RoleAuthorize([1,2])]
+        [RoleAuthorize([1, 2])]
         public async Task<IActionResult> SendPrivateMessageAsync([FromForm] PrivateMessageRequest request)
         {
             return await _chatServices.SendPrivateMessageAsync(request);
+        }
+
+        [HttpPut]
+        [Route("UpdatePrivateMessage")]
+        [RoleAuthorize([1, 2])]
+        public async Task<IActionResult> UpdatePrivateMessageAsync([FromForm] UpdatePrivateMessageRequest request)
+        {
+            return await _chatServices.UpdatePrivateMessageAsync(request);
+        }
+
+        [HttpDelete]
+        [Route("DeletePrivateMessage")]
+        [RoleAuthorize([1, 2])]
+        public async Task<IActionResult> DeletePrivateMessageAsync(int privateMessageId)
+        {
+            return await _chatServices.DeletePrivateMessageAsync(privateMessageId);
         }
     }
 }

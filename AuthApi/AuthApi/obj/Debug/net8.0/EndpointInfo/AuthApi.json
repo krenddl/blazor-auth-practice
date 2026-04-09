@@ -99,6 +99,79 @@
         }
       }
     },
+    "/UpdateMovieMessage": {
+      "put": {
+        "tags": [
+          "Chat"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id_Message": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "text": {
+                    "type": "string"
+                  },
+                  "newFile": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "removeCurrentImage": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "encoding": {
+                "id_Message": {
+                  "style": "form"
+                },
+                "text": {
+                  "style": "form"
+                },
+                "newFile": {
+                  "style": "form"
+                },
+                "removeCurrentImage": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/DeleteMovieMessage": {
+      "delete": {
+        "tags": [
+          "Chat"
+        ],
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/GetPrivateMessages": {
       "get": {
         "tags": [
@@ -194,6 +267,79 @@
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/UpdatePrivateMessage": {
+      "put": {
+        "tags": [
+          "Chat"
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id_PrivateMessage": {
+                    "type": "integer",
+                    "format": "int32"
+                  },
+                  "text": {
+                    "type": "string"
+                  },
+                  "newFile": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "removeCurrentImage": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "encoding": {
+                "id_PrivateMessage": {
+                  "style": "form"
+                },
+                "text": {
+                  "style": "form"
+                },
+                "newFile": {
+                  "style": "form"
+                },
+                "removeCurrentImage": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/DeletePrivateMessage": {
+      "delete": {
+        "tags": [
+          "Chat"
+        ],
+        "parameters": [
+          {
+            "name": "privateMessageId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"

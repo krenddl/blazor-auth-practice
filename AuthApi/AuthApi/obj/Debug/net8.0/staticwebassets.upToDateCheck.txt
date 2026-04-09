@@ -4,3 +4,5 @@ wwwroot\images\movies\37b8f2db-43b8-4b10-8feb-a2fd30708732.png
 wwwroot\images\movies\a8316296-8858-42f6-b069-c67d3e739bdc.jpg
 wwwroot\images\movies\baf53856-2d25-448a-be34-01de1e5378e6.jpg
 wwwroot\images\movies\f53d5172-8e79-432f-ad0f-25a08f2eedfe.png
+wwwroot\images\chat\0b095db5-8900-406d-b7d8-feb75c103441.png
+wwwroot\images\chat\88580234-0228-421d-a290-c8ee7951d8b3.png

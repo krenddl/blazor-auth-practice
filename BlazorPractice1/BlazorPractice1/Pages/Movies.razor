@@ -96,6 +96,8 @@
                                 Подробнее
                             </button>
 
+                            <button @onclick='() => Navigation.NavigateTo($"/moviechat/{movie.id_Movie}")'>Чат</button>
+
                             @if (AuthService.CurrentUser?.Role_Id == 1)
                             {
                                 <button class="btn btn-success btn-sm"

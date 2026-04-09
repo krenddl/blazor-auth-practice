@@ -1,0 +1,2 @@
+C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\AuthApi\AuthApi\wwwroot\images\chat\0b095db5-8900-406d-b7d8-feb75c103441.png
+C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\AuthApi\AuthApi\wwwroot\images\chat\88580234-0228-421d-a290-c8ee7951d8b3.png
