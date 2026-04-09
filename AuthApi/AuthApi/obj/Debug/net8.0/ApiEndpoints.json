@@ -195,6 +195,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "AuthApi.Controllers.UserController",
+    "Method": "GetUsersForChat",
+    "RelativePath": "GetUsersForChat",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "AuthApi.Controllers.ImageController",
     "Method": "UploadMovieImage",
     "RelativePath": "Image/MovieImage",

@@ -1,4 +1,4 @@
-﻿@page "/profile"
+@page "/profile"
 @using BlazorPractice1.ApiRequests.Model
 @using BlazorPractice1.ApiRequests.Services
 @using static BlazorPractice1.ApiRequests.Model.Auth
@@ -9,7 +9,7 @@
 <div class="profile-grid">
     <div class="card profile-side">
         <div class="profile-avatar">
-            @(AuthService.CurrentUser?.Name?.FirstOrDefault().ToString().ToUpper() ?? "U")
+            @GetAvatarLetter(AuthService.CurrentUser?.Name)
         </div>
 
         <h3 class="profile-name">@AuthService.CurrentUser?.Name</h3>
@@ -62,6 +62,13 @@
     private UpdateProfileRequest profileRequest = new();
     private string? errorMessage;
     private string? succesMessage;
+
+    private static string GetAvatarLetter(string? name)
+    {
+        if (string.IsNullOrWhiteSpace(name))
+            return "U";
+        return char.ToUpperInvariant(name.Trim()[0]).ToString();
+    }
 
     protected override async Task OnInitializedAsync()
     {

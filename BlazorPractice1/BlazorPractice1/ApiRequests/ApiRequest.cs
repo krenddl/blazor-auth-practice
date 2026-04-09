@@ -1,4 +1,4 @@
-﻿using BlazorPractice1.ApiRequests.Model;
+using BlazorPractice1.ApiRequests.Model;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using System.Net.Http.Json;
@@ -99,6 +99,29 @@ namespace BlazorPractice1.ApiRequests
             {
                     _logger.LogError(ex, "Ошибка при запросе");
                     return new UsersListResponse();
+            }
+        }
+
+        public async Task<ChatUsersDirectoryResponse> GetUsersForChatAsyncResponse(string token)
+        {
+            var url = "GetUsersForChat";
+            try
+            {
+                SetAuthorizationHeader(token);
+                var response = await _httpClient.GetAsync(url).ConfigureAwait(false);
+                if (!response.IsSuccessStatusCode)
+                    return new ChatUsersDirectoryResponse();
+
+                var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                return JsonSerializer.Deserialize<ChatUsersDirectoryResponse>(content, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                }) ?? new ChatUsersDirectoryResponse();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "GetUsersForChat");
+                return new ChatUsersDirectoryResponse();
             }
         }
 

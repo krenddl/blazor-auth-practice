@@ -1,24 +1,56 @@
-﻿@page "/register"
+@page "/register"
 @using BlazorPractice1.ApiRequests.Services
 @using static BlazorPractice1.ApiRequests.Model.Auth
 @inject AuthService AuthService
 @inject NavigationManager Navigation
-<h3>Register</h3>
 
-<input @bind="registrationRequest.Email" placeholder="Email"/>
-<input @bind="registrationRequest.Password" placeholder="Password" type="password" />
-<input @bind="registrationRequest.Name" placeholder="Name" />
-<input @bind="registrationRequest.Description" placeholder="Description" />
-<button @onclick="RegisterMethod">Sign up</button>
+<div class="auth-page">
+    <div class="card auth-card">
+        <h2 class="form-title">Регистрация</h2>
+        <p class="form-subtitle">Создайте аккаунт для работы с системой</p>
 
-@if (!string.IsNullOrWhiteSpace(errorMessage))
-{
-    <p>@errorMessage</p>
-}
+        @if (!string.IsNullOrWhiteSpace(errorMessage))
+        {
+            <div class="alert alert-error">@errorMessage</div>
+        }
 
-@code{
+        <div class="form-group">
+            <label class="form-label">Email</label>
+            <input class="form-control" @bind="registrationRequest.Email" placeholder="Введите email" />
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Пароль</label>
+            <input class="form-control" @bind="registrationRequest.Password" type="password" placeholder="Введите пароль" />
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Имя</label>
+            <input class="form-control" @bind="registrationRequest.Name" placeholder="Введите имя" />
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Описание</label>
+            <input class="form-control" @bind="registrationRequest.Description" placeholder="Введите описание" />
+        </div>
+
+        <div class="form-actions">
+            <button class="btn btn-primary w-100" @onclick="RegisterMethod">Зарегистрироваться</button>
+        </div>
+    </div>
+</div>
+
+@code {
     private RegistrationRequest registrationRequest = new RegistrationRequest();
     private string? errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await AuthService.LoadSessionAsync();
+
+        if (AuthService.IsAuthenticated)
+            Navigation.NavigateTo("/profile");
+    }
 
     private async Task RegisterMethod()
     {
@@ -32,73 +64,7 @@
         }
         else
         {
-            errorMessage = "Не удалось зарегестрироваться";
-        }
-
-    }
-}   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@* @page "/register"
-@using BlazorPractice1.ApiRequests
-@using BlazorPractice1.ApiRequests.Model
-@using BlazorPractice1.ApiRequests.Services
-@inject NavigationManager Nav
-
-<PageTitle>Register</PageTitle>
-
-<h1>Register</h1>
-
-<input placeholder="Email" @bind="reg.Email" />
-<input placeholder="Name" @bind="reg.Name" />
-<input placeholder="Description" @bind="reg.Description" />
-<input placeholder="Password" type="password" @bind="reg.Password" />
-
-<button type="button" @onclick="Regis">Зарегистрироваться</button>
-
-<p>@msg</p>
-
-@code {
-    [Inject] private ApiRequest apiRequest { get; set; }
-    [Inject] private UserService userService { get; set; }
-    private AddNewUserRequest reg = new AddNewUserRequest();
-    private string msg = "";
-
-    private async Task Regis()
-    {
-        msg = "";
-        reg.Role_id = 2;
-        var res = await apiRequest.RegistrationAsync(reg);
-
-        if (res != null && res.status)
-        {
-            
-            msg = "Вы зарегестрировались!";
-
-        }
-        else
-        {
-            msg = "Ошибка регистрации";
+            errorMessage = "Не удалось зарегистрироваться";
         }
     }
-} *@
+}

@@ -8419,6 +8419,6 @@ C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\BlazorPractice1\BlazorPractice1\ob
 C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\BlazorPractice1\BlazorPractice1\obj\Debug\net8.0\BlazorPractice1.pdb
 C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\BlazorPractice1\BlazorPractice1\obj\Debug\net8.0\ref\BlazorPractice1.dll
 C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\BlazorPractice1\BlazorPractice1\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
-C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\BlazorPractice1\BlazorPractice1\obj\Debug\net8.0\compressed\xhzc3lseyp-{0}-s8zckgrmb9-s8zckgrmb9.gz
-C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\BlazorPractice1\BlazorPractice1\obj\Debug\net8.0\compressed\28yvct433m-{0}-f34hqxtu0b-f34hqxtu0b.gz
-C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\BlazorPractice1\BlazorPractice1\obj\Debug\net8.0\compressed\j6xfgdgf3v-{0}-pzx27vndqu-pzx27vndqu.gz
+C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\BlazorPractice1\BlazorPractice1\obj\Debug\net8.0\compressed\xhzc3lseyp-{0}-6zh3xqmujc-6zh3xqmujc.gz
+C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\BlazorPractice1\BlazorPractice1\obj\Debug\net8.0\compressed\28yvct433m-{0}-sbzwj2bqz7-sbzwj2bqz7.gz
+C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\BlazorPractice1\BlazorPractice1\obj\Debug\net8.0\compressed\j6xfgdgf3v-{0}-zaqadv00gp-zaqadv00gp.gz

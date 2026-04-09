@@ -1,4 +1,4 @@
-﻿using AuthApi.Requests;
+using AuthApi.Requests;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthApi.Interfaces
@@ -11,6 +11,7 @@ namespace AuthApi.Interfaces
         Task<IActionResult> CreateNewUser(CreateNewUser regUser);
         Task<IActionResult> DeleteUser(int user_id, string token);
         Task<IActionResult> GetAllUsers();
+        Task<IActionResult> GetUsersForChat(string token);
         Task<IActionResult> Profile(Profile profile, string token);
     }
 }

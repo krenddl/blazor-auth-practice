@@ -1,4 +1,4 @@
-﻿using AuthApi.CustomAtributes;
+using AuthApi.CustomAtributes;
 using AuthApi.DatabaseContext;
 using AuthApi.Interfaces;
 using AuthApi.Requests;
@@ -59,6 +59,15 @@ namespace AuthApi.Controllers
         public async Task<IActionResult> GetAllUsers()
         {
             return await _userServices.GetAllUsers();
+        }
+
+        [HttpGet]
+        [Route("GetUsersForChat")]
+        [RoleAuthorize([1, 2])]
+        public async Task<IActionResult> GetUsersForChat()
+        {
+            var token = Request.Headers["Authorization"].ToString();
+            return await _userServices.GetUsersForChat(token);
         }
         [HttpDelete]
         [Route("DeleteUsers")]

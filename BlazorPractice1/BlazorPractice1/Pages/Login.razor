@@ -1,4 +1,4 @@
-﻿@page "/login"
+@page "/login"
 @using BlazorPractice1.ApiRequests.Services
 @using static BlazorPractice1.ApiRequests.Model.Auth
 @inject AuthService AuthService
@@ -26,6 +26,11 @@
         <div class="form-actions">
             <button class="btn btn-primary w-100" @onclick="LoginPage">Войти</button>
         </div>
+
+        <p class="auth-switch">
+            Нет аккаунта?
+            <a href="/register">Зарегистрироваться</a>
+        </p>
     </div>
 </div>
 @*@<h3>Login</h3>
@@ -43,6 +48,14 @@
 @code {
     private LoginRequest loginRequest = new LoginRequest();
     private string? errorMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await AuthService.LoadSessionAsync();
+
+        if (AuthService.IsAuthenticated)
+            Navigation.NavigateTo("/profile");
+    }
 
     private async Task LoginPage()
     {

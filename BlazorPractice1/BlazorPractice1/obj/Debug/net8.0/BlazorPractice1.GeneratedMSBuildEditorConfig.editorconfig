@@ -34,6 +34,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW4ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/uryuqq/Desktop/blazor/BlazorPractic1/BlazorPractice1/BlazorPractice1/Pages/AdminHome.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQWRtaW5Ib21lLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/uryuqq/Desktop/blazor/BlazorPractic1/BlazorPractice1/BlazorPractice1/Pages/Counter.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -54,6 +58,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW4ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/uryuqq/Desktop/blazor/BlazorPractic1/BlazorPractice1/BlazorPractice1/Pages/Messages.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTWVzc2FnZXMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/uryuqq/Desktop/blazor/BlazorPractic1/BlazorPractice1/BlazorPractice1/Pages/MovieChat.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTW92aWVDaGF0LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
@@ -64,6 +72,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/uryuqq/Desktop/blazor/BlazorPractic1/BlazorPractice1/BlazorPractice1/Pages/MoviesPage.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTW92aWVzUGFnZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/uryuqq/Desktop/blazor/BlazorPractic1/BlazorPractice1/BlazorPractice1/Pages/PrivateChat.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmF0ZUNoYXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/uryuqq/Desktop/blazor/BlazorPractic1/BlazorPractice1/BlazorPractice1/Pages/Profile.razor]

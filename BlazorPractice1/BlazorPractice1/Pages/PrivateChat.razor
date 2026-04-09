@@ -1,4 +1,4 @@
-@page "/moviechat/{movieId:int}"
+@page "/privatechat/{userId:int}"
 @implements IAsyncDisposable
 
 @using BlazorPractice1.ApiRequests
@@ -8,8 +8,16 @@
 @using System.Net.Http.Json
 @using System.Text.Json
 
-<div class="chat-page">
-    <div class="movies-topbar">    <div>        <h2 class="page-title">Чат фильма</h2>        <p class="page-subtitle">            @(movie != null ? movie.name : "Обсуждение фильма в реальном времени")        </p>    </div></div>
+<PageTitle>Личный чат</PageTitle>
+
+<div class="chat-page private-chat-page">
+    <div class="movies-topbar private-chat-head">
+        <div>
+            <a href="/messages" class="private-chat-back">← К диалогам</a>
+            <h2 class="page-title">@PartnerLabel</h2>
+            <p class="page-subtitle">Личные сообщения</p>
+        </div>
+    </div>
 
     @if (!string.IsNullOrWhiteSpace(hubError))
     {
@@ -20,28 +28,17 @@
         <div class="chat-box">
             @if (messages.Count == 0)
             {
-                <div class="chat-empty">Сообщений пока нет</div>
+                <div class="chat-empty">Напишите первое сообщение</div>
             }
             else
             {
                 @foreach (var m in messages)
                 {
-                    var isMine = AuthService.CurrentUser != null && m.userId == AuthService.CurrentUser.id_User;
+                    var isMine = AuthService.CurrentUser != null && m.senderId == AuthService.CurrentUser.id_User;
 
                     <div class="chat-message @(isMine ? "mine" : "other")">
                         <div class="chat-message-top">
-                            @if (AuthService.CurrentUser != null && m.userId != AuthService.CurrentUser.id_User)
-                            {
-                                <button type="button"
-                                        class="chat-user-link"
-                                        @onclick="() => OpenPrivateChat(m.userId)">
-                                    @GetUserName(m.userId)
-                                </button>
-                            }
-                            else
-                            {
-                                <span class="chat-user">@GetUserName(m.userId)</span>
-                            }
+                            <span class="chat-user">@(isMine ? "Вы" : PartnerLabel)</span>
                         </div>
 
                         @if (!string.IsNullOrWhiteSpace(m.text))
@@ -59,10 +56,13 @@
                             <div class="chat-edited">(изменено)</div>
                         }
 
-                        <div class="chat-actions">
-                            <button type="button" class="btn btn-outline btn-sm" @onclick="() => StartEdit(m)">Редактировать</button>
-                            <button type="button" class="btn btn-danger btn-sm" @onclick="() => DeleteMessage(m.id_Message)">Удалить</button>
-                        </div>
+                        @if (isMine)
+                        {
+                            <div class="chat-actions">
+                                <button type="button" class="btn btn-outline btn-sm" @onclick="() => StartEdit(m)">Редактировать</button>
+                                <button type="button" class="btn btn-danger btn-sm" @onclick="() => DeleteMessage(m.id_PrivateMessage)">Удалить</button>
+                            </div>
+                        }
                     </div>
                 }
             }
@@ -71,28 +71,25 @@
 
     <div class="card chat-card mt-20">
         <div class="chat-input-row">
-            <input class="form-control" @bind="text" placeholder="Введите сообщение" />
+            <input class="form-control" @bind="text" placeholder="Сообщение…" />
             <InputFile OnChange="OnFileChange" />
-            <button type="button" class="btn btn-primary" @onclick="SendMessage">Отправить</button>
+            <button type="button" class="btn btn-primary" @onclick="SendMessage" disabled="@(AuthService.CurrentUser == null)">Отправить</button>
         </div>
 
         @if (editingMessage != null)
         {
             <div class="chat-edit-panel">
                 <div class="form-group">
-                    <label class="form-label">Редактирование сообщения</label>
+                    <label class="form-label">Редактирование</label>
                     <input class="form-control" @bind="editText" />
                 </div>
-
                 <div class="form-group">
                     <InputFile OnChange="OnEditFileChange" />
                 </div>
-
                 <label class="form-label" style="display:flex; gap:8px; align-items:center;">
                     <input type="checkbox" @bind="removeImage" />
                     удалить фото
                 </label>
-
                 <div class="form-actions">
                     <button type="button" class="btn btn-success" @onclick="SaveEdit">Сохранить</button>
                     <button type="button" class="btn btn-outline" @onclick="CancelEdit">Отмена</button>
@@ -105,28 +102,29 @@
 @code {
     private static readonly JsonSerializerOptions JsonOptions = new() { PropertyNameCaseInsensitive = true };
 
-    [Parameter] public int movieId { get; set; }
-    private MovieResponse? movie;
-    [Inject] private NavigationManager Nav { get; set; }
-    [Inject] private HttpClient Http { get; set; }
-    [Inject] private AuthService AuthService { get; set; }
-    [Inject] private ApiRequest ApiRequest { get; set; }
+    [Parameter] public int userId { get; set; }
+
+    [Inject] private NavigationManager Nav { get; set; } = default!;
+    [Inject] private HttpClient Http { get; set; } = default!;
+    [Inject] private AuthService AuthService { get; set; } = default!;
+    [Inject] private ApiRequest ApiRequest { get; set; } = default!;
 
     private HubConnection? hub;
+    private int _hubPartnerId = -1;
 
-    private List<MessageModel> messages = new();
-
+    private List<PrivateMessageModel> messages = new();
     private string text = string.Empty;
     private IBrowserFile? file;
-
-    private MessageModel? editingMessage;
+    private PrivateMessageModel? editingMessage;
     private string editText = string.Empty;
     private IBrowserFile? editFile;
     private bool removeImage;
     private string? hubError;
+    private string PartnerLabel { get; set; } = "Собеседник";
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
+        hubError = null;
         await AuthService.LoadSessionAsync();
 
         if (!AuthService.IsAuthenticated || AuthService.CurrentUser == null || string.IsNullOrWhiteSpace(AuthService.Token))
@@ -135,19 +133,20 @@
             return;
         }
 
-        var movieResponse = await ApiRequest.GetMovieByIdResponse(movieId, AuthService.Token);
-
-        if (movieResponse != null && movieResponse.status && movieResponse.movie != null)
+        if (userId == AuthService.CurrentUser.id_User)
         {
-            movie = movieResponse.movie;
+            Nav.NavigateTo("/messages");
+            return;
         }
 
-        var usersResponse = await ApiRequest.GetUsersForChatAsyncResponse(AuthService.Token);
+        var directory = await ApiRequest.GetUsersForChatAsyncResponse(AuthService.Token);
+        var entry = directory.users?.FirstOrDefault(u => u.id_User == userId);
+        PartnerLabel = string.IsNullOrWhiteSpace(entry?.Name) ? $"Пользователь {userId}" : entry!.Name!;
 
-        if (usersResponse != null && usersResponse.status && usersResponse.users != null)
-        {
-            chatUsers = usersResponse.users;
-        }
+        if (_hubPartnerId == userId && hub is { State: HubConnectionState.Connected })
+            return;
+
+        await DisposeHubAsync();
 
         Http.DefaultRequestHeaders.Remove("Authorization");
         Http.DefaultRequestHeaders.Add("Authorization", AuthService.Token);
@@ -157,17 +156,20 @@
             .WithAutomaticReconnect()
             .Build();
 
-        hub.On<MessageModel>("ReceiveMovieMessage", msg =>
+        hub.On<PrivateMessageModel>("ReceivePrivateMessage", msg =>
             _ = InvokeAsync(() =>
             {
-                messages.Add(msg);
-                StateHasChanged();
+                if (IsParticipant(msg))
+                {
+                    messages.Add(msg);
+                    StateHasChanged();
+                }
             }));
 
-        hub.On<MessageModel>("UpdateMovieMessage", msg =>
+        hub.On<PrivateMessageModel>("UpdatePrivateMessage", msg =>
             _ = InvokeAsync(() =>
             {
-                var m = messages.FirstOrDefault(x => x.id_Message == msg.id_Message);
+                var m = messages.FirstOrDefault(x => x.id_PrivateMessage == msg.id_PrivateMessage);
                 if (m != null)
                 {
                     m.text = msg.text;
@@ -177,10 +179,10 @@
                 }
             }));
 
-        hub.On<int>("DeleteMovieMessage", id =>
+        hub.On<int>("DeletePrivateMessage", id =>
             _ = InvokeAsync(() =>
             {
-                var m = messages.FirstOrDefault(x => x.id_Message == id);
+                var m = messages.FirstOrDefault(x => x.id_PrivateMessage == id);
                 if (m != null)
                 {
                     messages.Remove(m);
@@ -191,32 +193,45 @@
         try
         {
             await hub.StartAsync();
-            await hub.InvokeAsync("Join", $"movie_{movieId}");
+            var me = AuthService.CurrentUser.id_User;
+            await hub.InvokeAsync("JoinPrivateChat", me, userId);
+            _hubPartnerId = userId;
             await LoadMessages();
         }
         catch (Exception ex)
         {
-            hubError = $"Не удалось подключиться к чату: {ex.Message}";
+            hubError = $"Не удалось подключиться: {ex.Message}";
+            _hubPartnerId = -1;
         }
+    }
+
+    private bool IsParticipant(PrivateMessageModel msg)
+    {
+        if (AuthService.CurrentUser == null) return false;
+        var me = AuthService.CurrentUser.id_User;
+        return (msg.senderId == me && msg.receiverId == userId) ||
+               (msg.senderId == userId && msg.receiverId == me);
     }
 
     private async Task LoadMessages()
     {
-        messages = new List<MessageModel>();
+        messages = new List<PrivateMessageModel>();
+        if (AuthService.CurrentUser == null) return;
 
         try
         {
-            var response = await Http.GetAsync($"GetMovieMessages?movieId={movieId}");
+            var me = AuthService.CurrentUser.id_User;
+            var response = await Http.GetAsync($"GetPrivateMessages?userId1={me}&userId2={userId}");
             if (!response.IsSuccessStatusCode)
                 return;
 
-            var res = await response.Content.ReadFromJsonAsync<ApiResponse<List<MessageModel>>>(JsonOptions);
+            var res = await response.Content.ReadFromJsonAsync<ApiResponse<List<PrivateMessageModel>>>(JsonOptions);
             if (res?.result != null)
                 messages = res.result;
         }
         catch
         {
-            /* оставляем пустой список */
+            /* пустой список */
         }
     }
 
@@ -226,9 +241,8 @@
             return;
 
         var content = new MultipartFormDataContent();
-
-        content.Add(new StringContent(movieId.ToString()), "movieId");
-        content.Add(new StringContent(AuthService.CurrentUser.id_User.ToString()), "userId");
+        content.Add(new StringContent(AuthService.CurrentUser.id_User.ToString()), "senderId");
+        content.Add(new StringContent(userId.ToString()), "receiverId");
 
         if (!string.IsNullOrWhiteSpace(text))
             content.Add(new StringContent(text), "text");
@@ -239,7 +253,7 @@
             content.Add(new StreamContent(stream), "file", file.Name);
         }
 
-        await Http.PostAsync("SendMovieMessage", content);
+        await Http.PostAsync("SendPrivateMessage", content);
 
         text = string.Empty;
         file = null;
@@ -247,10 +261,10 @@
 
     private async Task DeleteMessage(int id)
     {
-        await Http.DeleteAsync($"DeleteMovieMessage?messageId={id}");
+        await Http.DeleteAsync($"DeletePrivateMessage?privateMessageId={id}");
     }
 
-    private void StartEdit(MessageModel m)
+    private void StartEdit(PrivateMessageModel m)
     {
         editingMessage = m;
         editText = m.text ?? string.Empty;
@@ -262,8 +276,7 @@
             return;
 
         var content = new MultipartFormDataContent();
-
-        content.Add(new StringContent(editingMessage.id_Message.ToString()), "id_Message");
+        content.Add(new StringContent(editingMessage.id_PrivateMessage.ToString()), "id_PrivateMessage");
 
         if (editText != null)
             content.Add(new StringContent(editText), "text");
@@ -276,7 +289,7 @@
             content.Add(new StreamContent(stream), "newFile", editFile.Name);
         }
 
-        await Http.PutAsync("UpdateMovieMessage", content);
+        await Http.PutAsync("UpdatePrivateMessage", content);
 
         editingMessage = null;
         removeImage = false;
@@ -300,24 +313,33 @@
         editFile = e.File;
     }
 
-    public async ValueTask DisposeAsync()
+    private async Task DisposeHubAsync()
     {
-        if (hub is not null)
-        {
-            try
-            {
-                await hub.InvokeAsync("Leave", $"movie_{movieId}");
-            }
-            catch { /* ignore */ }
+        if (hub is null)
+            return;
 
-            await hub.DisposeAsync();
+        try
+        {
+            if (AuthService.CurrentUser != null && _hubPartnerId > 0)
+                await hub.InvokeAsync("LeavePrivateChat", AuthService.CurrentUser.id_User, _hubPartnerId);
         }
+        catch { /* ignore */ }
+
+        await hub.DisposeAsync();
+        hub = null;
+        _hubPartnerId = -1;
     }
 
-    public class MessageModel
+    public async ValueTask DisposeAsync()
     {
-        public int id_Message { get; set; }
-        public int userId { get; set; }
+        await DisposeHubAsync();
+    }
+
+    public class PrivateMessageModel
+    {
+        public int id_PrivateMessage { get; set; }
+        public int senderId { get; set; }
+        public int receiverId { get; set; }
         public string? text { get; set; }
         public string? imageUrl { get; set; }
         public bool isEdited { get; set; }
@@ -327,31 +349,5 @@
     {
         public bool status { get; set; }
         public T? result { get; set; }
-    }
-
-    private List<ChatUserDirectoryEntry> chatUsers = new();
-
-    private string GetUserName(int userId)
-    {
-        if (AuthService.CurrentUser != null && AuthService.CurrentUser.id_User == userId)
-            return "Вы";
-
-        var user = chatUsers.FirstOrDefault(x => x.id_User == userId);
-
-        if (user == null || string.IsNullOrWhiteSpace(user.Name))
-            return $"Пользователь {userId}";
-
-        return user.Name;
-    }
-
-    private void OpenPrivateChat(int userId)
-    {
-        if (AuthService.CurrentUser == null)
-            return;
-
-        if (userId == AuthService.CurrentUser.id_User)
-            return;
-
-        Nav.NavigateTo($"/privatechat/{userId}");
     }
 }

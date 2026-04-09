@@ -1,4 +1,4 @@
-﻿using AuthApi.DatabaseContext;
+using AuthApi.DatabaseContext;
 using AuthApi.Interfaces;
 using AuthApi.Models;
 using AuthApi.Requests;
@@ -326,6 +326,40 @@ namespace AuthApi.Services
                 user.Role_Id,
                 Role = user.Role.Name
             }).ToListAsync();
+            return new OkObjectResult(new
+            {
+                status = true,
+                users
+            });
+        }
+
+        public async Task<IActionResult> GetUsersForChat(string token)
+        {
+            var session = await _context.Sessions
+                .Include(x => x.User)
+                .ThenInclude(u => u.Role)
+                .FirstOrDefaultAsync(x => x.Token == token);
+
+            if (session == null)
+            {
+                return new UnauthorizedObjectResult(new { status = false, message = "Сессия не найдена" });
+            }
+
+            var currentId = session.User.id_User;
+
+            var users = await _context.Users
+                .AsNoTracking()
+                .Include(u => u.Role)
+                .Where(u => u.id_User != currentId)
+                .OrderBy(u => u.Name)
+                .Select(u => new
+                {
+                    u.id_User,
+                    u.Name,
+                    Role = u.Role.Name
+                })
+                .ToListAsync();
+
             return new OkObjectResult(new
             {
                 status = true,

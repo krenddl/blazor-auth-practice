@@ -676,6 +676,18 @@
         }
       }
     },
+    "/GetUsersForChat": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/DeleteUsers": {
       "delete": {
         "tags": [

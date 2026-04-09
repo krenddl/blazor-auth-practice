@@ -908,10 +908,10 @@ C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\AuthApi\AuthApi\obj\Debug\net8.0\s
 C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\AuthApi\AuthApi\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\AuthApi\AuthApi\obj\Debug\net8.0\staticwebassets.build.endpoints.json
 C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\AuthApi\AuthApi\obj\Debug\net8.0\swae.build.ex.cache
-C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\AuthApi\AuthApi\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\AuthApi\AuthApi\obj\Debug\net8.0\AuthApi.csproj.Up2Date
 C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\AuthApi\AuthApi\obj\Debug\net8.0\AuthApi.dll
 C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\AuthApi\AuthApi\obj\Debug\net8.0\refint\AuthApi.dll
 C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\AuthApi\AuthApi\obj\Debug\net8.0\AuthApi.pdb
 C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\AuthApi\AuthApi\obj\Debug\net8.0\AuthApi.genruntimeconfig.cache
 C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\AuthApi\AuthApi\obj\Debug\net8.0\ref\AuthApi.dll
+C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\AuthApi\AuthApi\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

@@ -1,42 +1,45 @@
 ﻿@page "/"
 @using BlazorPractice1.ApiRequests.Services
-@using static BlazorPractice1.ApiRequests.Model.Auth
 @inject AuthService AuthService
 @inject NavigationManager Navigation
 
-@if (isLoading)
-{
-	<p>Загрузка...</p>
-}
-<button @onclick="Logout"></button>
+<div class="home-shell">
+    <div class="card home-card">
+        <h1 class="page-title">Кино-дайджест</h1>
+        <p class="page-subtitle">
+            Современный каталог фильмов с удобным интерфейсом, профилем и чатом для обсуждения.
+        </p>
 
-
+        @if (isLoading)
+        {
+            <p class="mt-20">Загрузка...</p>
+        }
+    </div>
+</div>
 
 @code {
+    private bool isLoading = true;
 
-	private bool isLoading = true;
-	protected override async Task OnInitializedAsync()
-	{
-		try
-		{
-			await AuthService.LoadSessionAsync();
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await AuthService.LoadSessionAsync();
 
-			if (AuthService.IsAuthenticated)
-				Navigation.NavigateTo("/profile");
-			else
-				Navigation.NavigateTo("/login");
-		}
-		finally
-		{
-			isLoading = false;	
-		}
+            if (AuthService.IsAuthenticated)
+                Navigation.NavigateTo("/profile");
+            else
+                Navigation.NavigateTo("/login");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
 
-		
-	}
-
-	public void Logout()
-	{
-		AuthService.Logout();
-		Navigation.NavigateTo("/login");
-	}
+    public async Task Logout()
+    {
+        await AuthService.Logout();
+        Navigation.NavigateTo("/login");
+    }
 }
