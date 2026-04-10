@@ -110,7 +110,6 @@
     [Inject] private ApiRequest ApiRequest { get; set; } = default!;
 
     private HubConnection? hub;
-    private int _hubPartnerId = -1;
 
     private List<PrivateMessageModel> messages = new();
     private string text = string.Empty;
@@ -143,7 +142,7 @@
         var entry = directory.users?.FirstOrDefault(u => u.id_User == userId);
         PartnerLabel = string.IsNullOrWhiteSpace(entry?.Name) ? $"Пользователь {userId}" : entry!.Name!;
 
-        if (_hubPartnerId == userId && hub is { State: HubConnectionState.Connected })
+        if (hub is { State: HubConnectionState.Connected })
             return;
 
         await DisposeHubAsync();
@@ -157,7 +156,7 @@
             .Build();
 
         hub.On<PrivateMessageModel>("ReceivePrivateMessage", msg =>
-            _ = InvokeAsync(() =>
+            InvokeAsync(() =>
             {
                 if (IsParticipant(msg))
                 {
@@ -167,7 +166,7 @@
             }));
 
         hub.On<PrivateMessageModel>("UpdatePrivateMessage", msg =>
-            _ = InvokeAsync(() =>
+            InvokeAsync(() =>
             {
                 var m = messages.FirstOrDefault(x => x.id_PrivateMessage == msg.id_PrivateMessage);
                 if (m != null)
@@ -180,7 +179,7 @@
             }));
 
         hub.On<int>("DeletePrivateMessage", id =>
-            _ = InvokeAsync(() =>
+            InvokeAsync(() =>
             {
                 var m = messages.FirstOrDefault(x => x.id_PrivateMessage == id);
                 if (m != null)
@@ -195,13 +194,11 @@
             await hub.StartAsync();
             var me = AuthService.CurrentUser.id_User;
             await hub.InvokeAsync("JoinPrivateChat", me, userId);
-            _hubPartnerId = userId;
             await LoadMessages();
         }
         catch (Exception ex)
         {
             hubError = $"Не удалось подключиться: {ex.Message}";
-            _hubPartnerId = -1;
         }
     }
 
@@ -225,13 +222,12 @@
             if (!response.IsSuccessStatusCode)
                 return;
 
-            var res = await response.Content.ReadFromJsonAsync<ApiResponse<List<PrivateMessageModel>>>(JsonOptions);
-            if (res?.result != null)
-                messages = res.result;
+            var res = await response.Content.ReadFromJsonAsync<PrivateMessageResponse>(JsonOptions);
+            if (res?.privateMessageModels != null)
+                messages = res.privateMessageModels;
         }
         catch
         {
-            /* пустой список */
         }
     }
 
@@ -320,14 +316,16 @@
 
         try
         {
-            if (AuthService.CurrentUser != null && _hubPartnerId > 0)
-                await hub.InvokeAsync("LeavePrivateChat", AuthService.CurrentUser.id_User, _hubPartnerId);
+            if (AuthService.CurrentUser != null)
+                await hub.InvokeAsync("LeavePrivateChat", AuthService.CurrentUser.id_User, userId);
         }
-        catch { /* ignore */ }
+        catch
+        {
+            
+        }
 
         await hub.DisposeAsync();
         hub = null;
-        _hubPartnerId = -1;
     }
 
     public async ValueTask DisposeAsync()
@@ -335,19 +333,4 @@
         await DisposeHubAsync();
     }
 
-    public class PrivateMessageModel
-    {
-        public int id_PrivateMessage { get; set; }
-        public int senderId { get; set; }
-        public int receiverId { get; set; }
-        public string? text { get; set; }
-        public string? imageUrl { get; set; }
-        public bool isEdited { get; set; }
-    }
-
-    public class ApiResponse<T>
-    {
-        public bool status { get; set; }
-        public T? result { get; set; }
-    }
 }

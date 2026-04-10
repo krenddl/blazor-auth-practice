@@ -36,9 +36,9 @@ namespace AuthApi.Services
             });
         }
 
-        public async Task<IActionResult> SendMessageAsync(MessageReq request)
+        public async Task<IActionResult> SendMessageAsync(SendMessageDto dtomessage)
         {
-            if (string.IsNullOrWhiteSpace(request.text) && request.file == null)
+            if (string.IsNullOrWhiteSpace(dtomessage.text))
             {
                 return new BadRequestObjectResult(new
                 {
@@ -47,46 +47,23 @@ namespace AuthApi.Services
                 });
             }
 
-            string? relativePath = null;
 
-            if (request.file != null && request.file.Length > 0)
-            {
-                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "chat");
-
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
-
-                var fileExtension = Path.GetExtension(request.file.FileName);
-                var fileName = $"{Guid.NewGuid()}{fileExtension}";
-                var filePath = Path.Combine(uploadsFolder, fileName);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await request.file.CopyToAsync(stream);
-                }
-
-                relativePath = $"/images/chat/{fileName}";
-            }
-
-            request.createdAt = DateTime.UtcNow;
+            dtomessage.createdAt = DateTime.UtcNow;
 
             Message message = new Message()
             {
-                movieId = request.movieId,
-                userId = request.userId,
-                text = request.text,
-                imageUrl = relativePath,
-                createdAt = request.createdAt,
+                movieId = dtomessage.movieId,
+                userId = dtomessage.userId,
+                text = dtomessage.text,
+                imageUrl = null,
+                createdAt = dtomessage.createdAt,
                 isEdited = false
             };
+
 
             await _context.Messages.AddAsync(message);
             await _context.SaveChangesAsync();
 
-            await _hubContext.Clients.Group($"movie_{message.movieId}")
-                .SendAsync("ReceiveMovieMessage", message);
 
             return new OkObjectResult(new
             {

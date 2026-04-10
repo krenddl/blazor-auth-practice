@@ -26,15 +26,15 @@ namespace AuthApi.Controllers
         [HttpPost]
         [Route("SendMovieMessage")]
         [RoleAuthorize([1, 2])]
-        public async Task<IActionResult> SendMessageAsync([FromForm] MessageReq request)
+        public async Task<IActionResult> SendMessageAsync([FromBody] SendMessageDto dtomessage)
         {
-            return await _chatServices.SendMessageAsync(request);
+            return await _chatServices.SendMessageAsync(dtomessage);
         }
 
         [HttpPut]
         [Route("UpdateMovieMessage")]
         [RoleAuthorize([1, 2])]
-        public async Task<IActionResult> UpdateMessageAsync([FromForm] UpdateMovieMessageRequest request)
+        public async Task<IActionResult> UpdateMessageAsync([FromBody] UpdateMovieMessageRequest request)
         {
             return await _chatServices.UpdateMessageAsync(request);
         }
@@ -59,7 +59,7 @@ namespace AuthApi.Controllers
         [HttpPost]
         [Route("SendPrivateMessage")]
         [RoleAuthorize([1, 2])]
-        public async Task<IActionResult> SendPrivateMessageAsync([FromForm] PrivateMessageRequest request)
+        public async Task<IActionResult> SendPrivateMessageAsync([FromBody] PrivateMessageRequest request)
         {
             return await _chatServices.SendPrivateMessageAsync(request);
         }
@@ -67,7 +67,7 @@ namespace AuthApi.Controllers
         [HttpPut]
         [Route("UpdatePrivateMessage")]
         [RoleAuthorize([1, 2])]
-        public async Task<IActionResult> UpdatePrivateMessageAsync([FromForm] UpdatePrivateMessageRequest request)
+        public async Task<IActionResult> UpdatePrivateMessageAsync([FromBody] UpdatePrivateMessageRequest request)
         {
             return await _chatServices.UpdatePrivateMessageAsync(request);
         }

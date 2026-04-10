@@ -34,60 +34,19 @@
         ],
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "id_Message": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "movieId": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "userId": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "text": {
-                    "type": "string"
-                  },
-                  "file": {
-                    "type": "string",
-                    "format": "binary"
-                  },
-                  "createdAt": {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  "isEdited": {
-                    "type": "boolean"
-                  }
-                }
-              },
-              "encoding": {
-                "id_Message": {
-                  "style": "form"
-                },
-                "movieId": {
-                  "style": "form"
-                },
-                "userId": {
-                  "style": "form"
-                },
-                "text": {
-                  "style": "form"
-                },
-                "file": {
-                  "style": "form"
-                },
-                "createdAt": {
-                  "style": "form"
-                },
-                "isEdited": {
-                  "style": "form"
-                }
+                "$ref": "#/components/schemas/SendMessageDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendMessageDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SendMessageDto"
               }
             }
           }
@@ -106,39 +65,19 @@
         ],
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "id_Message": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "text": {
-                    "type": "string"
-                  },
-                  "newFile": {
-                    "type": "string",
-                    "format": "binary"
-                  },
-                  "removeCurrentImage": {
-                    "type": "boolean"
-                  }
-                }
-              },
-              "encoding": {
-                "id_Message": {
-                  "style": "form"
-                },
-                "text": {
-                  "style": "form"
-                },
-                "newFile": {
-                  "style": "form"
-                },
-                "removeCurrentImage": {
-                  "style": "form"
-                }
+                "$ref": "#/components/schemas/UpdateMovieMessageRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMovieMessageRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMovieMessageRequest"
               }
             }
           }
@@ -209,60 +148,19 @@
         ],
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "id_PrivateMessage": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "senderId": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "receiverId": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "text": {
-                    "type": "string"
-                  },
-                  "file": {
-                    "type": "string",
-                    "format": "binary"
-                  },
-                  "createdAt": {
-                    "type": "string",
-                    "format": "date-time"
-                  },
-                  "isEdited": {
-                    "type": "boolean"
-                  }
-                }
-              },
-              "encoding": {
-                "id_PrivateMessage": {
-                  "style": "form"
-                },
-                "senderId": {
-                  "style": "form"
-                },
-                "receiverId": {
-                  "style": "form"
-                },
-                "text": {
-                  "style": "form"
-                },
-                "file": {
-                  "style": "form"
-                },
-                "createdAt": {
-                  "style": "form"
-                },
-                "isEdited": {
-                  "style": "form"
-                }
+                "$ref": "#/components/schemas/PrivateMessageRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrivateMessageRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PrivateMessageRequest"
               }
             }
           }
@@ -281,39 +179,19 @@
         ],
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "id_PrivateMessage": {
-                    "type": "integer",
-                    "format": "int32"
-                  },
-                  "text": {
-                    "type": "string"
-                  },
-                  "newFile": {
-                    "type": "string",
-                    "format": "binary"
-                  },
-                  "removeCurrentImage": {
-                    "type": "boolean"
-                  }
-                }
-              },
-              "encoding": {
-                "id_PrivateMessage": {
-                  "style": "form"
-                },
-                "text": {
-                  "style": "form"
-                },
-                "newFile": {
-                  "style": "form"
-                },
-                "removeCurrentImage": {
-                  "style": "form"
-                }
+                "$ref": "#/components/schemas/UpdatePrivateMessageRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePrivateMessageRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePrivateMessageRequest"
               }
             }
           }
@@ -800,6 +678,40 @@
         },
         "additionalProperties": false
       },
+      "PrivateMessageRequest": {
+        "type": "object",
+        "properties": {
+          "id_PrivateMessage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "senderId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "receiverId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "text": {
+            "type": "string",
+            "nullable": true
+          },
+          "file": {
+            "type": "string",
+            "format": "binary",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isEdited": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
       "Profile": {
         "required": [
           "email",
@@ -856,6 +768,31 @@
         },
         "additionalProperties": false
       },
+      "SendMessageDto": {
+        "type": "object",
+        "properties": {
+          "movieId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "text": {
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "isEdited": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
       "UpdateMovie": {
         "required": [
           "date",
@@ -893,6 +830,50 @@
           "img": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateMovieMessageRequest": {
+        "type": "object",
+        "properties": {
+          "id_Message": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "text": {
+            "type": "string",
+            "nullable": true
+          },
+          "newFile": {
+            "type": "string",
+            "format": "binary",
+            "nullable": true
+          },
+          "removeCurrentImage": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdatePrivateMessageRequest": {
+        "type": "object",
+        "properties": {
+          "id_PrivateMessage": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "text": {
+            "type": "string",
+            "nullable": true
+          },
+          "newFile": {
+            "type": "string",
+            "format": "binary",
+            "nullable": true
+          },
+          "removeCurrentImage": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false

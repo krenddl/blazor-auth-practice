@@ -9,7 +9,12 @@
 @using System.Text.Json
 
 <div class="chat-page">
-    <div class="movies-topbar">    <div>        <h2 class="page-title">Чат фильма</h2>        <p class="page-subtitle">            @(movie != null ? movie.name : "Обсуждение фильма в реальном времени")        </p>    </div></div>
+    <div class="movies-topbar">
+        <div>
+            <h2 class="page-title">Чат фильма</h2>
+            <p class="page-subtitle">
+                @(movie != null ? movie.name : "Обсуждение фильма в реальном времени")</p> 
+                </div></div>
 
     @if (!string.IsNullOrWhiteSpace(hubError))
     {
@@ -158,14 +163,14 @@
             .Build();
 
         hub.On<MessageModel>("ReceiveMovieMessage", msg =>
-            _ = InvokeAsync(() =>
+            InvokeAsync(() =>
             {
                 messages.Add(msg);
                 StateHasChanged();
             }));
 
         hub.On<MessageModel>("UpdateMovieMessage", msg =>
-            _ = InvokeAsync(() =>
+            InvokeAsync(() =>
             {
                 var m = messages.FirstOrDefault(x => x.id_Message == msg.id_Message);
                 if (m != null)
@@ -178,7 +183,7 @@
             }));
 
         hub.On<int>("DeleteMovieMessage", id =>
-            _ = InvokeAsync(() =>
+            InvokeAsync(() =>
             {
                 var m = messages.FirstOrDefault(x => x.id_Message == id);
                 if (m != null)
@@ -210,13 +215,13 @@
             if (!response.IsSuccessStatusCode)
                 return;
 
-            var res = await response.Content.ReadFromJsonAsync<ApiResponse<List<MessageModel>>>(JsonOptions);
+            var res = await response.Content.ReadFromJsonAsync<MessagesResponse>(JsonOptions);
             if (res?.result != null)
                 messages = res.result;
         }
         catch
         {
-            /* оставляем пустой список */
+
         }
     }
 
@@ -224,25 +229,17 @@
     {
         if (AuthService.CurrentUser == null)
             return;
-
-        var content = new MultipartFormDataContent();
-
-        content.Add(new StringContent(movieId.ToString()), "movieId");
-        content.Add(new StringContent(AuthService.CurrentUser.id_User.ToString()), "userId");
-
-        if (!string.IsNullOrWhiteSpace(text))
-            content.Add(new StringContent(text), "text");
-
-        if (file != null)
+        var dto = new SendMessageDto
         {
-            var stream = file.OpenReadStream(maxAllowedSize: 10 * 1024 * 1024);
-            content.Add(new StreamContent(stream), "file", file.Name);
-        }
-
-        await Http.PostAsync("SendMovieMessage", content);
+            movieId = movieId,
+            userId = AuthService.CurrentUser.id_User,
+            text = text
+        };
+        await hub.InvokeAsync("SendMovieMessage", dto);
 
         text = string.Empty;
         file = null;
+
     }
 
     private async Task DeleteMessage(int id)
@@ -308,26 +305,15 @@
             {
                 await hub.InvokeAsync("Leave", $"movie_{movieId}");
             }
-            catch { /* ignore */ }
+            catch { }
 
             await hub.DisposeAsync();
         }
     }
 
-    public class MessageModel
-    {
-        public int id_Message { get; set; }
-        public int userId { get; set; }
-        public string? text { get; set; }
-        public string? imageUrl { get; set; }
-        public bool isEdited { get; set; }
-    }
+    
 
-    public class ApiResponse<T>
-    {
-        public bool status { get; set; }
-        public T? result { get; set; }
-    }
+
 
     private List<ChatUserDirectoryEntry> chatUsers = new();
 

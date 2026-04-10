@@ -10,7 +10,7 @@
 
         public string? text { get; set; }
 
-        public IFormFile? file { get; set; }
+        public string? imagePath { get; set; }
 
         public DateTime createdAt { get; set; }
 

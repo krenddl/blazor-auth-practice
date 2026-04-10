@@ -7,7 +7,7 @@ namespace AuthApi.Interfaces
     public interface IChatServices
     {
         Task<IActionResult> GetMessagesAsync(int movieId);
-        Task<IActionResult> SendMessageAsync(MessageReq request);
+        Task<IActionResult> SendMessageAsync(SendMessageDto dto);
         Task<IActionResult> UpdateMessageAsync(UpdateMovieMessageRequest request);
         Task<IActionResult> DeleteMessageAsync(int messageId);
 
