@@ -77,7 +77,7 @@
     <div class="card chat-card mt-20">
         <div class="chat-input-row">
             <input class="form-control" @bind="text" placeholder="Введите сообщение" />
-            <InputFile OnChange="OnFileChange" />
+            <InputFile OnChange="OnFileChange" accept="image/*" />
             <button type="button" class="btn btn-primary" @onclick="SendMessage">Отправить</button>
         </div>
 
@@ -90,7 +90,7 @@
                 </div>
 
                 <div class="form-group">
-                    <InputFile OnChange="OnEditFileChange" />
+                    <InputFile OnChange="OnEditFileChange" accept="image/*" />
                 </div>
 
                 <label class="form-label" style="display:flex; gap:8px; align-items:center;">
@@ -116,6 +116,7 @@
     [Inject] private HttpClient Http { get; set; }
     [Inject] private AuthService AuthService { get; set; }
     [Inject] private ApiRequest ApiRequest { get; set; }
+    private const long MaxImageSize = 15 * 1024 * 1024;
 
     private HubConnection? hub;
 
@@ -154,13 +155,8 @@
             chatUsers = usersResponse.users;
         }
 
-        Http.DefaultRequestHeaders.Remove("Authorization");
-        Http.DefaultRequestHeaders.Add("Authorization", AuthService.Token);
 
-        hub = new HubConnectionBuilder()
-            .WithUrl("http://localhost:5126/chathub")
-            .WithAutomaticReconnect()
-            .Build();
+        hub = new HubConnectionBuilder().WithUrl($"http://localhost:5126/chathub?token={Uri.EscapeDataString(AuthService.Token!)}").WithAutomaticReconnect().Build();
 
         hub.On<MessageModel>("ReceiveMovieMessage", msg =>
             InvokeAsync(() =>
@@ -181,6 +177,8 @@
                     StateHasChanged();
                 }
             }));
+
+        hub.On<string>("ChatError", error => InvokeAsync(() => { hubError = error; StateHasChanged(); }));
 
         hub.On<int>("DeleteMovieMessage", id =>
             InvokeAsync(() =>
@@ -207,17 +205,13 @@
 
     private async Task LoadMessages()
     {
-        messages = new List<MessageModel>();
-
+        if(hub == null)
+        {
+            return;
+        }
         try
         {
-            var response = await Http.GetAsync($"GetMovieMessages?movieId={movieId}");
-            if (!response.IsSuccessStatusCode)
-                return;
-
-            var res = await response.Content.ReadFromJsonAsync<MessagesResponse>(JsonOptions);
-            if (res?.result != null)
-                messages = res.result;
+            messages = await hub.InvokeAsync<List<MessageModel>>("GetMovieMessagesAsync", movieId);
         }
         catch
         {
@@ -227,24 +221,45 @@
 
     private async Task SendMessage()
     {
-        if (AuthService.CurrentUser == null)
+        if (AuthService.CurrentUser == null || hub == null)
             return;
-        var dto = new SendMessageDto
+
+        try
         {
-            movieId = movieId,
-            userId = AuthService.CurrentUser.id_User,
-            text = text
-        };
-        await hub.InvokeAsync("SendMovieMessage", dto);
+            var (base64, fileName) = await ReadFileAsBase64Async(file);
 
-        text = string.Empty;
-        file = null;
+            await hub.InvokeAsync("SendMovieMessage", new SendMessageDto
+            {
+                movieId = movieId,
+                userId = AuthService.CurrentUser.id_User,
+                text = text,
+                imageBase64 = base64,
+                imageFileName = fileName
+            });
 
+            text = string.Empty;
+            file = null;
+            hubError = null;
+        }
+        catch (Exception ex)
+        {
+            hubError = $"Ошибка отправки: {ex.Message}";
+        }
     }
 
     private async Task DeleteMessage(int id)
     {
-        await Http.DeleteAsync($"DeleteMovieMessage?messageId={id}");
+        if (hub == null)
+            return;
+
+        try
+        {
+            await hub.InvokeAsync("DeleteMovieMessage", id);
+        }
+        catch (Exception ex)
+        {
+            hubError = $"Ошибка удаления: {ex.Message}";
+        }
     }
 
     private void StartEdit(MessageModel m)
@@ -255,29 +270,31 @@
 
     private async Task SaveEdit()
     {
-        if (editingMessage == null)
+        if (editingMessage == null || hub == null)
             return;
 
-        var content = new MultipartFormDataContent();
-
-        content.Add(new StringContent(editingMessage.id_Message.ToString()), "id_Message");
-
-        if (editText != null)
-            content.Add(new StringContent(editText), "text");
-
-        content.Add(new StringContent(removeImage.ToString()), "removeCurrentImage");
-
-        if (editFile != null)
+        try
         {
-            var stream = editFile.OpenReadStream(maxAllowedSize: 10 * 1024 * 1024);
-            content.Add(new StreamContent(stream), "newFile", editFile.Name);
+            var (base64, fileName) = await ReadFileAsBase64Async(editFile);
+
+            await hub.InvokeAsync("EditMovieMessage", new UpdateMovieMessageRequest
+            {
+                id_Message = editingMessage.id_Message,
+                text = editText,
+                imageBase64 = base64,
+                imageFileName = fileName,
+                removeCurrentImage = removeImage
+            });
+
+            editingMessage = null;
+            removeImage = false;
+            editFile = null;
+            hubError = null;
         }
-
-        await Http.PutAsync("UpdateMovieMessage", content);
-
-        editingMessage = null;
-        removeImage = false;
-        editFile = null;
+        catch (Exception ex)
+        {
+            hubError = $"Ошибка редактирования: {ex.Message}";
+        }
     }
 
     private void CancelEdit()
@@ -289,12 +306,32 @@
 
     private void OnFileChange(InputFileChangeEventArgs e)
     {
-        file = e.File;
+        var selected = e.File;
+
+        if (selected.Size > MaxImageSize)
+        {
+            hubError = "Файл слишком большой. Максимум 15 MB.";
+            file = null;
+            return;
+        }
+
+        hubError = null;
+        file = selected;
     }
 
     private void OnEditFileChange(InputFileChangeEventArgs e)
     {
-        editFile = e.File;
+        var selected = e.File;
+
+        if (selected.Size > MaxImageSize)
+        {
+            hubError = "Файл слишком большой. Максимум 5 MB.";
+            editFile = null;
+            return;
+        }
+
+        hubError = null;
+        editFile = selected;
     }
 
     public async ValueTask DisposeAsync()
@@ -339,5 +376,20 @@
             return;
 
         Nav.NavigateTo($"/privatechat/{userId}");
+    }
+
+    private async Task<(string? Base64, string? FileName)> ReadFileAsBase64Async(IBrowserFile? selectedFile)
+    {
+        if (selectedFile == null)
+            return (null, null);
+
+        using var stream = selectedFile.OpenReadStream(maxAllowedSize: MaxImageSize);
+        using var ms = new MemoryStream();
+        await stream.CopyToAsync(ms);
+
+        var bytes = ms.ToArray();
+        var base64 = Convert.ToBase64String(bytes);
+
+        return (base64, selectedFile.Name);
     }
 }

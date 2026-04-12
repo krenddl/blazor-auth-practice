@@ -1,10 +1,7 @@
 ﻿using AuthApi.DatabaseContext;
-using AuthApi.Hubs;
 using AuthApi.Interfaces;
 using AuthApi.Models;
 using AuthApi.Requests;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace AuthApi.Services
@@ -12,69 +9,72 @@ namespace AuthApi.Services
     public class ChatService : IChatServices
     {
         private readonly ContextDb _context;
-        private readonly IHubContext<ChatHub> _hubContext;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ChatService(ContextDb context, IHubContext<ChatHub> hubContext, IHttpContextAccessor httpContextAccessor)
+        public ChatService(ContextDb context)
         {
             _context = context;
-            _hubContext = hubContext;
-            _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<IActionResult> GetMessagesAsync(int movieId)
+
+        public async Task<ChatResult<List<Message>>> GetMessagesAsync(int movieId)
         {
             var result = await _context.Messages
                 .Where(x => x.movieId == movieId)
                 .OrderBy(x => x.createdAt)
                 .ToListAsync();
 
-            return new OkObjectResult(new
+            return new ChatResult<List<Message>>
             {
                 status = true,
-                result
-            });
+                message = result
+            };
         }
 
-        public async Task<IActionResult> SendMessageAsync(SendMessageDto dtomessage)
+        public async Task<ChatResult<Message>> SendMessageAsync(SendMessageDto dto)
         {
-            if (string.IsNullOrWhiteSpace(dtomessage.text))
+            if (string.IsNullOrWhiteSpace(dto.text) && string.IsNullOrWhiteSpace(dto.imageBase64))
             {
-                return new BadRequestObjectResult(new
+                return new ChatResult<Message>
                 {
                     status = false,
-                    message = "Сообщение пустое"
-                });
+                    error = "Сообщение пустое"
+                };
             }
 
+            dto.createdAt = DateTime.UtcNow;
 
-            dtomessage.createdAt = DateTime.UtcNow;
+            var imageUrl = await SaveBase64ImageAsync(dto.imageBase64, dto.imageFileName, "chat");
 
-            Message message = new Message()
+            Message message = new Message
             {
-                movieId = dtomessage.movieId,
-                userId = dtomessage.userId,
-                text = dtomessage.text,
-                imageUrl = null,
-                createdAt = dtomessage.createdAt,
+                movieId = dto.movieId,
+                userId = dto.userId,
+                text = string.IsNullOrWhiteSpace(dto.text) ? null : dto.text.Trim(),
+                imageUrl = imageUrl,
+                createdAt = dto.createdAt,
                 isEdited = false
             };
-
 
             await _context.Messages.AddAsync(message);
             await _context.SaveChangesAsync();
 
-
-            return new OkObjectResult(new
+            return new ChatResult<Message>
             {
                 status = true,
-                message
-            });
+                message = message
+            };
         }
 
-        public async Task<IActionResult> UpdateMessageAsync(UpdateMovieMessageRequest request)
+        public async Task<ChatResult<Message>> UpdateMessageAsync(UpdateMovieMessageRequest request, string? token)
         {
-            var token = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].FirstOrDefault();
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                return new ChatResult<Message>
+                {
+                    status = false,
+                    error = "Нет токена авторизации"
+                };
+            }
 
             var session = await _context.Sessions
                 .Include(x => x.User)
@@ -82,106 +82,89 @@ namespace AuthApi.Services
 
             if (session == null)
             {
-                return new UnauthorizedObjectResult(new
+                return new ChatResult<Message>
                 {
-                    status = false
-                });
+                    status = false,
+                    error = "Сессия не найдена"
+                };
             }
 
             var message = await _context.Messages.FirstOrDefaultAsync(x => x.id_Message == request.id_Message);
 
             if (message == null)
             {
-                return new NotFoundObjectResult(new
+                return new ChatResult<Message>
                 {
                     status = false,
-                    message = "Сообщение не найдено"
-                });
+                    error = "Сообщение не найдено"
+                };
             }
 
             var user = session.User;
 
             if (user.Role_Id != 1 && user.id_User != message.userId)
             {
-                return new ObjectResult(new
+                return new ChatResult<Message>
                 {
                     status = false,
-                    message = "Нет доступа"
-                })
-                { StatusCode = 403 };
+                    error = "Нет доступа"
+                };
             }
 
             if (request.text != null)
-            {
                 message.text = request.text.Trim();
-            }
 
-            if (request.removeCurrentImage && message.imageUrl != null)
+            if (request.removeCurrentImage && !string.IsNullOrWhiteSpace(message.imageUrl))
             {
-                var path = Path.Combine("wwwroot", message.imageUrl.TrimStart('/'));
-                if (File.Exists(path))
-                {
-                    File.Delete(path);
-                }
+                var oldPath = Path.Combine("wwwroot", message.imageUrl.TrimStart('/'));
+                if (File.Exists(oldPath))
+                    File.Delete(oldPath);
 
                 message.imageUrl = null;
             }
 
-            if (request.newFile != null && request.newFile.Length > 0)
+            if (!string.IsNullOrWhiteSpace(request.imageBase64))
             {
-                if (message.imageUrl != null)
+                if (!string.IsNullOrWhiteSpace(message.imageUrl))
                 {
                     var oldPath = Path.Combine("wwwroot", message.imageUrl.TrimStart('/'));
                     if (File.Exists(oldPath))
-                    {
                         File.Delete(oldPath);
-                    }
                 }
 
-                var folder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "chat");
-
-                if (!Directory.Exists(folder))
-                {
-                    Directory.CreateDirectory(folder);
-                }
-
-                var fileName = $"{Guid.NewGuid()}{Path.GetExtension(request.newFile.FileName)}";
-                var filePath = Path.Combine(folder, fileName);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await request.newFile.CopyToAsync(stream);
-                }
-
-                message.imageUrl = $"/images/chat/{fileName}";
+                message.imageUrl = await SaveBase64ImageAsync(request.imageBase64, request.imageFileName, "chat");
             }
 
             if (string.IsNullOrWhiteSpace(message.text) && message.imageUrl == null)
             {
-                return new BadRequestObjectResult(new
+                return new ChatResult<Message>
                 {
                     status = false,
-                    message = "Сообщение не может быть пустым"
-                });
+                    error = "Сообщение не может быть пустым"
+                };
             }
 
             message.isEdited = true;
 
             await _context.SaveChangesAsync();
 
-            await _hubContext.Clients.Group($"movie_{message.movieId}")
-                .SendAsync("UpdateMovieMessage", message);
-
-            return new OkObjectResult(new
+            return new ChatResult<Message>
             {
                 status = true,
-                message
-            });
+                message = message
+            };
         }
 
-        public async Task<IActionResult> DeleteMessageAsync(int messageId)
+        public async Task<ChatResult<int>> DeleteMessageAsync(int messageId, string? token)
         {
-            var token = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].FirstOrDefault();
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                return new ChatResult<int>
+                {
+                    status = false,
+                    error = "Нет токена авторизации"
+                };
+            }
 
             var session = await _context.Sessions
                 .Include(x => x.User)
@@ -189,42 +172,34 @@ namespace AuthApi.Services
 
             if (session == null)
             {
-                return new UnauthorizedObjectResult(new
+                return new ChatResult<int>
                 {
-                    status = false
-                });
+                    status = false,
+                    error = "Сессия не найдена"
+                };
             }
 
-            var message = await _context.Messages.FirstOrDefaultAsync(x => x.id_Message == messageId);
+            var message = await _context.Messages
+                .FirstOrDefaultAsync(x => x.id_Message == messageId);
 
             if (message == null)
             {
-                return new NotFoundObjectResult(new
+                return new ChatResult<int>
                 {
                     status = false,
-                    message = "Сообщение не найдено"
-                });
+                    error = "Сообщение не найдено"
+                };
             }
 
             var user = session.User;
 
             if (user.Role_Id != 1 && user.id_User != message.userId)
             {
-                return new ObjectResult(new
+                return new ChatResult<int>
                 {
                     status = false,
-                    message = "Нет доступа"
-                })
-                { StatusCode = 403 };
-            }
-
-            if (message.imageUrl != null)
-            {
-                var path = Path.Combine("wwwroot", message.imageUrl.TrimStart('/'));
-                if (File.Exists(path))
-                {
-                    File.Delete(path);
-                }
+                    error = "Нет доступа"
+                };
             }
 
             int movieId = message.movieId;
@@ -232,16 +207,15 @@ namespace AuthApi.Services
             _context.Messages.Remove(message);
             await _context.SaveChangesAsync();
 
-            await _hubContext.Clients.Group($"movie_{movieId}")
-                .SendAsync("DeleteMovieMessage", messageId);
-
-            return new OkObjectResult(new
+            return new ChatResult<int>
             {
-                status = true
-            });
+                status = true,
+                message = movieId
+            };
         }
 
-        public async Task<IActionResult> GetPrivateMessagesAsync(int userId1, int userId2)
+
+        public async Task<ChatResult<List<PrivateMessage>>> GetPrivateMessagesAsync(int userId1, int userId2)
         {
             var result = await _context.PrivateMessages
                 .Where(x =>
@@ -250,52 +224,32 @@ namespace AuthApi.Services
                 .OrderBy(x => x.createdAt)
                 .ToListAsync();
 
-            return new OkObjectResult(new
+            return new ChatResult<List<PrivateMessage>>
             {
                 status = true,
-                result
-            });
+                message = result
+            };
         }
 
-        public async Task<IActionResult> SendPrivateMessageAsync(PrivateMessageRequest request)
+        public async Task<ChatResult<PrivateMessage>> SendPrivateMessageAsync(PrivateMessageRequest request)
         {
-            if (string.IsNullOrWhiteSpace(request.text) && request.file == null)
+            if (string.IsNullOrWhiteSpace(request.text) && string.IsNullOrWhiteSpace(request.imageBase64))
             {
-                return new BadRequestObjectResult(new
+                return new ChatResult<PrivateMessage>
                 {
-                    status = false
-                });
+                    status = false,
+                    error = "Сообщение пустое"
+                };
             }
 
-            string? relativePath = null;
+            var imageUrl = await SaveBase64ImageAsync(request.imageBase64, request.imageFileName, "privatechats");
 
-            if (request.file != null && request.file.Length > 0)
-            {
-                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "privatechats");
-
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    Directory.CreateDirectory(uploadsFolder);
-                }
-
-                var fileExtension = Path.GetExtension(request.file.FileName);
-                var fileName = $"{Guid.NewGuid()}{fileExtension}";
-                var filePath = Path.Combine(uploadsFolder, fileName);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await request.file.CopyToAsync(stream);
-                }
-
-                relativePath = $"/images/privatechats/{fileName}";
-            }
-
-            PrivateMessage privateMessage = new PrivateMessage()
+            PrivateMessage privateMessage = new PrivateMessage
             {
                 senderId = request.senderId,
                 receiverId = request.receiverId,
-                text = request.text,
-                imageUrl = relativePath,
+                text = string.IsNullOrWhiteSpace(request.text) ? null : request.text.Trim(),
+                imageUrl = imageUrl,
                 createdAt = DateTime.UtcNow,
                 isEdited = false
             };
@@ -303,22 +257,23 @@ namespace AuthApi.Services
             await _context.PrivateMessages.AddAsync(privateMessage);
             await _context.SaveChangesAsync();
 
-            int minId = Math.Min(request.senderId, request.receiverId);
-            int maxId = Math.Max(request.senderId, request.receiverId);
-
-            await _hubContext.Clients.Group($"private_{minId}_{maxId}")
-                .SendAsync("ReceivePrivateMessage", privateMessage);
-
-            return new OkObjectResult(new
+            return new ChatResult<PrivateMessage>
             {
                 status = true,
-                privateMessage
-            });
+                message = privateMessage
+            };
         }
 
-        public async Task<IActionResult> UpdatePrivateMessageAsync(UpdatePrivateMessageRequest request)
+        public async Task<ChatResult<PrivateMessage>> UpdatePrivateMessageAsync(UpdatePrivateMessageRequest request, string? token)
         {
-            var token = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].FirstOrDefault();
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                return new ChatResult<PrivateMessage>
+                {
+                    status = false,
+                    error = "Нет токена авторизации"
+                };
+            }
 
             var session = await _context.Sessions
                 .Include(x => x.User)
@@ -326,106 +281,89 @@ namespace AuthApi.Services
 
             if (session == null)
             {
-                return new UnauthorizedObjectResult(new
+                return new ChatResult<PrivateMessage>
                 {
-                    status = false
-                });
+                    status = false,
+                    error = "Сессия не найдена"
+                };
             }
 
             var message = await _context.PrivateMessages.FirstOrDefaultAsync(x => x.id_PrivateMessage == request.id_PrivateMessage);
 
             if (message == null)
             {
-                return new NotFoundObjectResult(new
+                return new ChatResult<PrivateMessage>
                 {
-                    status = false
-                });
+                    status = false,
+                    error = "Сообщение не найдено"
+                };
             }
 
             var user = session.User;
 
             if (user.Role_Id != 1 && user.id_User != message.senderId)
             {
-                return new ObjectResult(new
+                return new ChatResult<PrivateMessage>
                 {
-                    status = false
-                })
-                { StatusCode = 403 };
+                    status = false,
+                    error = "Нет доступа"
+                };
             }
 
             if (request.text != null)
-            {
                 message.text = request.text.Trim();
-            }
 
-            if (request.removeCurrentImage && message.imageUrl != null)
+            if (request.removeCurrentImage && !string.IsNullOrWhiteSpace(message.imageUrl))
             {
-                var path = Path.Combine("wwwroot", message.imageUrl.TrimStart('/'));
-                if (File.Exists(path))
-                {
-                    File.Delete(path);
-                }
+                var oldPath = Path.Combine("wwwroot", message.imageUrl.TrimStart('/'));
+                if (File.Exists(oldPath))
+                    File.Delete(oldPath);
 
                 message.imageUrl = null;
             }
 
-            if (request.newFile != null && request.newFile.Length > 0)
+            if (!string.IsNullOrWhiteSpace(request.imageBase64))
             {
-                if (message.imageUrl != null)
+                if (!string.IsNullOrWhiteSpace(message.imageUrl))
                 {
                     var oldPath = Path.Combine("wwwroot", message.imageUrl.TrimStart('/'));
                     if (File.Exists(oldPath))
-                    {
                         File.Delete(oldPath);
-                    }
                 }
 
-                var folder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "privatechats");
-
-                if (!Directory.Exists(folder))
-                {
-                    Directory.CreateDirectory(folder);
-                }
-
-                var fileName = $"{Guid.NewGuid()}{Path.GetExtension(request.newFile.FileName)}";
-                var filePath = Path.Combine(folder, fileName);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await request.newFile.CopyToAsync(stream);
-                }
-
-                message.imageUrl = $"/images/privatechats/{fileName}";
+                message.imageUrl = await SaveBase64ImageAsync(request.imageBase64, request.imageFileName, "privatechats");
             }
 
             if (string.IsNullOrWhiteSpace(message.text) && message.imageUrl == null)
             {
-                return new BadRequestObjectResult(new
+                return new ChatResult<PrivateMessage>
                 {
-                    status = false
-                });
+                    status = false,
+                    error = "Сообщение не может быть пустым"
+                };
             }
 
             message.isEdited = true;
 
             await _context.SaveChangesAsync();
 
-            int minId = Math.Min(message.senderId, message.receiverId);
-            int maxId = Math.Max(message.senderId, message.receiverId);
-
-            await _hubContext.Clients.Group($"private_{minId}_{maxId}")
-                .SendAsync("UpdatePrivateMessage", message);
-
-            return new OkObjectResult(new
+            return new ChatResult<PrivateMessage>
             {
                 status = true,
-                message
-            });
+                message = message
+            };
         }
 
-        public async Task<IActionResult> DeletePrivateMessageAsync(int privateMessageId)
+        public async Task<ChatResult<PrivateChatGroupInfo>> DeletePrivateMessageAsync(int privateMessageId, string? token)
         {
-            var token = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].FirstOrDefault();
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                return new ChatResult<PrivateChatGroupInfo>
+                {
+                    status = false,
+                    error = "Нет токена авторизации"
+                };
+            }
 
             var session = await _context.Sessions
                 .Include(x => x.User)
@@ -433,40 +371,34 @@ namespace AuthApi.Services
 
             if (session == null)
             {
-                return new UnauthorizedObjectResult(new
+                return new ChatResult<PrivateChatGroupInfo>
                 {
-                    status = false
-                });
+                    status = false,
+                    error = "Сессия не найдена"
+                };
             }
 
-            var message = await _context.PrivateMessages.FirstOrDefaultAsync(x => x.id_PrivateMessage == privateMessageId);
+            var message = await _context.PrivateMessages
+                .FirstOrDefaultAsync(x => x.id_PrivateMessage == privateMessageId);
 
             if (message == null)
             {
-                return new NotFoundObjectResult(new
+                return new ChatResult<PrivateChatGroupInfo>
                 {
-                    status = false
-                });
+                    status = false,
+                    error = "Сообщение не найдено"
+                };
             }
 
             var user = session.User;
 
             if (user.Role_Id != 1 && user.id_User != message.senderId)
             {
-                return new ObjectResult(new
+                return new ChatResult<PrivateChatGroupInfo>
                 {
-                    status = false
-                })
-                { StatusCode = 403 };
-            }
-
-            if (message.imageUrl != null)
-            {
-                var path = Path.Combine("wwwroot", message.imageUrl.TrimStart('/'));
-                if (File.Exists(path))
-                {
-                    File.Delete(path);
-                }
+                    status = false,
+                    error = "Нет доступа"
+                };
             }
 
             int minId = Math.Min(message.senderId, message.receiverId);
@@ -475,13 +407,47 @@ namespace AuthApi.Services
             _context.PrivateMessages.Remove(message);
             await _context.SaveChangesAsync();
 
-            await _hubContext.Clients.Group($"private_{minId}_{maxId}")
-                .SendAsync("DeletePrivateMessage", privateMessageId);
-
-            return new OkObjectResult(new
+            return new ChatResult<PrivateChatGroupInfo>
             {
-                status = true
-            });
+                status = true,
+                message = new PrivateChatGroupInfo
+                {
+                    MinUserId = minId,
+                    MaxUserId = maxId
+                }
+            };
+        }
+
+        private async Task<string?> SaveBase64ImageAsync(string? imageBase64, string? imageFileName, string folderName)
+        {
+            if (string.IsNullOrWhiteSpace(imageBase64))
+                return null;
+
+            byte[] bytes;
+            try
+            {
+                bytes = Convert.FromBase64String(imageBase64);
+            }
+            catch
+            {
+                return null;
+            }
+
+            var extension = Path.GetExtension(imageFileName);
+            if (string.IsNullOrWhiteSpace(extension))
+                extension = ".png";
+
+            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", folderName);
+
+            if (!Directory.Exists(uploadsFolder))
+                Directory.CreateDirectory(uploadsFolder);
+
+            var fileName = $"{Guid.NewGuid()}{extension}";
+            var filePath = Path.Combine(uploadsFolder, fileName);
+
+            await File.WriteAllBytesAsync(filePath, bytes);
+
+            return $"/images/{folderName}/{fileName}";
         }
     }
 }

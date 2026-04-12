@@ -1,15 +1,15 @@
 {
   "mainAssemblyName": "BlazorPractice1",
   "resources": {
-    "hash": "sha256-2EgZtWInsM5d3q1YF6dAlytRDEv1vW3qRkpjPjpgTq0=",
+    "hash": "sha256-BgxTAaY4u8gwN2TzlFCe+HELPgW6SmSk6xKtpJzQoGg=",
     "jsModuleNative": {
-      "dotnet.native.js": "sha256-4g0GzvOXSwZvTLca4PrWJkoeltz+V9IF/hEFDcnVros="
+      "dotnet.native.js": "sha256-A16ka545FHaB+QXjyJ4exXh7XpBAAIFnX8YkC4xAng8="
     },
     "jsModuleRuntime": {
-      "dotnet.runtime.js": "sha256-ZDVyGEZEz4QOmKAwlgqf4qB6Psobwb9hIqMw9YpIo4I="
+      "dotnet.runtime.js": "sha256-sRdYoaUiZmrqOtPGSBpgxZxxSQsILEw5kzx7dL4zlfw="
     },
     "wasmNative": {
-      "dotnet.native.wasm": "sha256-+2F3q3zurFW8sx65kwigUw2zFgwjOoFkS9UmsNBDsns="
+      "dotnet.native.wasm": "sha256-s6EBTPv470xCV3v7vg6YPKgsWog8JDbzEWXbT6KucuQ="
     },
     "icu": {
       "icudt_CJK.dat": "sha256-SZLtQnRc0JkwqHab0VUVP7T3uBPSeYzxzDnpxPpUnHk=",
@@ -218,10 +218,10 @@
       "mscorlib.wasm": "sha256-ovgR6YJeXMcsAhvGJVdyjhD5pU34EEAc0BGQYTUAyNk=",
       "netstandard.wasm": "sha256-90+pPOP/3NxK0buBFJlcvDw0r6Nk/i3+oM9dt2x+LPM=",
       "System.Private.CoreLib.wasm": "sha256-IXKG8p3ppN4zPjJOxht5wSXCcbFNPH6InVm7fsThBPI=",
-      "BlazorPractice1.wasm": "sha256-KHxhq8qEfa+uG/+KjuCz4jRyMUlXYAmuk1NxodxPdgo="
+      "BlazorPractice1.wasm": "sha256-cEERxkS6OrbUrw29WuLSsZIJeygB0Hx4cd8fM0rcjQs="
     },
     "pdb": {
-      "BlazorPractice1.pdb": "sha256-LSu9LAC/vL/yo8+5wx5qfv3bcLhQmhN7+f8jwBH8QpM="
+      "BlazorPractice1.pdb": "sha256-pu+3umYs2Byhvg1h9s61JgY8PDWiTss6dctnTMvrKpo="
     }
   },
   "cacheBootResources": true,

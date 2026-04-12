@@ -28,7 +28,11 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod());
 });
 builder.Services.AddSingleton<JwtGenerator>();
-builder.Services.AddSignalR();
+builder.Services.AddSignalR(options =>
+{
+    options.EnableDetailedErrors = true;
+    options.MaximumReceiveMessageSize = 1024 * 1024 * 15;
+});
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();

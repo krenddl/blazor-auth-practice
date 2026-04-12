@@ -6,15 +6,15 @@ namespace AuthApi.Interfaces
 {
     public interface IChatServices
     {
-        Task<IActionResult> GetMessagesAsync(int movieId);
-        Task<IActionResult> SendMessageAsync(SendMessageDto dto);
-        Task<IActionResult> UpdateMessageAsync(UpdateMovieMessageRequest request);
-        Task<IActionResult> DeleteMessageAsync(int messageId);
+        Task<ChatResult<List<Message>>> GetMessagesAsync(int movieId);
+        Task<ChatResult<Message>> SendMessageAsync(SendMessageDto dto);
+        Task<ChatResult<Message>> UpdateMessageAsync(UpdateMovieMessageRequest request, string? token);
+        Task<ChatResult<int>> DeleteMessageAsync(int messageId, string? token);
 
-        Task<IActionResult> GetPrivateMessagesAsync(int user1Id, int user2Id);
-        Task<IActionResult> SendPrivateMessageAsync(PrivateMessageRequest request);
-        Task<IActionResult> UpdatePrivateMessageAsync(UpdatePrivateMessageRequest request);
-        Task<IActionResult> DeletePrivateMessageAsync(int privateMessageId);
+        Task<ChatResult<List<PrivateMessage>>> GetPrivateMessagesAsync(int userId1, int userId2);
+        Task<ChatResult<PrivateMessage>> SendPrivateMessageAsync(PrivateMessageRequest request);
+        Task<ChatResult<PrivateMessage>> UpdatePrivateMessageAsync(UpdatePrivateMessageRequest request, string? token);
+        Task<ChatResult<PrivateChatGroupInfo>> DeletePrivateMessageAsync(int privateMessageId, string? token);
 
     }
 }

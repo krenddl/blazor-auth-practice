@@ -64,38 +64,6 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "AuthApi.Controllers.ChatController",
-    "Method": "DeleteMessageAsync",
-    "RelativePath": "DeleteMovieMessage",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "messageId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "AuthApi.Controllers.ChatController",
-    "Method": "DeletePrivateMessageAsync",
-    "RelativePath": "DeletePrivateMessage",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "privateMessageId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "AuthApi.Controllers.UserController",
     "Method": "DeleteUsers",
     "RelativePath": "DeleteUsers",
@@ -151,43 +119,6 @@
     "Parameters": [
       {
         "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "AuthApi.Controllers.ChatController",
-    "Method": "GetMessagesAsync",
-    "RelativePath": "GetMovieMessages",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "movieId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "AuthApi.Controllers.ChatController",
-    "Method": "GetPrivateMessagesAsync",
-    "RelativePath": "GetPrivateMessages",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userId1",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "userId2",
         "Type": "System.Int32",
         "IsRequired": false
       }
@@ -253,38 +184,6 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "AuthApi.Controllers.ChatController",
-    "Method": "SendMessageAsync",
-    "RelativePath": "SendMovieMessage",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "dtomessage",
-        "Type": "AuthApi.Requests.SendMessageDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "AuthApi.Controllers.ChatController",
-    "Method": "SendPrivateMessageAsync",
-    "RelativePath": "SendPrivateMessage",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "AuthApi.Requests.PrivateMessageRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "AuthApi.Controllers.MovieController",
     "Method": "UpdateMovie",
     "RelativePath": "UpdateMovie",
@@ -295,38 +194,6 @@
       {
         "Name": "updateMovie",
         "Type": "AuthApi.Requests.UpdateMovie",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "AuthApi.Controllers.ChatController",
-    "Method": "UpdateMessageAsync",
-    "RelativePath": "UpdateMovieMessage",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "AuthApi.Requests.UpdateMovieMessageRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "AuthApi.Controllers.ChatController",
-    "Method": "UpdatePrivateMessageAsync",
-    "RelativePath": "UpdatePrivateMessage",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "request",
-        "Type": "AuthApi.Requests.UpdatePrivateMessageRequest",
         "IsRequired": true
       }
     ],
