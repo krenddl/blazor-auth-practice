@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|c:\\users\\uryuqq\\desktop\\blazor\\blazorpractic1\\blazorpractice1\\blazorpractice1\\pages\\privatechat.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|solutionrelative:blazorpractice1\\pages\\privatechat.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|c:\\users\\uryuqq\\desktop\\blazor\\blazorpractic1\\blazorpractice1\\blazorpractice1\\apirequests\\model\\privatemessagemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|solutionrelative:blazorpractice1\\apirequests\\model\\privatemessagemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -11,24 +15,24 @@
       "RelativeMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|solutionrelative:blazorpractice1\\apirequests\\model\\updatemoviemessagerequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|c:\\users\\uryuqq\\desktop\\blazor\\blazorpractic1\\blazorpractice1\\blazorpractice1\\pages\\privatechat.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|solutionrelative:blazorpractice1\\pages\\privatechat.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|c:\\users\\uryuqq\\desktop\\blazor\\blazorpractic1\\blazorpractice1\\blazorpractice1\\pages\\moviechat.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|solutionrelative:blazorpractice1\\pages\\moviechat.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|c:\\users\\uryuqq\\desktop\\blazor\\blazorpractic1\\blazorpractice1\\blazorpractice1\\pages\\moviespage.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|solutionrelative:blazorpractice1\\pages\\moviespage.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|c:\\users\\uryuqq\\desktop\\blazor\\blazorpractic1\\blazorpractice1\\blazorpractice1\\apirequests\\model\\sendmessagedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|solutionrelative:blazorpractice1\\apirequests\\model\\sendmessagedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|c:\\users\\uryuqq\\desktop\\blazor\\blazorpractic1\\blazorpractice1\\blazorpractice1\\apirequests\\model\\updateprivatemessagerequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|solutionrelative:blazorpractice1\\apirequests\\model\\updateprivatemessagerequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|c:\\users\\uryuqq\\desktop\\blazor\\blazorpractic1\\blazorpractice1\\blazorpractice1\\apirequests\\model\\sendmessagedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|solutionrelative:blazorpractice1\\apirequests\\model\\sendmessagedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|c:\\users\\uryuqq\\desktop\\blazor\\blazorpractic1\\blazorpractice1\\blazorpractice1\\pages\\moviechat.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|solutionrelative:blazorpractice1\\pages\\moviechat.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|c:\\users\\uryuqq\\desktop\\blazor\\blazorpractic1\\blazorpractice1\\blazorpractice1\\pages\\movies.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|solutionrelative:blazorpractice1\\pages\\movies.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|c:\\users\\uryuqq\\desktop\\blazor\\blazorpractic1\\blazorpractice1\\blazorpractice1\\pages\\moviespage.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|solutionrelative:blazorpractice1\\pages\\moviespage.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|c:\\users\\uryuqq\\desktop\\blazor\\blazorpractic1\\blazorpractice1\\blazorpractice1\\pages\\createmovie.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -37,10 +41,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|c:\\users\\uryuqq\\desktop\\blazor\\blazorpractic1\\blazorpractice1\\blazorpractice1\\pages\\serviceresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|solutionrelative:blazorpractice1\\pages\\serviceresult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|c:\\users\\uryuqq\\desktop\\blazor\\blazorpractic1\\blazorpractice1\\blazorpractice1\\pages\\movies.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|solutionrelative:blazorpractice1\\pages\\movies.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F8A9D5FC-B3F4-AC02-CDB8-BD105F2DF659}|BlazorPractice1\\BlazorPractice1.csproj|c:\\users\\uryuqq\\desktop\\blazor\\blazorpractic1\\blazorpractice1\\blazorpractice1\\wwwroot\\css\\app.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
@@ -141,100 +141,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "PrivateMessageModel.cs",
-              "DocumentMoniker": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\ApiRequests\\Model\\PrivateMessageModel.cs",
-              "RelativeDocumentMoniker": "BlazorPractice1\\ApiRequests\\Model\\PrivateMessageModel.cs",
-              "ToolTip": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\ApiRequests\\Model\\PrivateMessageModel.cs",
-              "RelativeToolTip": "BlazorPractice1\\ApiRequests\\Model\\PrivateMessageModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAgAAAAwAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T21:04:19.468Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "UpdatePrivateMessageRequest.cs",
-              "DocumentMoniker": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\ApiRequests\\Model\\UpdatePrivateMessageRequest.cs",
-              "RelativeDocumentMoniker": "BlazorPractice1\\ApiRequests\\Model\\UpdatePrivateMessageRequest.cs",
-              "ToolTip": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\ApiRequests\\Model\\UpdatePrivateMessageRequest.cs",
-              "RelativeToolTip": "BlazorPractice1\\ApiRequests\\Model\\UpdatePrivateMessageRequest.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAA9AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-11T15:22:52.227Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "PrivateChat.razor",
-              "DocumentMoniker": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\Pages\\PrivateChat.razor",
-              "RelativeDocumentMoniker": "BlazorPractice1\\Pages\\PrivateChat.razor",
-              "ToolTip": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\Pages\\PrivateChat.razor",
-              "RelativeToolTip": "BlazorPractice1\\Pages\\PrivateChat.razor",
-              "ViewState": "AgIAAOUAAAAAAAAAAAAswP8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-04-11T15:12:47.307Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "MovieChat.razor",
               "DocumentMoniker": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\Pages\\MovieChat.razor",
               "RelativeDocumentMoniker": "BlazorPractice1\\Pages\\MovieChat.razor",
               "ToolTip": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\Pages\\MovieChat.razor",
               "RelativeToolTip": "BlazorPractice1\\Pages\\MovieChat.razor",
-              "ViewState": "AgIAAAsBAAAAAAAAAAAqwCkBAAAFAAAAAAAAAA==",
+              "ViewState": "AgIAAJ4AAAAAAAAAAAAAABkAAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-04-08T09:31:46.023Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Movies.razor",
-              "DocumentMoniker": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\Pages\\Movies.razor",
-              "RelativeDocumentMoniker": "BlazorPractice1\\Pages\\Movies.razor",
-              "ToolTip": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\Pages\\Movies.razor",
-              "RelativeToolTip": "BlazorPractice1\\Pages\\Movies.razor",
-              "ViewState": "AgIAABUAAAAAAAAAAAAAACEAAABCAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-21T16:23:11.412Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "Profile.razor",
-              "DocumentMoniker": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\Pages\\Profile.razor",
-              "RelativeDocumentMoniker": "BlazorPractice1\\Pages\\Profile.razor",
-              "ToolTip": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\Pages\\Profile.razor",
-              "RelativeToolTip": "BlazorPractice1\\Pages\\Profile.razor",
-              "ViewState": "AgIAAD8AAAAAAAAAAAAAAHgAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-26T23:06:01.388Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "MoviesPage.razor",
-              "DocumentMoniker": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\Pages\\MoviesPage.razor",
-              "RelativeDocumentMoniker": "BlazorPractice1\\Pages\\MoviesPage.razor",
-              "ToolTip": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\Pages\\MoviesPage.razor",
-              "RelativeToolTip": "BlazorPractice1\\Pages\\MoviesPage.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-22T08:05:56.227Z",
+              "DocumentIndex": 3,
+              "Title": "SendMessageDto.cs",
+              "DocumentMoniker": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\ApiRequests\\Model\\SendMessageDto.cs",
+              "RelativeDocumentMoniker": "BlazorPractice1\\ApiRequests\\Model\\SendMessageDto.cs",
+              "ToolTip": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\ApiRequests\\Model\\SendMessageDto.cs",
+              "RelativeToolTip": "BlazorPractice1\\ApiRequests\\Model\\SendMessageDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAzAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T21:04:08.257Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "UpdateMovieMessageRequest.cs",
               "DocumentMoniker": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\ApiRequests\\Model\\UpdateMovieMessageRequest.cs",
               "RelativeDocumentMoniker": "BlazorPractice1\\ApiRequests\\Model\\UpdateMovieMessageRequest.cs",
@@ -247,16 +184,80 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "SendMessageDto.cs",
-              "DocumentMoniker": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\ApiRequests\\Model\\SendMessageDto.cs",
-              "RelativeDocumentMoniker": "BlazorPractice1\\ApiRequests\\Model\\SendMessageDto.cs",
-              "ToolTip": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\ApiRequests\\Model\\SendMessageDto.cs",
-              "RelativeToolTip": "BlazorPractice1\\ApiRequests\\Model\\SendMessageDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAzAAAAAAAAAA==",
+              "DocumentIndex": 4,
+              "Title": "UpdatePrivateMessageRequest.cs",
+              "DocumentMoniker": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\ApiRequests\\Model\\UpdatePrivateMessageRequest.cs",
+              "RelativeDocumentMoniker": "BlazorPractice1\\ApiRequests\\Model\\UpdatePrivateMessageRequest.cs",
+              "ToolTip": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\ApiRequests\\Model\\UpdatePrivateMessageRequest.cs",
+              "RelativeToolTip": "BlazorPractice1\\ApiRequests\\Model\\UpdatePrivateMessageRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-12T21:04:08.257Z",
+              "WhenOpened": "2026-04-11T15:22:52.227Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PrivateMessageModel.cs",
+              "DocumentMoniker": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\ApiRequests\\Model\\PrivateMessageModel.cs",
+              "RelativeDocumentMoniker": "BlazorPractice1\\ApiRequests\\Model\\PrivateMessageModel.cs",
+              "ToolTip": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\ApiRequests\\Model\\PrivateMessageModel.cs",
+              "RelativeToolTip": "BlazorPractice1\\ApiRequests\\Model\\PrivateMessageModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwAkAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-12T21:04:19.468Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PrivateChat.razor",
+              "DocumentMoniker": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\Pages\\PrivateChat.razor",
+              "RelativeDocumentMoniker": "BlazorPractice1\\Pages\\PrivateChat.razor",
+              "ToolTip": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\Pages\\PrivateChat.razor",
+              "RelativeToolTip": "BlazorPractice1\\Pages\\PrivateChat.razor",
+              "ViewState": "AgIAAKIAAAAAAAAAAAAawLYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-11T15:12:47.307Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Movies.razor",
+              "DocumentMoniker": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\Pages\\Movies.razor",
+              "RelativeDocumentMoniker": "BlazorPractice1\\Pages\\Movies.razor",
+              "ToolTip": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\Pages\\Movies.razor",
+              "RelativeToolTip": "BlazorPractice1\\Pages\\Movies.razor",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAACEAAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-21T16:23:11.412Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "MoviesPage.razor",
+              "DocumentMoniker": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\Pages\\MoviesPage.razor",
+              "RelativeDocumentMoniker": "BlazorPractice1\\Pages\\MoviesPage.razor",
+              "ToolTip": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\Pages\\MoviesPage.razor",
+              "RelativeToolTip": "BlazorPractice1\\Pages\\MoviesPage.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-22T08:05:56.227Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "Profile.razor",
+              "DocumentMoniker": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\Pages\\Profile.razor",
+              "RelativeDocumentMoniker": "BlazorPractice1\\Pages\\Profile.razor",
+              "ToolTip": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\Pages\\Profile.razor",
+              "RelativeToolTip": "BlazorPractice1\\Pages\\Profile.razor",
+              "ViewState": "AgIAAD8AAAAAAAAAAAAAAHgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-26T23:06:01.388Z"
             },
             {
               "$type": "Document",
@@ -284,7 +285,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "CreateMovie.razor",
               "DocumentMoniker": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\Pages\\CreateMovie.razor",
               "RelativeDocumentMoniker": "BlazorPractice1\\Pages\\CreateMovie.razor",
@@ -296,7 +297,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "ServiceResult.cs",
               "DocumentMoniker": "C:\\Users\\uryuqq\\Desktop\\blazor\\BlazorPractic1\\BlazorPractice1\\BlazorPractice1\\Pages\\ServiceResult.cs",
               "RelativeDocumentMoniker": "BlazorPractice1\\Pages\\ServiceResult.cs",

@@ -46,9 +46,9 @@
                             <div>@m.text</div>
                         }
 
-                        @if (!string.IsNullOrWhiteSpace(m.imageFileName))
+                        @if (!string.IsNullOrWhiteSpace(m.imageUrl))
                         {
-                            <img class="chat-image" src="@($"http://localhost:5126{m.imageFileName}")" alt="" />
+                            <img class="chat-image" src="@($"http://localhost:5126{m.imageUrl}")" alt="" />
                         }
 
                         @if (m.isEdited)
@@ -72,7 +72,7 @@
     <div class="card chat-card mt-20">
         <div class="chat-input-row">
             <input class="form-control" @bind="text" placeholder="Сообщение…" />
-            <InputFile OnChange="OnFileChange" accept="image/*" />
+            <InputFile @key="fileInputKey" OnChange="OnFileChange" accept="image/*" />
             <button type="button" class="btn btn-primary" @onclick="SendMessage" disabled="@(AuthService.CurrentUser == null)">Отправить</button>
         </div>
 
@@ -84,7 +84,7 @@
                     <input class="form-control" @bind="editText" />
                 </div>
                 <div class="form-group">
-                    <InputFile OnChange="OnEditFileChange" accept="image/*" />
+                    <InputFile @key="editFileInputKey" OnChange="OnEditFileChange" accept="image/*" />
                 </div>
                 <label class="form-label" style="display:flex; gap:8px; align-items:center;">
                     <input type="checkbox" @bind="removeImage" />
@@ -108,6 +108,9 @@
     [Inject] private HttpClient Http { get; set; } = default!;
     [Inject] private AuthService AuthService { get; set; } = default!;
     [Inject] private ApiRequest ApiRequest { get; set; } = default!;
+
+    private int fileInputKey = 0;
+    private int editFileInputKey = 0;
 
     private const long MaxImageSize = 15 * 1024 * 1024; 
 
@@ -173,10 +176,10 @@
             InvokeAsync(() =>
             {
                 var m = messages.FirstOrDefault(x => x.id_PrivateMessage == msg.id_PrivateMessage);
-                if (m != null)
+                if (m != null)  
                 {
                     m.text = msg.text;
-                    m.imageFileName = msg.imageFileName;
+                    m.imageUrl = msg.imageUrl;
                     m.isEdited = msg.isEdited;
                     StateHasChanged();
                 }
@@ -251,12 +254,13 @@
                 receiverId = userId,
                 text = text,
                 imageBase64 = base64,
-                imageFileName = fileName
+                imageUrl = fileName
             });
 
             text = string.Empty;
             file = null;
             hubError = null;
+            fileInputKey++;
         }
         catch (Exception ex)
         {
@@ -307,6 +311,7 @@
             removeImage = false;
             editFile = null;
             hubError = null;
+            editFileInputKey++;
         }
         catch (Exception ex)
         {

@@ -8403,6 +8403,6 @@ C:\Users\202306\Desktop\blazor\BlazorPractic1\BlazorPractice1\BlazorPractice1\ob
 C:\Users\202306\Desktop\blazor\BlazorPractic1\BlazorPractice1\BlazorPractice1\obj\Debug\net8.0\compressed\xhzc3lseyp-ow0dat2xka.gz
 C:\Users\202306\Desktop\blazor\BlazorPractic1\BlazorPractice1\BlazorPractice1\obj\Debug\net8.0\compressed\28yvct433m-nbbe0d9v9l.gz
 C:\Users\202306\Desktop\blazor\BlazorPractic1\BlazorPractice1\BlazorPractice1\obj\Debug\net8.0\compressed\j6xfgdgf3v-ol02erxaeq.gz
-C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\BlazorPractice1\BlazorPractice1\obj\Debug\net8.0\compressed\xhzc3lseyp-{0}-4rwn9ksu1o-4rwn9ksu1o.gz
-C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\BlazorPractice1\BlazorPractice1\obj\Debug\net8.0\compressed\28yvct433m-{0}-2ihj9u97dj-2ihj9u97dj.gz
-C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\BlazorPractice1\BlazorPractice1\obj\Debug\net8.0\compressed\j6xfgdgf3v-{0}-vl8juaj9g0-vl8juaj9g0.gz
+C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\BlazorPractice1\BlazorPractice1\obj\Debug\net8.0\compressed\xhzc3lseyp-{0}-v4yqyjaj6f-v4yqyjaj6f.gz
+C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\BlazorPractice1\BlazorPractice1\obj\Debug\net8.0\compressed\28yvct433m-{0}-g53fo0dokx-g53fo0dokx.gz
+C:\Users\uryuqq\Desktop\blazor\BlazorPractic1\BlazorPractice1\BlazorPractice1\obj\Debug\net8.0\compressed\j6xfgdgf3v-{0}-vzetmsosof-vzetmsosof.gz
