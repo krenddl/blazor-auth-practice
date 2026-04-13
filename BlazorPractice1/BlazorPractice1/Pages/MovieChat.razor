@@ -77,7 +77,7 @@
     <div class="card chat-card mt-20">
         <div class="chat-input-row">
             <input class="form-control" @bind="text" placeholder="Введите сообщение" />
-            <InputFile OnChange="OnFileChange" accept="image/*" />
+            <InputFile @key="fileInputKey" OnChange="OnFileChange" accept="image/*" />
             <button type="button" class="btn btn-primary" @onclick="SendMessage">Отправить</button>
         </div>
 
@@ -90,7 +90,7 @@
                 </div>
 
                 <div class="form-group">
-                    <InputFile OnChange="OnEditFileChange" accept="image/*" />
+                    <InputFile @key="editFileInputKey" OnChange="OnEditFileChange" accept="image/*" />
                 </div>
 
                 <label class="form-label" style="display:flex; gap:8px; align-items:center;">
@@ -117,6 +117,9 @@
     [Inject] private AuthService AuthService { get; set; }
     [Inject] private ApiRequest ApiRequest { get; set; }
     private const long MaxImageSize = 15 * 1024 * 1024;
+
+    private int fileInputKey = 0;
+    private int editFileInputKey = 0;
 
     private HubConnection? hub;
 
@@ -240,6 +243,7 @@
             text = string.Empty;
             file = null;
             hubError = null;
+            fileInputKey++;
         }
         catch (Exception ex)
         {
@@ -290,6 +294,7 @@
             removeImage = false;
             editFile = null;
             hubError = null;
+            editFileInputKey++;
         }
         catch (Exception ex)
         {
@@ -347,10 +352,6 @@
             await hub.DisposeAsync();
         }
     }
-
-    
-
-
 
     private List<ChatUserDirectoryEntry> chatUsers = new();
 
